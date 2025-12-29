@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSession, signOut } from "next-auth/react";
 import { Geist } from "next/font/google";
-import { useAuth } from "@/context/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -42,17 +42,17 @@ const allProducts = [
 ];
 
 export default function Profile() {
-  const { user, logout, isLoading } = useAuth();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
     // Redirect to login if not authenticated
-    if (!isLoading && !user) {
+    if (status === "unauthenticated") {
       router.push("/login?redirect=/profile");
     }
-  }, [user, isLoading, router]);
+  }, [status, router]);
 
-  if (isLoading) {
+  if (status === "loading") {
     return (
       <div
         className={`${geistSans.variable} font-sans min-h-screen flex items-center justify-center bg-white dark:bg-zinc-900`}
@@ -62,12 +62,12 @@ export default function Profile() {
     );
   }
 
-  if (!user) {
+  if (!session) {
     return null;
   }
 
   const purchasedProducts = allProducts.filter((product) =>
-    user.purchasedProducts.includes(product.id)
+    (session.user as any)?.purchasedProducts?.includes(product.id)
   );
 
   return (
@@ -99,7 +99,7 @@ export default function Profile() {
                   Name
                 </label>
                 <p className="text-lg text-zinc-900 dark:text-white">
-                  {user.name}
+                  {session.user?.name}
                 </p>
               </div>
               <div>
@@ -107,12 +107,12 @@ export default function Profile() {
                   Email
                 </label>
                 <p className="text-lg text-zinc-900 dark:text-white">
-                  {user.email}
+                  {session.user?.email}
                 </p>
               </div>
               <div className="pt-4">
                 <button
-                  onClick={logout}
+                  onClick={() => signOut({ callbackUrl: "/" })}
                   className="px-6 py-3 rounded-lg border-2 border-red-600 text-red-600 font-semibold hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                 >
                   Log Out

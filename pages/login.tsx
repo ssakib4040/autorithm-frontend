@@ -1,8 +1,8 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 import { Geist } from "next/font/google";
-import { useAuth } from "@/context/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -16,7 +16,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
@@ -24,15 +23,18 @@ export default function Login() {
     setError("");
     setIsLoading(true);
 
-    const result = await login(email, password);
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    if (result.success) {
-      // Redirect to profile or redirect URL
+    if (result?.error) {
+      setError("Invalid email or password");
+      setIsLoading(false);
+    } else {
       const redirect = router.query.redirect as string;
       router.push(redirect || "/profile");
-    } else {
-      setError(result.error || "Login failed");
-      setIsLoading(false);
     }
   };
 

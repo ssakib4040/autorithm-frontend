@@ -2,7 +2,6 @@ import { useState, FormEvent, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Geist } from "next/font/google";
-import { useAuth } from "@/context/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -18,7 +17,6 @@ export default function ResetPassword() {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [validToken, setValidToken] = useState(false);
-  const { resetPassword } = useAuth();
   const router = useRouter();
   const { token, email } = router.query;
 
@@ -50,18 +48,41 @@ export default function ResetPassword() {
 
     setIsLoading(true);
 
-    const result = await resetPassword(token as string, password);
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    if (result.success) {
-      setSuccess(true);
-      // Redirect to login after 3 seconds
-      setTimeout(() => {
-        router.push("/login");
-      }, 3000);
-    } else {
-      setError(result.error || "Failed to reset password");
+    // Verify token
+    const storedToken = localStorage.getItem(`reset_token_${email}`);
+    if (!storedToken || storedToken !== token) {
+      setError("Invalid or expired reset link");
       setIsLoading(false);
+      return;
     }
+
+    // Update password
+    const usersJson = localStorage.getItem("autorithm_users");
+    const users = usersJson ? JSON.parse(usersJson) : [];
+
+    const userIndex = users.findIndex((u: any) => u.email === email);
+    if (userIndex === -1) {
+      setError("User not found");
+      setIsLoading(false);
+      return;
+    }
+
+    users[userIndex].password = password;
+    localStorage.setItem("autorithm_users", JSON.stringify(users));
+
+    // Remove used token
+    localStorage.removeItem(`reset_token_${email}`);
+
+    setSuccess(true);
+    setIsLoading(false);
+
+    // Redirect to login after 3 seconds
+    setTimeout(() => {
+      router.push("/login");
+    }, 3000);
   };
 
   if (!router.isReady) {

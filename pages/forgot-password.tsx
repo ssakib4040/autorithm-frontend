@@ -1,7 +1,6 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { Geist } from "next/font/google";
-import { useAuth } from "@/context/AuthContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -15,7 +14,6 @@ export default function ForgotPassword() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { forgotPassword } = useAuth();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -23,14 +21,29 @@ export default function ForgotPassword() {
     setSuccess(false);
     setIsLoading(true);
 
-    const result = await forgotPassword(email);
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    if (result.success) {
-      setSuccess(true);
-    } else {
-      setError(result.error || "Failed to send reset email");
+    // Get stored users
+    const usersJson = localStorage.getItem("autorithm_users");
+    const users = usersJson ? JSON.parse(usersJson) : [];
+
+    // Check if user exists
+    const foundUser = users.find((u: any) => u.email === email);
+
+    if (!foundUser) {
+      setError("No account found with this email");
+      setIsLoading(false);
+      return;
     }
 
+    // Store reset token
+    const resetToken = Math.random().toString(36).substring(7);
+    localStorage.setItem(`reset_token_${email}`, resetToken);
+
+    console.log(`Password reset link: ${window.location.origin}/reset-password?token=${resetToken}&email=${email}`);
+
+    setSuccess(true);
     setIsLoading(false);
   };
 
