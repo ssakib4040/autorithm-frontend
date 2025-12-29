@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Geist } from "next/font/google";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,47 +13,7 @@ export default function NotFound() {
     <div
       className={`${geistSans.variable} font-sans min-h-screen bg-white dark:bg-zinc-900 flex flex-col`}
     >
-      {/* Navigation */}
-      <nav className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Link
-                href="/"
-                className="text-2xl font-bold text-zinc-900 dark:text-white"
-              >
-                Autorithm
-              </Link>
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <Link
-                href="/products"
-                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-              >
-                Products
-              </Link>
-              <Link
-                href="/#services"
-                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-              >
-                Services
-              </Link>
-              <Link
-                href="/#about"
-                className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                href="/#contact"
-                className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
-              >
-                Get Custom Automation
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       {/* 404 Content */}
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -155,8 +117,8 @@ export default function NotFound() {
           </h1>
 
           <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-8 max-w-lg mx-auto">
-            Looks like this automation path doesn't exist. The page you're
-            looking for might have been moved or deleted.
+            Looks like this automation path doesn&apos;t exist. The page
+            you&apos;re looking for might have been moved or deleted.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -188,45 +150,7 @@ export default function NotFound() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-black py-12 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-white font-bold text-xl mb-4 md:mb-0">
-              Autorithm
-            </div>
-            <div className="flex gap-8 text-zinc-400">
-              <Link
-                href="/products"
-                className="hover:text-white transition-colors"
-              >
-                Products
-              </Link>
-              <Link
-                href="/#services"
-                className="hover:text-white transition-colors"
-              >
-                Services
-              </Link>
-              <Link
-                href="/#about"
-                className="hover:text-white transition-colors"
-              >
-                About
-              </Link>
-              <Link
-                href="/#contact"
-                className="hover:text-white transition-colors"
-              >
-                Contact
-              </Link>
-            </div>
-          </div>
-          <div className="border-t border-zinc-800 mt-8 pt-8 text-center text-zinc-500 text-sm">
-            © 2025 Autorithm. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
