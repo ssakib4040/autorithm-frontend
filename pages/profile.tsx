@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
+import Head from "next/head";
 import { Geist } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -74,8 +75,11 @@ export default function Profile() {
     <div
       className={`${geistSans.variable} font-sans min-h-screen flex flex-col bg-white dark:bg-zinc-900`}
     >
+      {" "}
+      <Head>
+        <title>My Profile - Autorithm</title>
+      </Head>{" "}
       <Header />
-
       <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -227,7 +231,6 @@ export default function Profile() {
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );

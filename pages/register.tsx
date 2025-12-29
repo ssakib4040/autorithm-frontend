@@ -1,5 +1,6 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { Geist } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -45,6 +46,9 @@ export default function Register() {
     <div
       className={`${geistSans.variable} font-sans min-h-screen flex flex-col bg-white dark:bg-zinc-900`}
     >
+      <Head>
+        <title>Register - Autorithm</title>
+      </Head>
       <Header />
 
       <div className="flex-1 flex items-center justify-center px-4 py-12">

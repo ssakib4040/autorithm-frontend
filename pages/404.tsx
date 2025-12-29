@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Head from "next/head";
 import { Geist } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -13,6 +14,9 @@ export default function NotFound() {
     <div
       className={`${geistSans.variable} font-sans min-h-screen bg-white dark:bg-zinc-900 flex flex-col`}
     >
+      <Head>
+        <title>404 - Page Not Found | Autorithm</title>
+      </Head>
       <Header />
 
       {/* 404 Content */}

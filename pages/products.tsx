@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Geist } from "next/font/google";
+import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { allProducts } from "@/data/products";
@@ -50,6 +51,13 @@ export default function Products() {
 
   return (
     <div className={`${geistSans.variable} font-sans`}>
+      <Head>
+        <title>Automation Products - Autorithm</title>
+        <meta
+          name="description"
+          content="Browse our collection of premium automation workflows for n8n and Make.com."
+        />
+      </Head>
       <Header />
 
       {/* Page Hero */}

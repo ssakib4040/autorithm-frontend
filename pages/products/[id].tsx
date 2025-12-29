@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Geist } from "next/font/google";
+import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getProductDetail } from "@/data/products";
@@ -55,6 +56,10 @@ export default function ProductDetails() {
 
   return (
     <div className={`${geistSans.variable} font-sans`}>
+      <Head>
+        <title>{product.name} - Autorithm</title>
+        <meta name="description" content={product.description} />
+      </Head>
       <Header />
 
       {/* Product Hero */}

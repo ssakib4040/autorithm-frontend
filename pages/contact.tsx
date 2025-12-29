@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Geist } from "next/font/google";
+import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -42,6 +43,13 @@ export default function Contact() {
 
   return (
     <div className={`${geistSans.variable} font-sans`}>
+      <Head>
+        <title>Contact Us - Autorithm</title>
+        <meta
+          name="description"
+          content="Get in touch with the Autorithm team. We're here to help with your automation needs."
+        />
+      </Head>
       <Header />
 
       {/* Hero Section */}

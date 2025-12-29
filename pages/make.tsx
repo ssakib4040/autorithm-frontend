@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Geist } from "next/font/google";
+import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getProductsByTool } from "@/data/products";
@@ -17,6 +18,13 @@ export default function MakePage() {
     <div
       className={`${geistSans.variable} font-sans min-h-screen bg-white dark:bg-zinc-900`}
     >
+      <Head>
+        <title>Make.com Automation Scenarios - Autorithm</title>
+        <meta
+          name="description"
+          content="Premium Make.com scenarios for your business. Cloud-based automation solutions built by experts."
+        />
+      </Head>
       <Header />
 
       {/* Hero Section */}

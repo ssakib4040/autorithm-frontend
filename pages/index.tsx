@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getFeaturedProducts } from "@/data/products";
@@ -48,6 +49,13 @@ const useCases = [
 export default function Home() {
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+      <Head>
+        <title>Autorithm - Premium Automation Marketplace</title>
+        <meta
+          name="description"
+          content="Pre-built automation workflows for n8n and Make.com. Save hours of development time with our premium automation kits."
+        />
+      </Head>
       <Header />
 
       {/* Hero Section */}

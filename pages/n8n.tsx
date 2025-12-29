@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Geist } from "next/font/google";
+import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getProductsByTool } from "@/data/products";
@@ -17,6 +18,13 @@ export default function N8nPage() {
     <div
       className={`${geistSans.variable} font-sans min-h-screen bg-white dark:bg-zinc-900`}
     >
+      <Head>
+        <title>n8n Automation Workflows - Autorithm</title>
+        <meta
+          name="description"
+          content="Premium n8n workflows for your business. Self-hosted automation solutions built by experts."
+        />
+      </Head>
       <Header />
 
       {/* Hero Section */}
