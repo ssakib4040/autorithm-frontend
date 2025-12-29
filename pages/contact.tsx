@@ -15,7 +15,9 @@ export default function Contact() {
     subject: "",
     message: "",
   });
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -274,7 +276,11 @@ export default function Contact() {
                     disabled={status === "sending"}
                     className="w-full px-8 py-4 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
-                    {status === "sending" ? "Sending..." : status === "success" ? "Message Sent!" : "Send Message"}
+                    {status === "sending"
+                      ? "Sending..."
+                      : status === "success"
+                      ? "Message Sent!"
+                      : "Send Message"}
                   </button>
 
                   {status === "success" && (
