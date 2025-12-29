@@ -1,7 +1,5 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
 import { Geist } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -18,7 +16,6 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -37,42 +34,11 @@ export default function Register() {
 
     setIsLoading(true);
 
-    // Get stored users
-    const usersJson = localStorage.getItem("autorithm_users");
-    const users = usersJson ? JSON.parse(usersJson) : [];
-
-    // Check if user exists
-    if (users.find((u: any) => u.email === email)) {
-      setError("An account with this email already exists");
-      setIsLoading(false);
-      return;
-    }
-
-    // Create new user
-    const newUser = {
-      id: Date.now().toString(),
-      email,
-      password,
-      name,
-      purchasedProducts: [],
-    };
-
-    users.push(newUser);
-    localStorage.setItem("autorithm_users", JSON.stringify(users));
-
-    // Auto-login with NextAuth
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (result?.error) {
-      setError("Registration successful but login failed. Please try logging in.");
-      setIsLoading(false);
-    } else {
-      router.push("/profile");
-    }
+    // For demo: Just show a message that registration is disabled
+    setError(
+      "Registration is currently disabled in demo mode. Use john@example.com / 345 to login."
+    );
+    setIsLoading(false);
   };
 
   return (

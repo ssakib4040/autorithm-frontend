@@ -1,5 +1,17 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import type { User } from "@/types/user";
+
+// Simple in-memory users array (for demo purposes)
+const users: User[] = [
+  {
+    id: "1",
+    email: "john@example.com",
+    password: "345",
+    name: "John Doe",
+    purchasedProducts: [1, 2],
+  },
+];
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,21 +26,16 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // Get users from localStorage (in production, this would be a database call)
-        if (typeof window !== "undefined") {
-          const usersJson = localStorage.getItem("autorithm_users");
-          const users = usersJson ? JSON.parse(usersJson) : [];
+        // Check against in-memory users array
+        const user = users.find((u: User) => u.email === credentials.email);
 
-          const user = users.find((u: any) => u.email === credentials.email);
-
-          if (user && user.password === credentials.password) {
-            return {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              purchasedProducts: user.purchasedProducts || [],
-            };
-          }
+        if (user && user.password === credentials.password) {
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            purchasedProducts: user.purchasedProducts || [],
+          };
         }
 
         return null;
@@ -44,14 +51,14 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.purchasedProducts = (user as any).purchasedProducts || [];
+        token.purchasedProducts = user.purchasedProducts || [];
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.id;
-        (session.user as any).purchasedProducts = token.purchasedProducts;
+        session.user.id = token.id as string;
+        session.user.purchasedProducts = token.purchasedProducts as number[];
       }
       return session;
     },

@@ -24,25 +24,7 @@ export default function ForgotPassword() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    // Get stored users
-    const usersJson = localStorage.getItem("autorithm_users");
-    const users = usersJson ? JSON.parse(usersJson) : [];
-
-    // Check if user exists
-    const foundUser = users.find((u: any) => u.email === email);
-
-    if (!foundUser) {
-      setError("No account found with this email");
-      setIsLoading(false);
-      return;
-    }
-
-    // Store reset token
-    const resetToken = Math.random().toString(36).substring(7);
-    localStorage.setItem(`reset_token_${email}`, resetToken);
-
-    console.log(`Password reset link: ${window.location.origin}/reset-password?token=${resetToken}&email=${email}`);
-
+    // For demo: Just show success message
     setSuccess(true);
     setIsLoading(false);
   };

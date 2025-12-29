@@ -22,12 +22,11 @@ export default function ResetPassword() {
 
   useEffect(() => {
     // Validate token exists
-    if (router.isReady) {
-      if (!token || !email) {
-        setError("Invalid or missing reset link");
-      } else {
-        setValidToken(true);
-      }
+    if (router.isReady && (!token || !email)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setValidToken(false);
+    } else if (router.isReady) {
+      setValidToken(true);
     }
   }, [router.isReady, token, email]);
 
@@ -51,31 +50,7 @@ export default function ResetPassword() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    // Verify token
-    const storedToken = localStorage.getItem(`reset_token_${email}`);
-    if (!storedToken || storedToken !== token) {
-      setError("Invalid or expired reset link");
-      setIsLoading(false);
-      return;
-    }
-
-    // Update password
-    const usersJson = localStorage.getItem("autorithm_users");
-    const users = usersJson ? JSON.parse(usersJson) : [];
-
-    const userIndex = users.findIndex((u: any) => u.email === email);
-    if (userIndex === -1) {
-      setError("User not found");
-      setIsLoading(false);
-      return;
-    }
-
-    users[userIndex].password = password;
-    localStorage.setItem("autorithm_users", JSON.stringify(users));
-
-    // Remove used token
-    localStorage.removeItem(`reset_token_${email}`);
-
+    // For demo: Just show success message
     setSuccess(true);
     setIsLoading(false);
 
@@ -95,46 +70,36 @@ export default function ResetPassword() {
     );
   }
 
-  if (!validToken) {
+  if (!validToken && router.isReady) {
     return (
       <div
         className={`${geistSans.variable} font-sans min-h-screen flex flex-col bg-white dark:bg-zinc-900`}
       >
         <Header />
-        <div className="flex-1 flex items-center justify-center px-4 py-12">
+        <div className="flex-1 flex items-center justify-center px-4">
           <div className="max-w-md w-full text-center">
-            <div className="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-8 h-8 text-red-600 dark:text-red-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </div>
-            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
               Invalid Reset Link
             </h1>
             <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-              This password reset link is invalid or has expired.
+              This password reset link is invalid or missing required
+              information.
             </p>
             <Link
               href="/forgot-password"
-              className="inline-block px-6 py-3 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
+              className="inline-block px-6 py-3 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors"
             >
-              Request New Link
+              Request New Reset Link
             </Link>
           </div>
         </div>
         <Footer />
       </div>
     );
+  }
+
+  if (!validToken) {
+    return null;
   }
 
   return (

@@ -97,7 +97,7 @@ export default function Home() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
+      <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -126,7 +126,7 @@ export default function Home() {
             </div>
             <div className="relative">
               {/* Abstract automation flow visual */}
-              <div className="relative h-[400px] flex items-center justify-center">
+              <div className="relative h-100 flex items-center justify-center">
                 <svg viewBox="0 0 400 400" className="w-full h-full">
                   {/* Connection lines */}
                   <line
@@ -363,7 +363,7 @@ export default function Home() {
               </p>
               <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 mt-1">
                     <svg
                       className="w-4 h-4 text-white"
                       fill="none"
@@ -388,7 +388,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 mt-1">
                     <svg
                       className="w-4 h-4 text-white"
                       fill="none"
@@ -413,7 +413,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 mt-1">
                     <svg
                       className="w-4 h-4 text-white"
                       fill="none"
@@ -438,7 +438,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 mt-1">
                     <svg
                       className="w-4 h-4 text-white"
                       fill="none"
@@ -721,7 +721,7 @@ export default function Home() {
 
       {/* Final CTA */}
       <section
-        className="py-24 bg-gradient-to-b from-zinc-900 to-black dark:from-zinc-950 dark:to-black"
+        className="py-24 bg-linear-to-b from-zinc-900 to-black dark:from-zinc-950 dark:to-black"
         id="contact"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

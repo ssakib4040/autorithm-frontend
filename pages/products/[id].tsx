@@ -336,7 +336,7 @@ export default function ProductDetails() {
       <Header />
 
       {/* Product Hero */}
-      <section className="bg-gradient-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
+      <section className="bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-6">
             <Link
@@ -467,7 +467,7 @@ export default function ProductDetails() {
           <div className="space-y-4">
             {product.steps.map((step, index) => (
               <div key={index} className="flex gap-4 items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 flex items-center justify-center font-bold text-sm">
+                <div className="shrink-0 w-8 h-8 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 flex items-center justify-center font-bold text-sm">
                   {index + 1}
                 </div>
                 <div className="flex-1 pt-1">
@@ -494,7 +494,7 @@ export default function ProductDetails() {
                 className="flex items-start gap-3 p-4 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800"
               >
                 <svg
-                  className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-0.5"
+                  className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -526,7 +526,7 @@ export default function ProductDetails() {
                 {product.forWho.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <svg
-                      className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-0.5"
+                      className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -555,7 +555,7 @@ export default function ProductDetails() {
                 {product.notFor.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <svg
-                      className="w-6 h-6 text-zinc-400 flex-shrink-0 mt-0.5"
+                      className="w-6 h-6 text-zinc-400 shrink-0 mt-0.5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -629,7 +629,7 @@ export default function ProductDetails() {
                   (assumption, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <svg
-                        className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"
+                        className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -678,7 +678,7 @@ export default function ProductDetails() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 bg-gradient-to-b from-zinc-900 to-black dark:from-zinc-950 dark:to-black">
+      <section className="py-16 bg-linear-to-b from-zinc-900 to-black dark:from-zinc-950 dark:to-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
             Ready to Deploy This Automation?

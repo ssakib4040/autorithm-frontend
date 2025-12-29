@@ -181,7 +181,7 @@ export default function Products() {
       <Header />
 
       {/* Page Hero */}
-      <section className="bg-gradient-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
+      <section className="bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-4">
             Automation Kits

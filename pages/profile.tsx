@@ -67,7 +67,7 @@ export default function Profile() {
   }
 
   const purchasedProducts = allProducts.filter((product) =>
-    (session.user as any)?.purchasedProducts?.includes(product.id)
+    session.user?.purchasedProducts?.includes(product.id)
   );
 
   return (
