@@ -179,8 +179,8 @@ export const allProducts: Product[] = [
   },
 ];
 
-export const detailedProducts: Record<string, ProductDetail> = {
-  "1": {
+export const detailedProducts: ProductDetail[] = [
+  {
     id: 1,
     name: "AI Lead Enrichment System",
     description:
@@ -285,7 +285,7 @@ export const detailedProducts: Record<string, ProductDetail> = {
       },
     ],
   },
-  "2": {
+  {
     id: 2,
     name: "SaaS Onboarding Orchestrator",
     description:
@@ -396,7 +396,7 @@ export const detailedProducts: Record<string, ProductDetail> = {
       },
     ],
   },
-  "3": {
+  {
     id: 3,
     name: "E-commerce Order Pipeline",
     description: "Process orders, manage inventory, and sync across platforms",
@@ -504,7 +504,7 @@ export const detailedProducts: Record<string, ProductDetail> = {
       },
     ],
   },
-};
+];
 
 // Helper functions to filter products
 export const getProductsByTool = (tool: "n8n" | "Make"): Product[] => {
@@ -520,5 +520,5 @@ export const getFeaturedProducts = (limit: number = 6): Product[] => {
 };
 
 export const getProductDetail = (slug: string): ProductDetail | undefined => {
-  return detailedProducts[slug];
+  return detailedProducts.find((product) => product.slug === slug);
 };
