@@ -198,36 +198,44 @@ export default async function Products({ searchParams }: ProductsPageProps) {
             <>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 {products.map((product) => (
-                  <Link
+                  <div
                     key={product.id}
-                    href={`/products/${product.slug}`}
-                    className="group"
+                    className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all hover:shadow-lg"
                   >
-                    <div className="h-full p-6 rounded-xl border-2 border-zinc-200 dark:border-zinc-800 hover:border-zinc-900 dark:hover:border-white transition-all bg-white dark:bg-zinc-900">
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="px-3 py-1 text-sm font-medium rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                            product.tool === "n8n"
+                              ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                              : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
+                          }`}
+                        >
                           {product.tool}
                         </span>
-                        <span className="text-2xl font-bold text-zinc-900 dark:text-white">
-                          ${product.price}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {product.name}
-                      </h3>
-                      <p className="text-zinc-600 dark:text-zinc-400 mb-4 line-clamp-2">
-                        {product.description}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-zinc-500 dark:text-zinc-500">
+                        <span className="px-3 py-1 rounded-full text-sm font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
                           {product.category}
-                        </span>
-                        <span className="text-sm font-medium text-zinc-900 dark:text-white group-hover:translate-x-1 transition-transform">
-                          Learn more →
                         </span>
                       </div>
                     </div>
-                  </Link>
+                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">
+                      {product.name}
+                    </h3>
+                    <p className="text-zinc-600 dark:text-zinc-400 mb-6">
+                      {product.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-bold text-zinc-900 dark:text-white">
+                        ${product.price}
+                      </span>
+                      <Link
+                        href={`/products/${product.slug}`}
+                        className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
+                      >
+                        View Details
+                      </Link>
+                    </div>
+                  </div>
                 ))}
               </div>
 

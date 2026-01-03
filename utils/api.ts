@@ -30,32 +30,20 @@ async function apiRequest<T>(
 ): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
-    // headers: {
-    //   "Content-Type": "application/json",
-    //   ...options.headers,
-    // },
   });
-
-  console.log("res= > ", res);
 
   if (!res.ok) throw new Error("Failed to fetch");
   return res.json();
-}
-
-function buildQuery(params?: Record<string, string | number>): string {
-  if (!params) return "";
-  const searchParams = new URLSearchParams();
-  Object.entries(params).forEach(([key, value]) => {
-    searchParams.set(key, String(value));
-  });
-  return `?${searchParams.toString()}`;
 }
 
 // Products API
 export const productsApi = {
   getAll: (params?: Record<string, string | number>) => {
     return apiRequest<{ products: Product[]; totalPages: number }>(
-      `/products${buildQuery(params)}`
+      `/products${buildQuery(params)}`,
+      {
+        cache: "force-cache",
+      }
     );
   },
 
@@ -108,3 +96,12 @@ export const authApi = {
       body: JSON.stringify(data),
     }),
 };
+
+function buildQuery(params?: Record<string, string | number>): string {
+  if (!params) return "";
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    searchParams.set(key, String(value));
+  });
+  return `?${searchParams.toString()}`;
+}
