@@ -43,10 +43,10 @@ export default function Products() {
       setLoading(true);
       try {
         const params: any = { page, limit: 12 };
-        
+
         if (selectedTool !== "All") params.tool = selectedTool;
         if (selectedCategory !== "All") params.category = selectedCategory;
-        
+
         if (priceRange === "0-150") {
           params.maxPrice = 150;
         } else if (priceRange === "150-200") {
@@ -164,7 +164,9 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
             <div className="text-center py-12">
-              <p className="text-zinc-600 dark:text-zinc-400">Loading products...</p>
+              <p className="text-zinc-600 dark:text-zinc-400">
+                Loading products...
+              </p>
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-12">

@@ -106,12 +106,7 @@ export default function Home() {
                     r="20"
                     className="fill-zinc-900 dark:fill-white"
                   />
-                  <circle
-                    cx="200"
-                    cy="200"
-                    r="24"
-                    className="fill-blue-500"
-                  />
+                  <circle cx="200" cy="200" r="24" className="fill-blue-500" />
                   <circle
                     cx="320"
                     cy="100"
@@ -252,8 +247,8 @@ export default function Home() {
                 Deploy & Scale
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400">
-                Activate your automation and watch it work. Get free support
-                for setup questions and scaling.
+                Activate your automation and watch it work. Get free support for
+                setup questions and scaling.
               </p>
             </div>
           </div>

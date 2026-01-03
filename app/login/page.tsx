@@ -21,11 +21,11 @@ export default function Login() {
 
     try {
       const result = await authApi.login({ email, password });
-      
+
       // Store token in localStorage
       localStorage.setItem("token", result.token);
       localStorage.setItem("user", JSON.stringify(result.user));
-      
+
       router.push("/profile");
     } catch (err: any) {
       setError(err.message || "Invalid email or password");

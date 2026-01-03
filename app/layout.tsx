@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Autorithm - Premium Automation Workflows",
-  description: "High-quality prebuilt automation workflows for n8n and Make.com",
+  description:
+    "High-quality prebuilt automation workflows for n8n and Make.com",
 };
 
 export default function RootLayout({

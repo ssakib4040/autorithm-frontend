@@ -1,4 +1,5 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
 
 interface FetchOptions extends RequestInit {
   token?: string;
@@ -25,7 +26,9 @@ async function apiRequest<T>(
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: "An error occurred" }));
+    const error = await response
+      .json()
+      .catch(() => ({ message: "An error occurred" }));
     throw new Error(error.message || `HTTP error! status: ${response.status}`);
   }
 
@@ -99,10 +102,13 @@ export const authApi = {
   },
 
   login: (data: { email: string; password: string }) => {
-    return apiRequest<{ message: string; token: string; user: any }>("/auth/login", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    return apiRequest<{ message: string; token: string; user: any }>(
+      "/auth/login",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
   },
 
   forgotPassword: (email: string) => {

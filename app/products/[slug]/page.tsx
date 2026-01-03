@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 
 export default async function ProductDetail({ params }: ProductDetailProps) {
   const { slug } = await params;
-  
+
   let product;
   try {
     product = await productsApi.getBySlug(slug);
