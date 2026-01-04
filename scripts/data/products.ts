@@ -5,13 +5,12 @@ export interface Product {
   tool: "n8n" | "Make";
   category: string;
   price: number;
-  slug: string;
+  slug: string; // Same slug = same product group across platforms
   discounts?: {
     percentage: number;
     reason: string;
     startDate: Date;
     expiresAt: Date;
-    isActive: boolean;
   }[];
 }
 
@@ -50,164 +49,188 @@ export const allProducts: Product[] = [
     tool: "n8n",
     category: "CRM",
     price: 149,
-    slug: "1",
+    slug: "ai-lead-enrichment-system",
     discounts: [
       {
         percentage: 20,
         reason: "Launch Week Special",
         startDate: new Date("2026-01-01"),
         expiresAt: new Date("2026-02-01"),
-        isActive: true,
       },
       {
         percentage: 10,
         reason: "Holiday Sale 2025",
         startDate: new Date("2025-12-20"),
         expiresAt: new Date("2025-12-31"),
-        isActive: false, // expired
       },
     ],
   },
   {
     id: 2,
+    name: "AI Lead Enrichment System",
+    description:
+      "Automatically enrich leads with AI-powered research and scoring",
+    tool: "Make",
+    category: "CRM",
+    price: 169,
+    slug: "ai-lead-enrichment-system", // Same slug = related product
+    discounts: [
+      {
+        percentage: 15,
+        reason: "Launch Week Special",
+        startDate: new Date("2026-01-01"),
+        expiresAt: new Date("2026-02-01"),
+      },
+    ],
+  },
+  {
+    id: 3,
     name: "SaaS Onboarding Orchestrator",
     description:
       "Complete user onboarding workflow with email sequences and task tracking",
     tool: "Make",
     category: "SaaS Ops",
     price: 199,
-    slug: "2",
+    slug: "saas-onboarding-orchestrator",
     discounts: [
       {
         percentage: 15,
         reason: "New Year Sale",
         startDate: new Date("2026-01-01"),
         expiresAt: new Date("2026-01-31"),
-        isActive: true,
       },
     ],
   },
   {
-    id: 3,
+    id: 4,
     name: "E-commerce Order Pipeline",
     description: "Process orders, manage inventory, and sync across platforms",
     tool: "n8n",
     category: "E-commerce",
     price: 179,
-    slug: "3",
+    slug: "ecommerce-order-pipeline",
   },
   {
-    id: 4,
+    id: 5,
+    name: "E-commerce Order Pipeline",
+    description: "Process orders, manage inventory, and sync across platforms",
+    tool: "Make",
+    category: "E-commerce",
+    price: 189,
+    slug: "ecommerce-order-pipeline", // Same slug = related product
+  },
+  {
+    id: 6,
     name: "CRM Data Sync Engine",
     description: "Keep your CRM in perfect sync with all connected tools",
     tool: "n8n",
     category: "CRM",
     price: 129,
-    slug: "4",
+    slug: "crm-data-sync-engine",
   },
   {
-    id: 5,
+    id: 7,
     name: "Marketing Campaign Automator",
     description:
       "Multi-channel campaign orchestration with performance tracking",
     tool: "Make",
     category: "Marketing",
     price: 139,
-    slug: "5",
+    slug: "marketing-campaign-automator",
   },
   {
-    id: 6,
+    id: 8,
     name: "Social Media Scheduler Pro",
     description: "Content scheduling and publishing across all major platforms",
     tool: "Make",
     category: "Marketing",
     price: 119,
-    slug: "6",
+    slug: "social-media-scheduler-pro",
   },
   {
-    id: 7,
+    id: 9,
     name: "Multi-Channel Support Router",
     description:
       "Route and manage support tickets across platforms intelligently",
     tool: "n8n",
     category: "Support",
     price: 159,
-    slug: "7",
+    slug: "multi-channel-support-router",
   },
   {
-    id: 8,
+    id: 10,
     name: "Client Reporting System",
     description:
       "Automated report generation and delivery for client dashboards",
     tool: "Make",
     category: "Analytics",
     price: 149,
-    slug: "8",
+    slug: "client-reporting-system",
   },
   {
-    id: 9,
+    id: 11,
     name: "Document Processing Pipeline",
     description: "Extract, transform, and route documents automatically",
     tool: "n8n",
     category: "Document Management",
     price: 169,
-    slug: "9",
+    slug: "document-processing-pipeline",
   },
   {
-    id: 10,
+    id: 12,
     name: "Inventory Sync System",
     description:
       "Real-time inventory synchronization across all sales channels",
     tool: "n8n",
     category: "E-commerce",
     price: 169,
-    slug: "10",
+    slug: "inventory-sync-system",
   },
   {
-    id: 11,
+    id: 13,
     name: "Lead Scoring Pipeline",
     description: "Intelligent lead qualification and routing based on behavior",
     tool: "Make",
     category: "CRM",
     price: 139,
-    slug: "11",
+    slug: "lead-scoring-pipeline",
   },
   {
-    id: 12,
+    id: 14,
     name: "Customer Feedback Aggregator",
     description:
       "Collect, analyze, and act on customer feedback from all sources",
     tool: "n8n",
     category: "Support",
     price: 129,
-    slug: "12",
+    slug: "customer-feedback-aggregator",
   },
   {
-    id: 13,
+    id: 15,
     name: "Payment Processing Hub",
     description: "Unified payment handling across multiple providers",
     tool: "n8n",
     category: "Finance",
     price: 189,
-    slug: "13",
+    slug: "payment-processing-hub",
   },
   {
-    id: 14,
+    id: 16,
     name: "Content Distribution Hub",
     description: "One-click content syndication across multiple platforms",
     tool: "Make",
     category: "Marketing",
     price: 129,
-    slug: "14",
+    slug: "content-distribution-hub",
   },
   {
-    id: 15,
+    id: 17,
     name: "Appointment Scheduling System",
     description: "Smart booking and calendar management with reminders",
     tool: "Make",
     category: "SaaS Ops",
     price: 109,
-    slug: "15",
+    slug: "appointment-scheduling-system",
   },
 ];
 

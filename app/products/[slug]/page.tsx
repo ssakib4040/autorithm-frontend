@@ -1,15 +1,25 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
+// import { useState } from "react";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { productsApi } from "@/utils/api";
+import { notFound } from "next/navigation";
 
 type Platform = "n8n" | "make";
 
-export default function ProductDetails() {
-  const [selectedPlatform, setSelectedPlatform] = useState<Platform>("n8n");
+export default async function ProductDetails({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: unknown;
+}) {
+  const { slug } = await params;
+  // const [selectedPlatform, setSelectedPlatform] = useState<Platform>("n8n");
+  const selectedPlatform: Platform = "n8n";
+
+  console.log("Selected Platform:", slug);
 
   // Product data
   const product = {
@@ -132,7 +142,14 @@ export default function ProductDetails() {
     ],
   };
 
-  const currentPlatform = product.platforms[selectedPlatform];
+  const currentPlatform = product.platforms["n8n"];
+
+  const products = await productsApi.getBySlug(slug);
+  console.log(products);
+
+  if (!product) {
+    notFound();
+  }
 
   return (
     <>
@@ -443,11 +460,11 @@ export default function ProductDetails() {
                     {selectedPlatform === "n8n" ? "Make.com" : "n8n"}
                   </p>
                   <button
-                    onClick={() =>
-                      setSelectedPlatform(
-                        selectedPlatform === "n8n" ? "make" : "n8n"
-                      )
-                    }
+                    // onClick={() =>
+                    //   setSelectedPlatform(
+                    //     selectedPlatform === "n8n" ? "make" : "n8n"
+                    //   )
+                    // }
                     className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
                   >
                     Switch to {selectedPlatform === "n8n" ? "Make.com" : "n8n"}{" "}

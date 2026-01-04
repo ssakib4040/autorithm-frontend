@@ -1,5 +1,4 @@
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 if (!process.env.NEXT_PUBLIC_API_URL) {
   console.log(
@@ -47,7 +46,14 @@ export const productsApi = {
     );
   },
 
-  getBySlug: (slug: string) => apiRequest<Product>(`/products/${slug}`),
+  getBySlug: (slug: string) => {
+    return apiRequest<{ product: Product; relatedVersions: Product[] }>(
+      `/products/${slug}`,
+      {
+        cache: "force-cache",
+      }
+    );
+  },
 
   create: (data: Partial<Product>, token: string) =>
     apiRequest<{ message: string; product: Product }>("/products", {

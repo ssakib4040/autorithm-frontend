@@ -2,17 +2,28 @@ import { NextResponse } from "next/server";
 import db from "@/lib/mongodb";
 import { requireAdmin } from "@/lib/auth";
 
-// GET /api/products/[slug] - Get single product
+// GET /api/products/[slug]?tool=n8n|Make - Get single product with related versions
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     const { slug } = await params;
+    const { searchParams } = new URL(request.url);
+    const tool = searchParams.get("tool");
+
+    // Build query - if tool is specified, filter by it (case-insensitive)
+    const query: {
+      slug: string;
+      tool?: { $regex: string; $options: string } | string;
+    } = { slug };
+    if (tool) {
+      query.tool = { $regex: `^${tool}$`, $options: "i" };
+    }
 
     const product = await db
       .collection("products")
-      .findOne({ slug }, { projection: { _id: 0 } });
+      .findOne(query, { projection: { _id: 0 } });
 
     if (!product) {
       return NextResponse.json(
@@ -21,7 +32,28 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(product, { status: 200 });
+    // Fetch related versions (same slug, different platform)
+    let relatedVersions: unknown[] = [];
+    const otherVersions = await db
+      .collection("products")
+      .find(
+        {
+          slug: product.slug,
+          tool: { $ne: product.tool }, // Different platform
+        },
+        { projection: { _id: 0 } }
+      )
+      .toArray();
+
+    relatedVersions = otherVersions;
+
+    return NextResponse.json(
+      {
+        ...product,
+        relatedVersions,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     const err = error as Error;
     console.error("Get product error:", err);
@@ -48,6 +80,7 @@ export async function PUT(
     const body = await request.json();
 
     // Remove fields that shouldn't be updated directly
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { _id, ...updateData } = body;
 
     const result = await db
