@@ -36,11 +36,18 @@ export async function GET(
     const now = new Date();
     let discount = null;
     if (product.discounts && Array.isArray(product.discounts)) {
-      const validDiscount = product.discounts.find((d: any) => {
-        const startDate = new Date(d.startDate);
-        const expiresAt = new Date(d.expiresAt);
-        return startDate <= now && expiresAt >= now;
-      });
+      const validDiscount = product.discounts.find(
+        (d: {
+          percentage: number;
+          reason: string;
+          startDate: Date;
+          expiresAt: Date;
+        }) => {
+          const startDate = new Date(d.startDate);
+          const expiresAt = new Date(d.expiresAt);
+          return startDate <= now && expiresAt >= now;
+        }
+      );
 
       if (validDiscount) {
         const expiresAt = new Date(validDiscount.expiresAt);

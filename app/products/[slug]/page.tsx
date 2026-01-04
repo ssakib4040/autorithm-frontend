@@ -10,8 +10,8 @@ type Platform = "n8n" | "make";
 
 export default async function ProductDetails({
   params,
-  searchParams,
-}: {
+}: // searchParams,
+{
   params: { slug: string };
   searchParams: unknown;
 }) {
