@@ -41,32 +41,32 @@ export async function GET(
         const expiresAt = new Date(d.expiresAt);
         return startDate <= now && expiresAt >= now;
       });
-      
+
       if (validDiscount) {
         const expiresAt = new Date(validDiscount.expiresAt);
         const timeLeftMs = expiresAt.getTime() - now.getTime();
-        
+
         // Calculate time left
         const daysLeft = Math.floor(timeLeftMs / (1000 * 60 * 60 * 24));
         const hoursLeft = Math.floor(timeLeftMs / (1000 * 60 * 60));
         const minutesLeft = Math.floor(timeLeftMs / (1000 * 60));
-        
+
         let timeLeft = "";
         if (daysLeft > 0) {
-          timeLeft = `${daysLeft} day${daysLeft > 1 ? 's' : ''} left`;
+          timeLeft = `${daysLeft} day${daysLeft > 1 ? "s" : ""} left`;
         } else if (hoursLeft > 0) {
-          timeLeft = `${hoursLeft} hour${hoursLeft > 1 ? 's' : ''} left`;
+          timeLeft = `${hoursLeft} hour${hoursLeft > 1 ? "s" : ""} left`;
         } else {
-          timeLeft = `${minutesLeft} minute${minutesLeft > 1 ? 's' : ''} left`;
+          timeLeft = `${minutesLeft} minute${minutesLeft > 1 ? "s" : ""} left`;
         }
-        
+
         discount = {
           ...validDiscount,
           timeLeft,
         };
       }
     }
-    
+
     // Remove discounts array and add single discount
     delete product.discounts;
     product.discount = discount;
