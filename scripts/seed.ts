@@ -1,7 +1,8 @@
 import db from "../lib/mongodb";
-import { allProducts } from "../data/products";
-import bcrypt from "bcryptjs";
 import chalk from "chalk";
+
+import { users } from "./data/users";
+import { allProducts } from "./data/products";
 
 async function seed() {
   try {
@@ -30,27 +31,6 @@ async function seed() {
     const usersCollection = db.collection("users");
     await usersCollection.deleteMany({});
     console.log(chalk.gray("✓ Cleared existing users"));
-
-    const users = [
-      {
-        email: "ssakib6060@gmail.com",
-        password: await bcrypt.hash("password", 10),
-        name: "Sadman Sakib",
-        isAdmin: true,
-        isVerified: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        email: "john@example.com",
-        password: await bcrypt.hash("password", 10),
-        name: "John Doe",
-        isAdmin: false,
-        isVerified: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
 
     const userResult = await usersCollection.insertMany(users);
     console.log(chalk.green(`✓ Inserted ${userResult.insertedCount} users`));

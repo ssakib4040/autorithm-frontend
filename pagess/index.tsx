@@ -3,7 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getFeaturedProducts } from "@/data/products";
+import { getFeaturedProducts } from "@/scripts/data/products";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

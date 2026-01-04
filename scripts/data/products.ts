@@ -6,6 +6,13 @@ export interface Product {
   category: string;
   price: number;
   slug: string;
+  discounts?: {
+    percentage: number;
+    reason: string;
+    startDate: Date;
+    expiresAt: Date;
+    isActive: boolean;
+  }[];
 }
 
 export interface ProductDetail extends Product {
@@ -44,6 +51,22 @@ export const allProducts: Product[] = [
     category: "CRM",
     price: 149,
     slug: "1",
+    discounts: [
+      {
+        percentage: 20,
+        reason: "Launch Week Special",
+        startDate: new Date("2026-01-01"),
+        expiresAt: new Date("2026-02-01"),
+        isActive: true,
+      },
+      {
+        percentage: 10,
+        reason: "Holiday Sale 2025",
+        startDate: new Date("2025-12-20"),
+        expiresAt: new Date("2025-12-31"),
+        isActive: false, // expired
+      },
+    ],
   },
   {
     id: 2,
@@ -54,6 +77,15 @@ export const allProducts: Product[] = [
     category: "SaaS Ops",
     price: 199,
     slug: "2",
+    discounts: [
+      {
+        percentage: 15,
+        reason: "New Year Sale",
+        startDate: new Date("2026-01-01"),
+        expiresAt: new Date("2026-01-31"),
+        isActive: true,
+      },
+    ],
   },
   {
     id: 3,

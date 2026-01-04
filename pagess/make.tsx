@@ -3,7 +3,7 @@ import { Geist } from "next/font/google";
 import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getProductsByTool } from "@/data/products";
+import { getProductsByTool } from "@/scripts/data/products";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

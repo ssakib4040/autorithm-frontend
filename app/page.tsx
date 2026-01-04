@@ -2,7 +2,7 @@ import Link from "next/link";
 import Head from "next/head";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getFeaturedProducts } from "@/data/products";
+import { getFeaturedProducts } from "@/scripts/data/products";
 
 // Get featured products
 const featuredProducts = getFeaturedProducts(6);
@@ -37,7 +37,7 @@ const useCases = [
 
 export default function Home() {
   return (
-    <div >
+    <div>
       <Head>
         <title>Autorithm - Premium Automation Marketplace</title>
         <meta
