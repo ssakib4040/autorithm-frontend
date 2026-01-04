@@ -148,7 +148,7 @@ export default async function Products({ searchParams }: ProductsPageProps) {
                 {products.map((product) => (
                   <Link
                     key={product.id}
-                    href={`/products/${product.slug}`}
+                    href={`/products/${product.slug}?tool=${product.tool}`}
                     className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all hover:shadow-lg"
                   >
                     <div className="flex items-center justify-between mb-4">

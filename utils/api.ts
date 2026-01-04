@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 if (!process.env.NEXT_PUBLIC_API_URL) {
@@ -31,7 +33,10 @@ async function apiRequest<T>(
     ...options,
   });
 
-  if (!res.ok) throw new Error("Failed to fetch");
+  if (res.status == 404) {
+    return { status: 404, message: "Not Found" } as unknown as T;
+  }
+  if (!res.ok) throw new Error(`API request failed with status ${res.status}`);
   return res.json();
 }
 
@@ -47,12 +52,14 @@ export const productsApi = {
   },
 
   getBySlug: (slug: string) => {
-    return apiRequest<{ product: Product; relatedVersions: Product[] }>(
-      `/products/${slug}`,
-      {
-        cache: "force-cache",
-      }
-    );
+    return apiRequest<{
+      name: ReactNode;
+      category: ReactNode;
+      product: Product;
+      relatedVersions: Product[];
+    }>(`/products/${slug}`, {
+      cache: "force-cache",
+    });
   },
 
   create: (data: Partial<Product>, token: string) =>
