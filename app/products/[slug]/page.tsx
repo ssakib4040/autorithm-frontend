@@ -5,13 +5,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { productsApi } from "@/utils/api";
 import { notFound } from "next/navigation";
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-  Key,
-} from "react";
 
 type Platform = "n8n" | "make";
 
@@ -311,7 +304,7 @@ export default async function ProductDetails({
                   Key Features
                 </h2>
                 <ul className="space-y-2">
-                  {temp_product.keyFeatures.map((feature, index) => (
+                  {temp_product.keyFeatures.map((feature: any, index: any) => (
                     <li key={index} className="flex items-start gap-3">
                       <svg
                         className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"
@@ -370,36 +363,7 @@ export default async function ProductDetails({
                     </h3>
                     <ul className="space-y-0.5">
                       {temp_product.technicalDetails.requirements.map(
-                        (
-                          assumption:
-                            | string
-                            | number
-                            | bigint
-                            | boolean
-                            | ReactElement<
-                                unknown,
-                                string | JSXElementConstructor<any>
-                              >
-                            | Iterable<ReactNode>
-                            | ReactPortal
-                            | Promise<
-                                | string
-                                | number
-                                | bigint
-                                | boolean
-                                | ReactPortal
-                                | ReactElement<
-                                    unknown,
-                                    string | JSXElementConstructor<any>
-                                  >
-                                | Iterable<ReactNode>
-                                | null
-                                | undefined
-                              >
-                            | null
-                            | undefined,
-                          index: Key | null | undefined
-                        ) => (
+                        (assumption: any, index: any) => (
                           <li
                             key={index}
                             className="text-zinc-700 dark:text-zinc-300 text-xs"
