@@ -1,46 +1,90 @@
 import db from "../lib/mongodb";
 import chalk from "chalk";
-
 import { users } from "./data/users";
 import { allProducts } from "./data/products";
+import { allPurchases } from "./data/purchases";
+
+/**
+ * Database seeding script
+ * Run with: yarn seed or npm run seed
+ *
+ * Order matters:
+ * 1. Users (needed for purchase references)
+ * 2. Products
+ * 3. Purchases (references users and products)
+ */
+
+async function seedUsers() {
+  console.log(chalk.yellow("\n📝 Seeding Users..."));
+  const collection = db.collection("users");
+
+  await collection.deleteMany({});
+  console.log(chalk.gray("  ✓ Cleared existing users"));
+
+  const result = await collection.insertMany(users);
+  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} users`));
+}
+
+async function seedProducts() {
+  console.log(chalk.yellow("\n📦 Seeding Products..."));
+  const collection = db.collection("products");
+
+  await collection.deleteMany({});
+  console.log(chalk.gray("  ✓ Cleared existing products"));
+
+  const result = await collection.insertMany(allProducts);
+  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} products`));
+}
+
+async function seedPurchases() {
+  console.log(chalk.yellow("\n💰 Seeding Purchases..."));
+  const collection = db.collection("purchases");
+
+  await collection.deleteMany({});
+  console.log(chalk.gray("  ✓ Cleared existing purchases"));
+
+  // Get all users and assign purchases randomly
+  const usersCollection = db.collection("users");
+  const allUsers = await usersCollection.find({}).toArray();
+
+  if (allUsers.length === 0) {
+    console.log(chalk.red("  ✗ No users found. Skipping purchases."));
+    return;
+  }
+
+  const purchasesWithUserIds = allPurchases.map((purchase) => ({
+    ...purchase,
+    purchasedBy: allUsers[Math.floor(Math.random() * allUsers.length)]._id,
+  }));
+
+  const result = await collection.insertMany(purchasesWithUserIds);
+  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} purchases`));
+}
 
 async function seed() {
   try {
+    // Safety check for production
     if (process.env.NODE_ENV === "production") {
       console.log(
-        chalk.red("Seeding is not allowed in production environment.")
+        chalk.red("❌ Seeding is not allowed in production environment.")
       );
       return;
     }
 
-    console.log(chalk.cyan("Starting database seed..."));
+    console.log(chalk.cyan.bold("\n🌱 Starting Database Seed"));
     console.log(chalk.gray("━".repeat(50)));
 
-    // Seed products
-    console.log(chalk.yellow("Seeding Products..."));
-    const productsCollection = db.collection("products");
-    await productsCollection.deleteMany({});
-    console.log(chalk.gray("✓ Cleared existing products"));
-    const productResult = await productsCollection.insertMany(allProducts);
-    console.log(
-      chalk.green(`✓ Inserted ${productResult.insertedCount} products`)
-    );
+    // Seed in correct order (users first for foreign key references)
+    await seedUsers();
+    await seedProducts();
+    await seedPurchases();
 
-    // Seed users
-    console.log(chalk.yellow("Seeding Users..."));
-    const usersCollection = db.collection("users");
-    await usersCollection.deleteMany({});
-    console.log(chalk.gray("✓ Cleared existing users"));
-
-    const userResult = await usersCollection.insertMany(users);
-    console.log(chalk.green(`✓ Inserted ${userResult.insertedCount} users`));
-
-    console.log(chalk.gray("━".repeat(50)));
-    console.log(chalk.green.bold("Seed completed successfully!"));
+    console.log(chalk.gray("\n" + "━".repeat(50)));
+    console.log(chalk.green.bold("✅ Seed completed successfully!\n"));
     process.exit(0);
   } catch (error) {
-    console.log(chalk.gray("━".repeat(50)));
-    console.error(chalk.red("Seed failed:"), error);
+    console.log(chalk.gray("\n" + "━".repeat(50)));
+    console.error(chalk.red("❌ Seed failed:"), error);
     process.exit(1);
   }
 }
