@@ -1,17 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { requireAuth } from "@/lib/auth";
 
 /**
  * GET /api/purchases
+ * Authenticated users can only see their own purchases
+ * Admins can see all purchases and filter by userId
  * Query params:
- * - userId: Filter by user ID
+ * - userId: Filter by user ID (admin only)
  * - productId: Filter by product ID
  * - page: Page number (default: 1)
  * - limit: Items per page (default: 10)
  */
 export async function GET(request: NextRequest) {
   try {
+    // Require authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult;
+    }
+    const authenticatedUser = authResult;
+
+    // Get authenticated user from database
+    const dbUser = await db
+      .collection("users")
+      .findOne({ email: authenticatedUser.email });
+
+    if (!dbUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
     const productId = searchParams.get("productId");
@@ -23,9 +42,15 @@ export async function GET(request: NextRequest) {
 
     // Build query filter
     const filter: Record<string, unknown> = {};
-    if (userId) {
+
+    // Non-admin users can only see their own purchases
+    if (!dbUser.isAdmin) {
+      filter.purchasedBy = dbUser._id;
+    } else if (userId) {
+      // Admins can filter by userId if provided
       filter.purchasedBy = new ObjectId(userId);
     }
+
     if (productId) {
       filter.productId = parseInt(productId);
     }
@@ -92,23 +117,36 @@ export async function GET(request: NextRequest) {
 
 /**
  * POST /api/purchases
- * Create a new purchase
+ * Create a new purchase for authenticated user
  */
 export async function POST(request: NextRequest) {
   try {
+    // Require authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult;
+    }
+    const authenticatedUser = authResult;
+
+    // Get authenticated user from database
+    const dbUser = await db
+      .collection("users")
+      .findOne({ email: authenticatedUser.email });
+
+    if (!dbUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const body = await request.json();
-    const {
-      productId,
-      purchasedBy,
-      discountApplied,
-      originalPrice,
-      finalPrice,
-    } = body;
+    const { productId, discountApplied, originalPrice, finalPrice } = body;
 
     // Validation
-    if (!productId || !purchasedBy || !originalPrice || !finalPrice) {
+    if (!productId || !originalPrice || !finalPrice) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        {
+          error:
+            "Missing required fields: productId, originalPrice, finalPrice",
+        },
         { status: 400 }
       );
     }
@@ -126,7 +164,7 @@ export async function POST(request: NextRequest) {
     const newPurchase = {
       id: nextId,
       productId: parseInt(productId),
-      purchasedBy: new ObjectId(purchasedBy),
+      purchasedBy: dbUser._id, // Use authenticated user's ID
       discountApplied: discountApplied || null,
       originalPrice,
       finalPrice,

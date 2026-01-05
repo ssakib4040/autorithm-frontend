@@ -1,6 +1,6 @@
 import db from "../lib/mongodb";
 import chalk from "chalk";
-import { users } from "./data/users";
+import { getUsers } from "./data/users";
 import { allProducts } from "./data/products";
 import { allPurchases } from "./data/purchases";
 
@@ -21,6 +21,7 @@ async function seedUsers() {
   await collection.deleteMany({});
   console.log(chalk.gray("  ✓ Cleared existing users"));
 
+  const users = await getUsers();
   const result = await collection.insertMany(users);
   console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} users`));
 }

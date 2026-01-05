@@ -1,15 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/mongodb";
+import { requireAuth } from "@/lib/auth";
 
 /**
  * GET /api/purchases/[id]
  * Get a single purchase by ID with populated product and user details
+ * Users can only view their own purchases, admins can view all
  */
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    // Require authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult;
+    }
+    const authenticatedUser = authResult;
+
+    // Get authenticated user from database
+    const dbUser = await db
+      .collection("users")
+      .findOne({ email: authenticatedUser.email });
+
+    if (!dbUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const { id } = await params;
     const collection = db.collection("purchases");
 
@@ -52,6 +70,17 @@ export async function GET(
       );
     }
 
+    // Check if user owns this purchase (unless admin)
+    if (
+      !dbUser.isAdmin &&
+      purchase[0].purchasedBy.toString() !== dbUser._id.toString()
+    ) {
+      return NextResponse.json(
+        { error: "Forbidden: You can only view your own purchases" },
+        { status: 403 }
+      );
+    }
+
     return NextResponse.json(purchase[0]);
   } catch (error: unknown) {
     console.error("Error fetching purchase:", error);
@@ -68,14 +97,52 @@ export async function GET(
 /**
  * DELETE /api/purchases/[id]
  * Delete a purchase by ID
+ * Users can only delete their own purchases, admins can delete any
  */
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    // Require authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult;
+    }
+    const authenticatedUser = authResult;
+
+    // Get authenticated user from database
+    const dbUser = await db
+      .collection("users")
+      .findOne({ email: authenticatedUser.email });
+
+    if (!dbUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const { id } = await params;
     const collection = db.collection("purchases");
+
+    // First, check if purchase exists and belongs to user
+    const purchase = await collection.findOne({ id: parseInt(id) });
+
+    if (!purchase) {
+      return NextResponse.json(
+        { status: 404, message: "Purchase not found" },
+        { status: 404 }
+      );
+    }
+
+    // Check ownership (unless admin)
+    if (
+      !dbUser.isAdmin &&
+      purchase.purchasedBy.toString() !== dbUser._id.toString()
+    ) {
+      return NextResponse.json(
+        { error: "Forbidden: You can only delete your own purchases" },
+        { status: 403 }
+      );
+    }
 
     const result = await collection.deleteOne({ id: parseInt(id) });
 

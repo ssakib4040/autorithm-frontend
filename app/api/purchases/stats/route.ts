@@ -1,15 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { requireAuth } from "@/lib/auth";
 
 /**
  * GET /api/purchases/stats
- * Get purchase statistics
+ * Get purchase statistics for authenticated user
+ * Users see their own stats, admins can see all or filter by userId
  * Query params:
- * - userId: Filter stats by user ID (optional)
+ * - userId: Filter stats by user ID (admin only)
  */
 export async function GET(request: NextRequest) {
   try {
+    // Require authentication
+    const authResult = await requireAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult;
+    }
+    const authenticatedUser = authResult;
+
+    // Get authenticated user from database
+    const dbUser = await db
+      .collection("users")
+      .findOne({ email: authenticatedUser.email });
+
+    if (!dbUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
 
@@ -17,7 +35,12 @@ export async function GET(request: NextRequest) {
 
     // Build match filter
     const matchFilter: Record<string, unknown> = {};
-    if (userId) {
+
+    // Non-admin users can only see their own stats
+    if (!dbUser.isAdmin) {
+      matchFilter.purchasedBy = dbUser._id;
+    } else if (userId) {
+      // Admins can filter by userId if provided
       matchFilter.purchasedBy = new ObjectId(userId);
     }
 
