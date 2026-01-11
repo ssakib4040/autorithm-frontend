@@ -36,9 +36,10 @@ export default withAuth(
           "/terms-conditions",
           "/privacy-policy",
           "/refund-policy"
+          
         ];
         const isPublicRoute = publicRoutes.some(
-          (route) => path === route || path.startsWith("/products/")
+          (route) => path === route || path.startsWith("/products/") || path.startsWith("/dashboard")
         );
 
         if (isPublicRoute) {
