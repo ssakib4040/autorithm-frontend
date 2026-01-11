@@ -33,7 +33,9 @@ export default withAuth(
           "/register",
           "/products",
           "/contact",
-          "/terms-conditions"
+          "/terms-conditions",
+          "/privacy-policy",
+          "/refund-policy"
         ];
         const isPublicRoute = publicRoutes.some(
           (route) => path === route || path.startsWith("/products/")

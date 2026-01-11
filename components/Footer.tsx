@@ -32,8 +32,30 @@ export default function Footer() {
             </Link>
           </div>
         </div>
-        <div className="border-t border-zinc-800 mt-8 pt-8 text-center text-zinc-500 text-sm">
-          © 2025 Autorithm. All rights reserved.
+        <div className="border-t border-zinc-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-500">
+          <div className="mb-4 md:mb-0">
+            © {new Date().getFullYear()} Autorithm. All rights reserved.
+          </div>
+          <div className="flex gap-6">
+            <Link
+              href="/terms-conditions"
+              className="hover:text-zinc-300 transition-colors"
+            >
+              Terms
+            </Link>
+            <Link
+              href="/privacy-policy"
+              className="hover:text-zinc-300 transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/refund-policy"
+              className="hover:text-zinc-300 transition-colors"
+            >
+              Refunds
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
