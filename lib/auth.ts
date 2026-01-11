@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 export interface AuthUser {
   email: string;
   name: string;
+  id: string;
   isAdmin?: boolean;
 }
 

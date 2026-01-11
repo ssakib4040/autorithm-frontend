@@ -43,7 +43,12 @@ export async function POST(request: Request) {
 
     // Generate JWT token
     const token = jwt.sign(
-      { email: user.email, name: user.name, isAdmin: user.isAdmin || false },
+      {
+        email: user.email,
+        name: user.name,
+        id: user._id.toString(),
+        isAdmin: user.isAdmin || false,
+      },
       process.env.JWT_SECRET || "fallback-secret",
       { expiresIn: "7d" }
     );
