@@ -1,5 +1,7 @@
+"use client";
+
 import Link from 'next/link';
-import { PlusIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, PencilSquareIcon, TrashIcon, FunnelIcon } from '@heroicons/react/24/outline';
 
 const users = [
   { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin', status: 'Active', joined: '2024-01-15' },
@@ -11,15 +13,41 @@ const users = [
 export default function UsersPage() {
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <h1 className="text-2xl font-bold text-white">Users</h1>
-        <Link
-          href="/dashboard/users/create"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
-        >
-          <PlusIcon className="h-4 w-4" />
-          Create User
-        </Link>
+        <div className="flex gap-3">
+            <Link
+            href="/dashboard/users/create"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+            >
+            <PlusIcon className="h-4 w-4" />
+            Create User
+            </Link>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-4 mb-6">
+        <div className="relative">
+            <select className="appearance-none bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-hidden focus:border-zinc-700">
+                <option>All Roles</option>
+                <option>Admin</option>
+                <option>User</option>
+                <option>Editor</option>
+            </select>
+            <FunnelIcon className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
+        </div>
+        <div className="relative">
+            <select className="appearance-none bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-hidden focus:border-zinc-700">
+                <option>All Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+                <option>Suspended</option>
+            </select>
+            <FunnelIcon className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
+        </div>
+        <div className="flex-1">
+             <input type="text" placeholder="Search users..." className="w-full bg-zinc-900 border border-zinc-800 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-hidden focus:border-zinc-700" />
+        </div>
       </div>
 
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
