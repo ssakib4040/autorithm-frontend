@@ -22,7 +22,7 @@ async function verifyToken(): Promise<AuthUser | null> {
 
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET || "fallback-secret"
+      process.env.JWT_SECRET || "fallback-secret",
     ) as AuthUser;
 
     return decoded;
@@ -37,7 +37,7 @@ export async function requireAuth() {
   if (!user) {
     return NextResponse.json(
       { message: "Unauthorized: Valid Bearer token required" },
-      { status: 401 }
+      { status: 401 },
     );
   }
   return user;
@@ -48,16 +48,20 @@ export async function requireAdmin() {
   if (!user) {
     return NextResponse.json(
       { message: "Unauthorized: Valid Bearer token required" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
   if (!user.isAdmin) {
     return NextResponse.json(
       { message: "Forbidden: Admin access required" },
-      { status: 403 }
+      { status: 403 },
     );
   }
 
   return user;
 }
+
+// export async function getAuthUser(): Promise<AuthUser | null> {
+//   const req = await fetch("http://localhost:3").then((res) => res);
+// }
