@@ -26,34 +26,26 @@ export default withAuth(
           return true;
         }
 
-        // Public routes that don't require auth
-        const publicRoutes = [
-          "/",
-          "/login",
-          "/register",
-          "/products",
-          "/contact",
-          "/terms-conditions",
-          "/privacy-policy",
-          "/refund-policy"
-          
-        ];
-        const isPublicRoute = publicRoutes.some(
-          (route) => path === route || path.startsWith("/products/") || path.startsWith("/dashboard")
+        // Protected routes that require authentication
+        const protectedRoutes = ["/profile", "/dashboard", "/admin"];
+
+        const isProtectedRoute = protectedRoutes.some(
+          (route) => path === route || path.startsWith(`${route}/`),
         );
 
-        if (isPublicRoute) {
-          return true;
+        // If it's a protected route, require authentication
+        if (isProtectedRoute) {
+          return !!token;
         }
 
-        // All other routes require authentication
-        return !!token;
+        // All other routes are public by default
+        return true;
       },
     },
     pages: {
       signIn: "/login",
     },
-  }
+  },
 );
 
 // Specify which routes this middleware should run on
