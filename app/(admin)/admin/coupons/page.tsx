@@ -79,7 +79,7 @@ export default function CouponsPage() {
                   <td className="px-6 py-4">{coupon.expiry}</td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                        <Link href={`/dashboard/coupons/${coupon.id}`} className="p-1 hover:text-white transition-colors">
+                        <Link href={`/admin/coupons/${coupon.id}`} className="p-1 hover:text-white transition-colors">
                             <PencilSquareIcon className="h-4 w-4" />
                         </Link>
                         <button className="p-1 hover:text-red-400 transition-colors">

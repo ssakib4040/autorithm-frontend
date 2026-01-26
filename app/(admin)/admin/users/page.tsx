@@ -85,7 +85,7 @@ export default function UsersPage() {
                   <td className="px-6 py-4">{user.joined}</td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                        <Link href={`/dashboard/users/${user.id}`} className="p-1 hover:text-white transition-colors">
+                        <Link href={`/admin/users/${user.id}`} className="p-1 hover:text-white transition-colors">
                             <PencilSquareIcon className="h-4 w-4" />
                         </Link>
                         <button className="p-1 hover:text-red-400 transition-colors">

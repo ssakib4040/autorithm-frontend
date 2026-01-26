@@ -5,7 +5,7 @@ export default function CreateProductPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <Link href="/dashboard/products" className="flex items-center text-zinc-400 hover:text-white mb-4 transition-colors">
+        <Link href="/admin/products" className="flex items-center text-zinc-400 hover:text-white mb-4 transition-colors">
             <ArrowLeftIcon className="h-4 w-4 mr-2" />
             Back to Products
         </Link>
@@ -50,7 +50,7 @@ export default function CreateProductPage() {
             </div>
 
             <div className="pt-4 flex justify-end gap-3">
-                <Link href="/dashboard/products" className="px-4 py-2 rounded-lg border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
+                <Link href="/admin/products" className="px-4 py-2 rounded-lg border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
                     Cancel
                 </Link>
                 <button type="submit" className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium">

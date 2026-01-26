@@ -85,7 +85,7 @@ export default function PurchasesPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                        <Link href={`/dashboard/purchases/${purchase.id}`} className="p-1 hover:text-white transition-colors">
+                        <Link href={`/admin/purchases/${purchase.id}`} className="p-1 hover:text-white transition-colors">
                             <EyeIcon className="h-4 w-4" />
                         </Link>
                     </div>

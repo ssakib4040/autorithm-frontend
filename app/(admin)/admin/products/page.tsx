@@ -17,7 +17,7 @@ export default function ProductsPage() {
         <h1 className="text-2xl font-bold text-white">Products</h1>
         <div className="flex gap-3">
             <Link
-            href="/dashboard/products/create"
+            href="/admin/products/create"
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
             >
             <PlusIcon className="h-4 w-4" />
@@ -80,7 +80,7 @@ export default function ProductsPage() {
                   <td className="px-6 py-4">{product.sales}</td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                        <Link href={`/dashboard/products/${product.id}`} className="p-1 hover:text-white transition-colors">
+                        <Link href={`/admin/products/${product.id}`} className="p-1 hover:text-white transition-colors">
                             <PencilSquareIcon className="h-4 w-4" />
                         </Link>
                         <button className="p-1 hover:text-red-400 transition-colors">
