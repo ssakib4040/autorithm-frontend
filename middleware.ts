@@ -27,7 +27,7 @@ export default withAuth(
         }
 
         // Protected routes that require authentication
-        const protectedRoutes = ["/profile", "/dashboard", "/admin"];
+        const protectedRoutes = ["/profile", "/admin"];
 
         const isProtectedRoute = protectedRoutes.some(
           (route) => path === route || path.startsWith(`${route}/`),

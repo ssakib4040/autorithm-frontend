@@ -7,6 +7,8 @@ export default function Header() {
 
   const isLoading = status === "loading";
 
+  console.log("session => ", session);
+
   return (
     <nav className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
