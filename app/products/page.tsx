@@ -72,6 +72,8 @@ export default async function Products({ searchParams }: ProductsPageProps) {
     return query ? `?${query}` : "";
   };
 
+  console.log("Rendering Products page with products:", products);
+
   return (
     <>
       <Header />
