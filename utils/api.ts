@@ -4,7 +4,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 if (!process.env.NEXT_PUBLIC_API_URL) {
   console.log(
-    "WARNING: NEXT_PUBLIC_API_URL is not set. Falling back to default localhost URL."
+    "WARNING: NEXT_PUBLIC_API_URL is not set. Falling back to default localhost URL.",
   );
 }
 
@@ -17,7 +17,7 @@ interface User {
 
 async function apiRequest<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
@@ -26,7 +26,15 @@ async function apiRequest<T>(
   if (res.status == 404) {
     return { status: 404, message: "Not Found" } as unknown as T;
   }
-  if (!res.ok) throw new Error(`API request failed with status ${res.status}`);
+
+  if (!res.ok) {
+    // Try to get error message from response body
+    const errorData = await res.json().catch(() => ({}));
+    const message =
+      errorData.message || `API request failed with status ${res.status}`;
+    throw new Error(message);
+  }
+
   return res.json();
 }
 
@@ -37,7 +45,7 @@ export const productsApi = {
       `/products${buildQuery(params)}`,
       {
         cache: "force-cache",
-      }
+      },
     );
   },
 

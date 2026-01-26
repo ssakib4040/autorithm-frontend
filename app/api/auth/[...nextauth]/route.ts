@@ -1,8 +1,9 @@
-import NextAuth, { NextAuthOptions, User } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import db from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
+import NextAuth, { NextAuthOptions, User } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+
+import { getDb } from "@/lib/mongodb";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -17,31 +18,41 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Email and password are required");
         }
 
-        // Find user in database
-        const user = await db
-          .collection("users")
-          .findOne({ email: credentials.email.toLowerCase() });
+        try {
+          // Find user in database
+          const db = await getDb();
 
-        if (!user) {
-          throw new Error("Invalid credentials");
+          const user = await db
+            .collection("users")
+            .findOne({ email: credentials.email.toLowerCase() });
+
+          if (!user) {
+            throw new Error("Invalid credentials");
+          }
+
+          // Verify password
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password,
+          );
+
+          if (!isPasswordValid) {
+            throw new Error("Invalid credentials");
+          }
+
+          // Return user object (this will be stored in session)
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.name,
+          } as User;
+        } catch (error) {
+          const err = error as Error;
+          console.error("Authorize error:", err);
+          throw new Error(
+            err?.message || "An error occurred during authorization",
+          );
         }
-
-        // Verify password
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          throw new Error("Invalid credentials");
-        }
-
-        // Return user object (this will be stored in session)
-        return {
-          id: user._id.toString(),
-          email: user.email,
-          name: user.name,
-        } as User;
       },
     }),
   ],
@@ -55,6 +66,8 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
+      const db = await getDb();
+
       // Add user data to token on sign in
       if (user) {
         token.id = user.id;

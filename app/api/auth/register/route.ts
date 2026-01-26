@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
@@ -11,16 +11,18 @@ export async function POST(request: Request) {
     if (!email || !password) {
       return NextResponse.json(
         { message: "Email and password are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (password.length < 6) {
       return NextResponse.json(
         { message: "Password must be at least 6 characters" },
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    const db = await getDb();
 
     // Check if user already exists
     const existingUser = await db
@@ -30,7 +32,7 @@ export async function POST(request: Request) {
     if (existingUser) {
       return NextResponse.json(
         { message: "User already exists" },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -61,7 +63,7 @@ export async function POST(request: Request) {
         message: "User registered successfully",
         user: userResponse,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     const err = error as Error;
@@ -69,7 +71,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

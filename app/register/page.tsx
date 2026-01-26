@@ -1,30 +1,42 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
 import { authApi } from "@/utils/api";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
     setIsLoading(true);
 
     try {
-      await authApi.register({ name, email, password });
-      router.push("/login?registered=true");
+      const data = await authApi.register({ name, email, password });
+      setSuccess(data.message);
+
+      setTimeout(() => {
+        router.push("/login?registered=true");
+      }, 5000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Registration failed");
+      const error = err as Error;
+      console.log("Registration error:", error);
+      setError(error ? error.message : "Registration failed");
     } finally {
       setIsLoading(false);
     }
@@ -47,6 +59,14 @@ export default function Register() {
 
           <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
+              {success && (
+                <div className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                  <p className="text-sm text-green-800 dark:text-green-200">
+                    {success}
+                  </p>
+                </div>
+              )}
+
               {error && (
                 <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
                   <p className="text-sm text-red-800 dark:text-red-200">
