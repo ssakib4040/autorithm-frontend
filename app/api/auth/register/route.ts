@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       updatedAt: new Date(),
     };
 
-    const createdUser = await db.collection("users").insertOne(newUser);
+    await db.collection("users").insertOne(newUser);
 
     // Return user data (excluding password and _id)
     const userResponse = {

@@ -43,6 +43,7 @@ export default async function Products({ searchParams }: ProductsPageProps) {
 
   try {
     const data = await productsApi.getAll(apiParams);
+    console.log("Fetched products data:", data);
     products = data.products || [];
     totalPages = data.totalPages || 1;
   } catch (error) {

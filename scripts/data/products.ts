@@ -76,6 +76,7 @@ export const allProducts: Product[] = [
       "Error handling and retry logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 2,
@@ -146,6 +147,7 @@ export const allProducts: Product[] = [
       "Error handling and retry logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 3,
@@ -221,6 +223,7 @@ export const allProducts: Product[] = [
       "Behavioral trigger and milestone logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 4,
@@ -281,6 +284,7 @@ export const allProducts: Product[] = [
       "Fraud detection and payment validation logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 5,
@@ -341,6 +345,7 @@ export const allProducts: Product[] = [
       "Payment reconciliation and fraud detection logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 6,
@@ -404,6 +409,7 @@ export const allProducts: Product[] = [
       "Conflict resolution and error handling logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 7,
@@ -468,6 +474,7 @@ export const allProducts: Product[] = [
       "Performance tracking and optimization logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 8,
@@ -531,6 +538,7 @@ export const allProducts: Product[] = [
       "Engagement tracking and analytics logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 9,
@@ -595,6 +603,7 @@ export const allProducts: Product[] = [
       "Priority escalation and intelligent routing logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 10,
@@ -657,6 +666,7 @@ export const allProducts: Product[] = [
       "Automated scheduling and delivery logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 11,
@@ -719,6 +729,7 @@ export const allProducts: Product[] = [
       "AI-powered categorization and validation logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 12,
@@ -782,6 +793,7 @@ export const allProducts: Product[] = [
       "Low stock alerts and reorder automation logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 13,
@@ -846,6 +858,7 @@ export const allProducts: Product[] = [
       "Qualification and routing automation logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 14,
@@ -912,6 +925,7 @@ export const allProducts: Product[] = [
       "Alert routing and trend analysis logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 15,
@@ -969,6 +983,7 @@ export const allProducts: Product[] = [
       "Fraud detection and refund management logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 16,
@@ -1028,6 +1043,7 @@ export const allProducts: Product[] = [
       "Performance tracking and scheduling logic",
       "30 days of implementation support",
     ],
+    status: "active",
   },
   {
     id: 17,
@@ -1092,6 +1108,7 @@ export const allProducts: Product[] = [
       "Automated reminder and follow-up logic",
       "30 days of implementation support",
     ],
+    status: "draft",
   },
 ];
 

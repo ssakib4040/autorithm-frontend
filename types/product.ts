@@ -29,6 +29,7 @@ export interface Product {
     requirements: string[];
   };
   whatsIncluded: string[];
+  status: "active" | "inactive" | "draft";
 }
 
 export interface ProductDetailResponse {

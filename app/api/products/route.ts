@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 
 // GET /api/products - List all products with filters
 export async function GET(request: Request) {
@@ -46,6 +46,11 @@ export async function GET(request: Request) {
       ];
     }
 
+    // Only fetch active products
+    query.status = "active";
+
+    const db = await getDb();
+
     // Fetch products
     const products = await db
       .collection("products")
@@ -64,7 +69,7 @@ export async function GET(request: Request) {
         totalPages: Math.ceil(total / limit),
         skip,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     const err = error as Error;
@@ -72,7 +77,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -87,14 +92,14 @@ export async function POST(request: Request) {
     if (!name || !price) {
       return NextResponse.json(
         { message: "Name and price are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (typeof price !== "number" || price <= 0) {
       return NextResponse.json(
         { message: "Price must be a positive number" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -108,6 +113,7 @@ export async function POST(request: Request) {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+    const db = await getDb();
 
     await db.collection("products").insertOne(newProduct);
 
@@ -127,7 +133,7 @@ export async function POST(request: Request) {
         message: "Product created successfully",
         product: productResponse,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     const err = error as Error;
@@ -135,7 +141,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

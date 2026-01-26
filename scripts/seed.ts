@@ -1,4 +1,4 @@
-import db from "../lib/mongodb";
+import { getDb } from "../lib/mongodb";
 import chalk from "chalk";
 import { getUsers } from "./data/users";
 import { allProducts } from "./data/products";
@@ -15,6 +15,8 @@ import { allPurchases } from "./data/purchases";
  */
 
 async function seedUsers() {
+  const db = await getDb();
+
   console.log(chalk.yellow("\n📝 Seeding Users..."));
   const collection = db.collection("users");
 
@@ -27,6 +29,8 @@ async function seedUsers() {
 }
 
 async function seedProducts() {
+  const db = await getDb();
+
   console.log(chalk.yellow("\n📦 Seeding Products..."));
   const collection = db.collection("products");
 
@@ -38,6 +42,8 @@ async function seedProducts() {
 }
 
 async function seedPurchases() {
+  const db = await getDb();
+
   console.log(chalk.yellow("\n💰 Seeding Purchases..."));
   const collection = db.collection("purchases");
 
@@ -67,7 +73,7 @@ async function seed() {
     // Safety check for production
     if (process.env.NODE_ENV === "production") {
       console.log(
-        chalk.red("❌ Seeding is not allowed in production environment.")
+        chalk.red("❌ Seeding is not allowed in production environment."),
       );
       return;
     }
