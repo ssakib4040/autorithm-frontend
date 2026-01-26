@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import { requireAuth } from "@/lib/auth";
 
@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const skip = (page - 1) * limit;
 
+    const db = await getDb();
     const collection = db.collection("purchases");
 
     // Build query filter
@@ -101,7 +102,7 @@ export async function GET(request: NextRequest) {
         error: "Failed to fetch purchases",
         message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -129,10 +130,11 @@ export async function POST(request: NextRequest) {
           error:
             "Missing required fields: productId, originalPrice, finalPrice",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
+    const db = await getDb();
     const collection = db.collection("purchases");
 
     // Get next ID
@@ -160,7 +162,7 @@ export async function POST(request: NextRequest) {
         message: "Purchase created successfully",
         purchase: { ...newPurchase, _id: result.insertedId },
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error: unknown) {
     console.error("Error creating purchase:", error);
@@ -169,7 +171,7 @@ export async function POST(request: NextRequest) {
         error: "Failed to create purchase",
         message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

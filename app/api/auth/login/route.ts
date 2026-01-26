@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -15,9 +15,11 @@ export async function POST(request: Request) {
     if (!email || !password) {
       return NextResponse.json(
         { message: "Email and password are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    const db = await getDb();
 
     // Find user in database
     const user = await db
@@ -27,7 +29,7 @@ export async function POST(request: Request) {
     if (!user) {
       return NextResponse.json(
         { message: "Invalid credentials" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -37,7 +39,7 @@ export async function POST(request: Request) {
     if (!isPasswordValid) {
       return NextResponse.json(
         { message: "Invalid credentials" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -50,7 +52,7 @@ export async function POST(request: Request) {
         isAdmin: user.isAdmin || false,
       },
       process.env.JWT_SECRET || "fallback-secret",
-      { expiresIn: "7d" }
+      { expiresIn: "7d" },
     );
 
     // Store session in database
@@ -94,7 +96,7 @@ export async function POST(request: Request) {
         token,
         user: userWithoutPassword,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     const err = error as Error;
@@ -102,7 +104,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

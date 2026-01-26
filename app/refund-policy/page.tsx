@@ -35,7 +35,7 @@ export default function RefundPolicy() {
                   workflows, scripts, and configuration files), we generally do
                   not offer refunds once a purchase has been completed and files
                   have been accessed or downloaded. Unlike physical goods, digital
-                  goods cannot be "returned" in the traditional sense.
+                  goods cannot be &quot;returned&quot; in the traditional sense.
                 </p>
                 <p className="leading-relaxed">
                   All sales of digital products are considered final. We

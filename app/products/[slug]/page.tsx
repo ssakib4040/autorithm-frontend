@@ -25,9 +25,9 @@ export default async function ProductDetails({
     `${slug}?tool=${tool}`
   )) as Product;
 
-  if ("status" in productDetails && productDetails.status === 404) {
-    notFound();
-  }
+  // if ("status" in productDetails && productDetails.status === 404) {
+  //   notFound();
+  // }
 
   return (
     <>

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 import { requireAdmin } from "@/lib/auth";
 
 // GET /api/products/[slug]?tool=n8n|Make - Get single product with related versions
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   try {
     const { slug } = await params;
@@ -21,6 +21,8 @@ export async function GET(
       query.tool = { $regex: `^${tool}$`, $options: "i" };
     }
 
+    const db = await getDb();
+
     const product = await db
       .collection("products")
       .findOne(query, { projection: { _id: 0 } });
@@ -28,7 +30,7 @@ export async function GET(
     if (!product) {
       return NextResponse.json(
         { message: "Product not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -46,7 +48,7 @@ export async function GET(
           const startDate = new Date(d.startDate);
           const expiresAt = new Date(d.expiresAt);
           return startDate <= now && expiresAt >= now;
-        }
+        },
       );
 
       if (validDiscount) {
@@ -87,7 +89,7 @@ export async function GET(
           slug: product.slug,
           tool: { $ne: product.tool }, // Different platform
         },
-        { projection: { _id: 0 } }
+        { projection: { _id: 0 } },
       )
       .toArray();
 
@@ -98,7 +100,7 @@ export async function GET(
         ...product,
         relatedVersions,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     const err = error as Error;
@@ -106,7 +108,7 @@ export async function GET(
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -114,7 +116,7 @@ export async function GET(
 // PUT /api/products/[slug] - Update product (Admin only)
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   try {
     const authResult = await requireAdmin();
@@ -129,6 +131,8 @@ export async function PUT(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { _id, ...updateData } = body;
 
+    const db = await getDb();
+
     const result = await db
       .collection("products")
       .updateOne({ slug }, { $set: { ...updateData, updatedAt: new Date() } });
@@ -136,7 +140,7 @@ export async function PUT(
     if (result.matchedCount === 0) {
       return NextResponse.json(
         { message: "Product not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -146,7 +150,7 @@ export async function PUT(
 
     return NextResponse.json(
       { message: "Product updated successfully", product: updatedProduct },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     const err = error as Error;
@@ -154,7 +158,7 @@ export async function PUT(
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -162,7 +166,7 @@ export async function PUT(
 // DELETE /api/products/[slug] - Delete product (Admin only)
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   try {
     const authResult = await requireAdmin();
@@ -172,18 +176,20 @@ export async function DELETE(
 
     const { slug } = await params;
 
+    const db = await getDb();
+
     const result = await db.collection("products").deleteOne({ slug });
 
     if (result.deletedCount === 0) {
       return NextResponse.json(
         { message: "Product not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     return NextResponse.json(
       { message: "Product deleted successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     const err = error as Error;
@@ -191,7 +197,7 @@ export async function DELETE(
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,4 +1,4 @@
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
@@ -45,16 +45,18 @@ export async function POST(request: Request) {
     if (!name || !slug || !price || !tool) {
       return NextResponse.json(
         { message: "Name, slug, price, and tool are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (typeof price !== "number" || price <= 0) {
       return NextResponse.json(
         { message: "Price must be a positive number" },
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    const db = await getDb();
 
     // Check if slug already exists
     const existingProduct = await db
@@ -65,7 +67,7 @@ export async function POST(request: Request) {
         {
           message: `Product with slug "${slug}" and tool "${tool}" already exists`,
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -75,7 +77,7 @@ export async function POST(request: Request) {
       console.error("Lemon Squeezy auth error:", error);
       return NextResponse.json(
         { message: "Failed to authenticate with Lemon Squeezy" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -135,7 +137,7 @@ export async function POST(request: Request) {
         message: "Product created successfully",
         product: productResponse,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     const err = error as Error;
@@ -143,7 +145,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -12,14 +12,14 @@ export async function POST(request: Request) {
     if (!token || !newPassword) {
       return NextResponse.json(
         { message: "Token and new password are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (newPassword.length < 6) {
       return NextResponse.json(
         { message: "Password must be at least 6 characters" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -28,25 +28,27 @@ export async function POST(request: Request) {
     try {
       decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET || "fallback-secret"
+        process.env.JWT_SECRET || "fallback-secret",
       ) as { email: string };
     } catch (error) {
       const err = error as Error;
       return NextResponse.json(
         { message: err?.message || "Invalid or expired reset token" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
+    const db = await getDb();
+
     // Update user password
     const result = await db
       .collection("users")
       .updateOne(
         { email: decoded.email.toLowerCase() },
-        { $set: { password: hashedPassword, updatedAt: new Date() } }
+        { $set: { password: hashedPassword, updatedAt: new Date() } },
       );
 
     if (result.matchedCount === 0) {
@@ -55,7 +57,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: "Password reset successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     const err = error as Error;
@@ -63,7 +65,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

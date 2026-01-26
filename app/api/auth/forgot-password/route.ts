@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
@@ -11,9 +11,11 @@ export async function POST(request: Request) {
     if (!email) {
       return NextResponse.json(
         { message: "Email is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    const db = await getDb();
 
     // Find user in database
     const user = await db
@@ -24,7 +26,7 @@ export async function POST(request: Request) {
       // Don't reveal if user exists
       return NextResponse.json(
         { message: "If email exists, password reset link has been sent" },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -32,7 +34,7 @@ export async function POST(request: Request) {
     const resetToken = jwt.sign(
       { email: user.email },
       process.env.JWT_SECRET || "fallback-secret",
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
 
     // In production, you would send this via email
@@ -45,7 +47,7 @@ export async function POST(request: Request) {
         // Remove this in production - only for development
         resetToken,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     const err = error as Error;
@@ -53,7 +55,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: err.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

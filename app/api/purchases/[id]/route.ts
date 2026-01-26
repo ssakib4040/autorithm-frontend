@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import db, { getDb } from "@/lib/mongodb";
 import { requireAuth } from "@/lib/auth";
 
 /**
@@ -9,7 +9,7 @@ import { requireAuth } from "@/lib/auth";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Require authentication
@@ -20,6 +20,8 @@ export async function GET(
     const authenticatedUser = authResult;
 
     const { id } = await params;
+
+    const db = await getDb();
     const collection = db.collection("purchases");
 
     const purchase = await collection
@@ -57,7 +59,7 @@ export async function GET(
     if (!purchase || purchase.length === 0) {
       return NextResponse.json(
         { status: 404, message: "Purchase not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -68,7 +70,7 @@ export async function GET(
     ) {
       return NextResponse.json(
         { error: "Forbidden: You can only view your own purchases" },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -80,7 +82,7 @@ export async function GET(
         error: "Failed to fetch purchase",
         message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -92,7 +94,7 @@ export async function GET(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Require authentication
@@ -103,6 +105,8 @@ export async function DELETE(
     const authenticatedUser = authResult;
 
     const { id } = await params;
+
+    const db = await getDb();
     const collection = db.collection("purchases");
 
     // First, check if purchase exists and belongs to user
@@ -111,7 +115,7 @@ export async function DELETE(
     if (!purchase) {
       return NextResponse.json(
         { status: 404, message: "Purchase not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -122,7 +126,7 @@ export async function DELETE(
     ) {
       return NextResponse.json(
         { error: "Forbidden: You can only delete your own purchases" },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -131,7 +135,7 @@ export async function DELETE(
     if (result.deletedCount === 0) {
       return NextResponse.json(
         { status: 404, message: "Purchase not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -145,7 +149,7 @@ export async function DELETE(
         error: "Failed to delete purchase",
         message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

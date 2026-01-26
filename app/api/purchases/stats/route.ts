@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import db from "@/lib/mongodb";
+import { getDb } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import { requireAuth } from "@/lib/auth";
 
@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
 
+    const db = await getDb();
     const collection = db.collection("purchases");
 
     // Build match filter
@@ -120,7 +121,7 @@ export async function GET(request: NextRequest) {
         error: "Failed to fetch purchase stats",
         message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
