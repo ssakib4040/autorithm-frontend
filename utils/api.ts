@@ -19,23 +19,46 @@ async function apiRequest<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-  });
+  try {
+    const url = `${API_BASE_URL}${endpoint}`;
 
-  if (res.status == 404) {
-    return { status: 404, message: "Not Found" } as unknown as T;
+    console.log(`[API] ${options.method || "GET"} ${url}`);
+
+    const headers: Record<string, string> = options.headers as Record<string, string> || {};
+    
+    // Add Vercel bypass token if available
+    if (process.env.NEXT_PUBLIC_VERCEL_BYPASS_TOKEN) {
+      headers["x-vercel-protection-bypass"] = process.env.NEXT_PUBLIC_VERCEL_BYPASS_TOKEN;
+    }
+
+    const res = await fetch(url, {
+      credentials: "include",
+      ...options,
+      headers,
+    });
+
+    // if (!res.ok) {
+    //   let errorData = {};
+    //   try {
+    //     errorData = await res.json();
+    //   } catch {
+    //     // Response body is not JSON, continue with empty object
+    //   }
+
+    //   const message =
+    //     errorData.message || `API request failed with status ${res.status}`;
+    //   const error = new Error(message);
+    //   (error as any).status = res.status;
+    //   throw error;
+    // }
+
+    const data = await res.json();
+    console.log(`[API] Success:`, data);
+    return data;
+  } catch (error) {
+    console.error(`[API] Error for ${endpoint}:`, error);
+    throw error;
   }
-
-  if (!res.ok) {
-    // Try to get error message from response body
-    const errorData = await res.json().catch(() => ({}));
-    const message =
-      errorData.message || `API request failed with status ${res.status}`;
-    throw new Error(message);
-  }
-
-  return res.json();
 }
 
 // Products API
