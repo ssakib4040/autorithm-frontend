@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { productsApi } from "@/utils/api";
 import Filters from "./partials/Filters";
 import { Product } from "@/types/product";
+import { Suspense } from "react";
 
 const tools = ["All", "n8n", "Make"];
 
@@ -15,6 +16,8 @@ interface ProductsPageProps {
     page?: string;
   }>;
 }
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default async function Products({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
@@ -72,8 +75,6 @@ export default async function Products({ searchParams }: ProductsPageProps) {
     return query ? `?${query}` : "";
   };
 
-  console.log("Rendering Products page with products:", products);
-
   return (
     <>
       <Header />
@@ -128,102 +129,126 @@ export default async function Products({ searchParams }: ProductsPageProps) {
       </section>
 
       {/* Products Grid */}
-      <section className="py-16 bg-zinc-50 dark:bg-zinc-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {products.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-zinc-600 dark:text-zinc-400">
-                No products found with the selected filters.
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                {products.map((product) => (
-                  <Link
-                    key={product.id}
-                    href={`/products/${product.slug}?tool=${product.tool}`}
-                    className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all hover:shadow-lg"
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                            product.tool === "n8n"
-                              ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                              : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
-                          }`}
-                        >
-                          {product.tool}
-                        </span>
-                        <span className="px-3 py-1 rounded-full text-sm font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
-                          {product.category}
-                        </span>
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">
-                      {product.name}
-                    </h3>
-                    <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-                      {product.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-zinc-900 dark:text-white">
-                        ${product.price}
-                      </span>
-                      <div
-                        // href={`/products/${product.slug}`}
-                        className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
-                      >
-                        View Details
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+      <Suspense fallback={<ProductGridSkeleton />}>
+        <section className="py-16 bg-zinc-50 dark:bg-zinc-950">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {products.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-zinc-600 dark:text-zinc-400">
+                  No products found with the selected filters.
+                </p>
               </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex justify-center gap-2">
-                  {page > 1 ? (
+            ) : (
+              <>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                  {products.map((product) => (
                     <Link
-                      href={`/products${buildQueryString({
-                        page: (page - 1).toString(),
-                      })}`}
-                      className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
+                      key={product.id}
+                      href={`/products/${product.slug}?tool=${product.tool}`}
+                      className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all hover:shadow-lg"
                     >
-                      Previous
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                              product.tool === "n8n"
+                                ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                                : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
+                            }`}
+                          >
+                            {product.tool}
+                          </span>
+                          <span className="px-3 py-1 rounded-full text-sm font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+                            {product.category}
+                          </span>
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">
+                        {product.name}
+                      </h3>
+                      <p className="text-zinc-600 dark:text-zinc-400 mb-6">
+                        {product.description}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold text-zinc-900 dark:text-white">
+                          ${product.price}
+                        </span>
+                        <div
+                          // href={`/products/${product.slug}`}
+                          className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
+                        >
+                          View Details
+                        </div>
+                      </div>
                     </Link>
-                  ) : (
-                    <span className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium opacity-50 cursor-not-allowed">
-                      Previous
-                    </span>
-                  )}
-                  <span className="px-4 py-2 text-zinc-900 dark:text-white">
-                    Page {page} of {totalPages}
-                  </span>
-                  {page < totalPages ? (
-                    <Link
-                      href={`/products${buildQueryString({
-                        page: (page + 1).toString(),
-                      })}`}
-                      className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
-                    >
-                      Next
-                    </Link>
-                  ) : (
-                    <span className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium opacity-50 cursor-not-allowed">
-                      Next
-                    </span>
-                  )}
+                  ))}
                 </div>
-              )}
-            </>
-          )}
-        </div>
-      </section>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center gap-2">
+                    {page > 1 ? (
+                      <Link
+                        href={`/products${buildQueryString({
+                          page: (page - 1).toString(),
+                        })}`}
+                        className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
+                      >
+                        Previous
+                      </Link>
+                    ) : (
+                      <span className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium opacity-50 cursor-not-allowed">
+                        Previous
+                      </span>
+                    )}
+                    <span className="px-4 py-2 text-zinc-900 dark:text-white">
+                      Page {page} of {totalPages}
+                    </span>
+                    {page < totalPages ? (
+                      <Link
+                        href={`/products${buildQueryString({
+                          page: (page + 1).toString(),
+                        })}`}
+                        className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
+                      >
+                        Next
+                      </Link>
+                    ) : (
+                      <span className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium opacity-50 cursor-not-allowed">
+                        Next
+                      </span>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </section>
+      </Suspense>
 
       <Footer />
     </>
+  );
+}
+
+function ProductGridSkeleton() {
+  return (
+    <section className="py-16 bg-zinc-50 dark:bg-zinc-950">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 animate-pulse"
+            >
+              <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded w-1/4 mb-4"></div>
+              <div className="h-8 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4 mb-2"></div>
+              <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-full mb-6"></div>
+              <div className="h-8 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
