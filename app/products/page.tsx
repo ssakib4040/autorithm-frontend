@@ -17,8 +17,6 @@ interface ProductsPageProps {
   }>;
 }
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export default async function Products({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
   const selectedTool = params.tool || "All";
