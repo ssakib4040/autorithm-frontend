@@ -1,5 +1,6 @@
-import { getDb } from "../lib/mongodb";
 import chalk from "chalk";
+
+import { getDb } from "../lib/mongodb";
 import { getUsers } from "./data/users";
 import { allProducts } from "./data/products";
 import { allPurchases } from "./data/purchases";

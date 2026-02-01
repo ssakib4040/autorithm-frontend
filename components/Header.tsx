@@ -2,14 +2,16 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-export default function Header() {
+export default function Header({ width }: { width: "full" | "compact" }) {
   const { data: session, status } = useSession();
 
   const isLoading = status === "loading";
 
   return (
-    <nav className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 sticky top-0 z-50">
+      <div
+        className={`${width != "full" ? "max-w-7xl" : ""} mx-auto px-4 sm:px-6 lg:px-8`}
+      >
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link
@@ -58,10 +60,10 @@ export default function Header() {
               <>
                 {session ? (
                   <Link
-                    href="/profile"
+                    href="/dashboard/overview"
                     className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
                   >
-                    My Account
+                    Dashboard
                   </Link>
                 ) : (
                   <Link
