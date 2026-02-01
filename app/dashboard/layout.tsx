@@ -20,7 +20,11 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/dashboard/config/demo-project", label: "Controls", icon: CommandLineIcon },
+    {
+      href: "/dashboard/config/demo-project",
+      label: "Controls",
+      icon: CommandLineIcon,
+    },
     { href: "/dashboard/presets", label: "Presets", icon: RectangleStackIcon },
     { href: "/dashboard/usage", label: "Usage", icon: ChartBarIcon },
     {
@@ -48,7 +52,7 @@ export default function DashboardLayout({
           <nav className="flex-1 p-4 space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname.startsWith(item.href.split('?')[0]);
+              const isActive = pathname.startsWith(item.href.split("?")[0]);
               return (
                 <Link
                   key={item.href}

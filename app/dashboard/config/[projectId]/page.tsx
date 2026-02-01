@@ -13,26 +13,46 @@ import {
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
 
-type BlockType = "text" | "number" | "boolean" | "list" | "keyvalue" | "section";
+type BlockType =
+  | "text"
+  | "number"
+  | "boolean"
+  | "list"
+  | "keyvalue"
+  | "section";
+
+type BlockValue =
+  | string
+  | number
+  | boolean
+  | string[]
+  | { key: string; value: string }[]
+  | null;
 
 interface Block {
   id: string;
   type: BlockType;
   title: string;
-  value: any;
+  value: BlockValue;
   children?: Block[];
 }
 
-export default function ProjectControlsPage({ params }: { params: { projectId: string } }) {
+export default function ProjectControlsPage({
+  params,
+}: {
+  params: { projectId: string };
+}) {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const [selectedBlockType, setSelectedBlockType] = useState<BlockType>("text");
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(
+    new Set(),
+  );
 
   const addBlock = () => {
     const newBlock: Block = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       type: selectedBlockType,
       title: "Untitled",
       value: getDefaultValue(selectedBlockType),
@@ -47,7 +67,7 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
 
   const addBlockToSection = (sectionId: string) => {
     const newBlock: Block = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       type: "text",
       title: "Untitled",
       value: "",
@@ -58,7 +78,7 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
           return { ...block, children: [...block.children, newBlock] };
         }
         return block;
-      })
+      }),
     );
   };
 
@@ -76,14 +96,14 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
           };
         }
         return block;
-      })
+      }),
     );
   };
 
   const duplicateBlock = (block: Block) => {
     const duplicated: Block = {
       ...block,
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       title: `${block.title} (Copy)`,
       children: block.children ? [...block.children] : undefined,
     };
@@ -93,23 +113,23 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
   const updateBlockTitle = (blockId: string, title: string) => {
     setBlocks(
       blocks.map((block) =>
-        block.id === blockId ? { ...block, title } : block
-      )
+        block.id === blockId ? { ...block, title } : block,
+      ),
     );
   };
 
-  const updateBlockValue = (blockId: string, value: any) => {
+  const updateBlockValue = (blockId: string, value: BlockValue) => {
     setBlocks(
       blocks.map((block) =>
-        block.id === blockId ? { ...block, value } : block
-      )
+        block.id === blockId ? { ...block, value } : block,
+      ),
     );
   };
 
   const updateChildBlockTitle = (
     sectionId: string,
     blockId: string,
-    title: string
+    title: string,
   ) => {
     setBlocks(
       blocks.map((block) => {
@@ -117,19 +137,19 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
           return {
             ...block,
             children: block.children.map((child) =>
-              child.id === blockId ? { ...child, title } : child
+              child.id === blockId ? { ...child, title } : child,
             ),
           };
         }
         return block;
-      })
+      }),
     );
   };
 
   const updateChildBlockValue = (
     sectionId: string,
     blockId: string,
-    value: any
+    value: BlockValue,
   ) => {
     setBlocks(
       blocks.map((block) => {
@@ -137,12 +157,12 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
           return {
             ...block,
             children: block.children.map((child) =>
-              child.id === blockId ? { ...child, value } : child
+              child.id === blockId ? { ...child, value } : child,
             ),
           };
         }
         return block;
-      })
+      }),
     );
   };
 
@@ -175,13 +195,16 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
     }
   };
 
-  const renderValueEditor = (block: Block, updateFn: any) => {
+  const renderValueEditor = (
+    block: Block,
+    updateFn: (id: string, value: BlockValue) => void,
+  ) => {
     switch (block.type) {
       case "text":
         return (
           <input
             type="text"
-            value={block.value}
+            value={block.value as string}
             onChange={(e) => updateFn(block.id, e.target.value)}
             className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
             placeholder="Enter text"
@@ -191,7 +214,7 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
         return (
           <input
             type="number"
-            value={block.value}
+            value={block.value as number}
             onChange={(e) => updateFn(block.id, Number(e.target.value))}
             className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
             placeholder="Enter number"
@@ -200,7 +223,7 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
       case "boolean":
         return (
           <button
-            onClick={() => updateFn(block.id, !block.value)}
+            onClick={() => updateFn(block.id, !(block.value as boolean))}
             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
               block.value ? "bg-blue-600" : "bg-zinc-700"
             }`}
@@ -215,13 +238,13 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
       case "list":
         return (
           <div className="space-y-2">
-            {block.value.map((item: string, idx: number) => (
+            {(block.value as string[]).map((item: string, idx: number) => (
               <div key={idx} className="flex items-center gap-2">
                 <input
                   type="text"
                   value={item}
                   onChange={(e) => {
-                    const newList = [...block.value];
+                    const newList = [...(block.value as string[])];
                     newList[idx] = e.target.value;
                     updateFn(block.id, newList);
                   }}
@@ -230,58 +253,10 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
                 />
                 <button
                   onClick={() => {
-                    const newList = block.value.filter(
-                      (_: any, i: number) => i !== idx
+                    const newList = (block.value as string[]).filter(
+                      (_item: string, i: number) => i !== idx,
                     );
                     updateFn(block.id, newList);
-                  }}
-                  className="p-2 text-zinc-500 hover:text-red-400"
-                >
-                  <XMarkIcon className="h-4 w-4" />
-                </button>
-              </div>
-            ))}
-            <button
-              onClick={() => updateFn(block.id, [...block.value, ""])}
-              className="text-sm text-blue-400 hover:text-blue-300"
-            >
-              + Add item
-            </button>
-          </div>
-        );
-      case "keyvalue":
-        return (
-          <div className="space-y-2">
-            {block.value.map((pair: any, idx: number) => (
-              <div key={idx} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={pair.key}
-                  onChange={(e) => {
-                    const newPairs = [...block.value];
-                    newPairs[idx].key = e.target.value;
-                    updateFn(block.id, newPairs);
-                  }}
-                  className="flex-1 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
-                  placeholder="Key"
-                />
-                <input
-                  type="text"
-                  value={pair.value}
-                  onChange={(e) => {
-                    const newPairs = [...block.value];
-                    newPairs[idx].value = e.target.value;
-                    updateFn(block.id, newPairs);
-                  }}
-                  className="flex-1 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
-                  placeholder="Value"
-                />
-                <button
-                  onClick={() => {
-                    const newPairs = block.value.filter(
-                      (_: any, i: number) => i !== idx
-                    );
-                    updateFn(block.id, newPairs);
                   }}
                   className="p-2 text-zinc-500 hover:text-red-400"
                 >
@@ -291,8 +266,67 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
             ))}
             <button
               onClick={() =>
+                updateFn(block.id, [...(block.value as string[]), ""])
+              }
+              className="text-sm text-blue-400 hover:text-blue-300"
+            >
+              + Add item
+            </button>
+          </div>
+        );
+      case "keyvalue":
+        return (
+          <div className="space-y-2">
+            {(block.value as { key: string; value: string }[]).map(
+              (pair: { key: string; value: string }, idx: number) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={pair.key}
+                    onChange={(e) => {
+                      const newPairs = [
+                        ...(block.value as { key: string; value: string }[]),
+                      ];
+                      newPairs[idx].key = e.target.value;
+                      updateFn(block.id, newPairs);
+                    }}
+                    className="flex-1 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+                    placeholder="Key"
+                  />
+                  <input
+                    type="text"
+                    value={pair.value}
+                    onChange={(e) => {
+                      const newPairs = [
+                        ...(block.value as { key: string; value: string }[]),
+                      ];
+                      newPairs[idx].value = e.target.value;
+                      updateFn(block.id, newPairs);
+                    }}
+                    className="flex-1 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+                    placeholder="Value"
+                  />
+                  <button
+                    onClick={() => {
+                      const newPairs = (
+                        block.value as { key: string; value: string }[]
+                      ).filter(
+                        (_pair: { key: string; value: string }, i: number) =>
+                          i !== idx,
+                      );
+                      updateFn(block.id, newPairs);
+                    }}
+                    className="p-2 text-zinc-500 hover:text-red-400"
+                  >
+                    <XMarkIcon className="h-4 w-4" />
+                  </button>
+                </div>
+              ),
+            )}
+            <button
+              onClick={() =>
                 updateFn(block.id, [
-                  ...block.value,
+                  ...(block.value as { key: string; value: string }[]),
                   { key: "", value: "" },
                 ])
               }
@@ -331,7 +365,9 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
         </p>
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
           <div className="h-2 w-2 rounded-full bg-blue-400"></div>
-          <span className="text-xs font-mono text-blue-300">{params.projectId}</span>
+          <span className="text-xs font-mono text-blue-300">
+            {params.projectId}
+          </span>
         </div>
       </div>
 
@@ -447,7 +483,7 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
                                     updateChildBlockTitle(
                                       block.id,
                                       child.id,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="flex-1 px-3 py-2 bg-zinc-950/50 border border-zinc-800/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50"
@@ -457,8 +493,10 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
                                 </span>
                               </div>
 
-                              {renderValueEditor(child, (id: string, value: any) =>
-                                updateChildBlockValue(block.id, id, value)
+                              {renderValueEditor(
+                                child,
+                                (id: string, value: BlockValue) =>
+                                  updateChildBlockValue(block.id, id, value),
                               )}
                             </div>
 
@@ -525,7 +563,7 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
                   </button>
                 </div>
               </div>
-            )
+            ),
           )}
         </div>
       )}
@@ -547,12 +585,36 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
 
             <div className="p-6 space-y-3">
               {[
-                { type: "text" as BlockType, label: "Text", desc: "Single line text input" },
-                { type: "number" as BlockType, label: "Number", desc: "Numeric value" },
-                { type: "boolean" as BlockType, label: "Boolean", desc: "True/false toggle" },
-                { type: "list" as BlockType, label: "List", desc: "Multiple values" },
-                { type: "keyvalue" as BlockType, label: "Key-Value Map", desc: "Key-value pairs" },
-                { type: "section" as BlockType, label: "Section / Group", desc: "Container for other blocks" },
+                {
+                  type: "text" as BlockType,
+                  label: "Text",
+                  desc: "Single line text input",
+                },
+                {
+                  type: "number" as BlockType,
+                  label: "Number",
+                  desc: "Numeric value",
+                },
+                {
+                  type: "boolean" as BlockType,
+                  label: "Boolean",
+                  desc: "True/false toggle",
+                },
+                {
+                  type: "list" as BlockType,
+                  label: "List",
+                  desc: "Multiple values",
+                },
+                {
+                  type: "keyvalue" as BlockType,
+                  label: "Key-Value Map",
+                  desc: "Key-value pairs",
+                },
+                {
+                  type: "section" as BlockType,
+                  label: "Section / Group",
+                  desc: "Container for other blocks",
+                },
               ].map((item) => (
                 <button
                   key={item.type}
@@ -615,11 +677,20 @@ export default function ProjectControlsPage({ params }: { params: { projectId: s
 
               <div className="flex gap-3">
                 <label className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700 cursor-pointer hover:bg-zinc-800">
-                  <input type="radio" name="import-mode" defaultChecked className="text-blue-600" />
+                  <input
+                    type="radio"
+                    name="import-mode"
+                    defaultChecked
+                    className="text-blue-600"
+                  />
                   <span className="text-sm text-zinc-300">Replace</span>
                 </label>
                 <label className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700 cursor-pointer hover:bg-zinc-800">
-                  <input type="radio" name="import-mode" className="text-blue-600" />
+                  <input
+                    type="radio"
+                    name="import-mode"
+                    className="text-blue-600"
+                  />
                   <span className="text-sm text-zinc-300">Merge</span>
                 </label>
               </div>

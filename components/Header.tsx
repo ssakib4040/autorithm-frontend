@@ -2,7 +2,11 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-export default function Header({ width }: { width: "full" | "compact" }) {
+export default function Header({
+  width = "compact",
+}: {
+  width?: "full" | "compact";
+}) {
   const { data: session, status } = useSession();
 
   const isLoading = status === "loading";
