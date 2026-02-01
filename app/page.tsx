@@ -49,9 +49,24 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 mb-6">
+                <svg
+                  className="w-5 h-5 text-emerald-600 dark:text-emerald-400"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                <span className="text-sm font-semibold text-emerald-900 dark:text-emerald-100">
+                  Production-Ready Automation
+                </span>
+              </div>
+
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
                 Premium Automation Systems for n8n & Make.com
               </h1>
@@ -63,13 +78,13 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/products"
-                  className="px-8 py-4 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-center"
+                  className="px-8 py-4 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors text-center text-lg"
                 >
                   Browse Automation Kits
                 </Link>
                 <Link
-                  href="/contact"
-                  className="px-8 py-4 rounded-lg border-2 border-zinc-900 dark:border-white text-zinc-900 dark:text-white font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-center"
+                  href="#contact"
+                  className="px-8 py-4 rounded-lg border-2 border-zinc-900 dark:border-white text-zinc-900 dark:text-white font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors text-center text-lg"
                 >
                   Get Custom Automation
                 </Link>
@@ -193,8 +208,8 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {/* Automation Kits */}
-            <div className="p-8 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all">
-              <div className="w-12 h-12 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center mb-6">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 hover:border-zinc-900 dark:hover:border-white transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-6">
                 <svg
                   className="w-6 h-6 text-blue-600 dark:text-blue-400"
                   fill="none"
@@ -209,7 +224,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold text-zinc-900 dark:text-white mb-3">
+              <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
                 Automation Kits
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 mb-6">
@@ -219,15 +234,28 @@ export default function Home() {
               </p>
               <Link
                 href="#products"
-                className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+                className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:gap-3 transition-all"
               >
-                Browse Kits →
+                Browse Kits
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
               </Link>
             </div>
 
             {/* Custom Automation */}
-            <div className="p-8 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all">
-              <div className="w-12 h-12 rounded-lg bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center mb-6">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 hover:border-zinc-900 dark:hover:border-white transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-6">
                 <svg
                   className="w-6 h-6 text-purple-600 dark:text-purple-400"
                   fill="none"
@@ -242,7 +270,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold text-zinc-900 dark:text-white mb-3">
+              <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
                 Custom Automation
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 mb-6">
@@ -252,15 +280,28 @@ export default function Home() {
               </p>
               <Link
                 href="#contact"
-                className="text-purple-600 dark:text-purple-400 font-semibold hover:underline"
+                className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-semibold hover:gap-3 transition-all"
               >
-                Start a Project →
+                Start a Project
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
               </Link>
             </div>
 
             {/* Managed Automation */}
-            <div className="p-8 rounded-2xl border-2 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all">
-              <div className="w-12 h-12 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center mb-6">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 hover:border-zinc-900 dark:hover:border-white transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-6">
                 <svg
                   className="w-6 h-6 text-emerald-600 dark:text-emerald-400"
                   fill="none"
@@ -275,7 +316,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold text-zinc-900 dark:text-white mb-3">
+              <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
                 Managed Automation
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 mb-6">
@@ -285,9 +326,22 @@ export default function Home() {
               </p>
               <Link
                 href="#contact"
-                className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
+                className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold hover:gap-3 transition-all"
               >
-                Learn More →
+                Learn More
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
               </Link>
             </div>
           </div>
@@ -299,7 +353,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-zinc-900 dark:text-white mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 mb-6">
+                <svg
+                  className="w-5 h-5 text-blue-600 dark:text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                  Platform Excellence
+                </span>
+              </div>
+
+              <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white mb-6">
                 Why n8n & Make.com?
               </h2>
               <p className="text-lg text-zinc-600 dark:text-zinc-400 mb-6">
@@ -490,9 +557,9 @@ export default function Home() {
             {featuredProducts.map((product) => (
               <div
                 key={product.id}
-                className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all hover:shadow-lg"
+                className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 hover:border-zinc-900 dark:hover:border-white transition-colors"
               >
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2 mb-4">
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-semibold ${
                       product.tool === "n8n"
@@ -502,19 +569,21 @@ export default function Home() {
                   >
                     {product.tool}
                   </span>
-                  <span className="text-2xl font-bold text-zinc-900 dark:text-white">
-                    ${product.price}
-                  </span>
                 </div>
-                <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">
+                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
                   {product.name}
                 </h3>
                 <p className="text-zinc-600 dark:text-zinc-400 mb-6">
                   {product.description}
                 </p>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-3xl font-bold text-zinc-900 dark:text-white">
+                    ${product.price}
+                  </span>
+                </div>
                 <Link
                   href={`/products/${product.id}`}
-                  className="block w-full px-4 py-3 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-center"
+                  className="block w-full px-6 py-3 rounded-lg border-2 border-zinc-900 dark:border-white text-zinc-900 dark:text-white font-semibold hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-colors text-center"
                 >
                   View Details
                 </Link>
@@ -536,10 +605,23 @@ export default function Home() {
       <section className="py-24 bg-zinc-50 dark:bg-zinc-950" id="about">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-zinc-900 dark:text-white mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 mb-6">
+              <svg
+                className="w-4 h-4 text-emerald-600 dark:text-emerald-400"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              </svg>
+              <span className="text-sm font-semibold text-emerald-900 dark:text-emerald-100">
+                The Autorithm Difference
+              </span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white mb-4">
               Why Choose Autorithm?
             </h2>
-            <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto">
               The difference between cheap templates and professional automation
               systems
             </p>
@@ -652,13 +734,13 @@ export default function Home() {
               See how Autorithm systems transform operations across industries
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {useCases.map((useCase, index) => (
               <div
                 key={index}
-                className="p-6 rounded-xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700"
+                className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8"
               >
-                <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-3">
+                <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">
                   {useCase.title}
                 </h3>
                 <p className="text-zinc-600 dark:text-zinc-400">
@@ -676,25 +758,25 @@ export default function Home() {
         id="contact"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to Build Better Automation?
           </h2>
-          <p className="text-xl text-zinc-300 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-zinc-400 mb-10">
             Whether you need a ready-made kit or a fully custom system,
             we&apos;re here to help you automate with confidence.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="#products"
-              className="px-8 py-4 rounded-lg bg-white text-zinc-900 font-semibold hover:bg-zinc-200 transition-colors text-center"
+              href="/products"
+              className="px-8 py-4 rounded-lg bg-white text-zinc-900 font-semibold hover:bg-zinc-100 transition-colors text-lg"
             >
-              Explore Products
+              Explore All Products
             </Link>
             <Link
-              href="#contact"
-              className="px-8 py-4 rounded-lg border-2 border-white text-white font-semibold hover:bg-white hover:text-zinc-900 transition-colors text-center"
+              href="/contact"
+              className="px-8 py-4 rounded-lg border-2 border-white text-white font-semibold hover:bg-white hover:text-zinc-900 transition-colors text-lg"
             >
-              Book Custom Automation
+              Get Custom Automation
             </Link>
           </div>
           <p className="text-zinc-400 mt-8">
