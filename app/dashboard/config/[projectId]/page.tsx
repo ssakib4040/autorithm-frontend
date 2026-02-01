@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useState } from "react";
 import {
   PlusIcon,
   TrashIcon,
@@ -40,8 +40,9 @@ interface Block {
 export default function ProjectControlsPage({
   params,
 }: {
-  params: { projectId: string };
+  params: Promise<{ projectId: string }>;
 }) {
+  const { projectId } = use(params);
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
@@ -365,9 +366,7 @@ export default function ProjectControlsPage({
         </p>
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
           <div className="h-2 w-2 rounded-full bg-blue-400"></div>
-          <span className="text-xs font-mono text-blue-300">
-            {params.projectId}
-          </span>
+          <span className="text-xs font-mono text-blue-300">{projectId}</span>
         </div>
       </div>
 
