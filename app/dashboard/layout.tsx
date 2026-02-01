@@ -23,7 +23,11 @@ export default function DashboardLayout({
     { href: "/dashboard/config", label: "Controls", icon: CommandLineIcon },
     { href: "/dashboard/presets", label: "Presets", icon: RectangleStackIcon },
     { href: "/dashboard/usage", label: "Usage", icon: ChartBarIcon },
-    { href: "/dashboard/settings", label: "Backup & Restore", icon: ShieldCheckIcon },
+    {
+      href: "/dashboard/settings",
+      label: "Backup & Restore",
+      icon: ShieldCheckIcon,
+    },
     { href: "/dashboard/docs", label: "Docs", icon: DocumentTextIcon },
   ];
 

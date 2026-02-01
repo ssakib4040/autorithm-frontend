@@ -38,11 +38,10 @@ export default function BackupRestorePage() {
   return (
     <div className="space-y-6">
       <div className="border-b border-zinc-800/50 pb-6">
-        <h1 className="text-3xl font-bold text-white mb-2">
-          Backup & Restore
-        </h1>
+        <h1 className="text-3xl font-bold text-white mb-2">Backup & Restore</h1>
         <p className="text-zinc-400 text-sm">
-          Protect your workflows and configurations with automated backups. Restore any previous state with confidence.
+          Protect your workflows and configurations with automated backups.
+          Restore any previous state with confidence.
         </p>
       </div>
 
@@ -55,7 +54,8 @@ export default function BackupRestorePage() {
         </div>
 
         <p className="text-sm text-zinc-400 mb-6">
-          Create a snapshot of your current configuration and all workflow data. Perfect before making major changes.
+          Create a snapshot of your current configuration and all workflow data.
+          Perfect before making major changes.
         </p>
 
         <button className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-600/20">
@@ -147,7 +147,9 @@ export default function BackupRestorePage() {
               Restore with care
             </p>
             <p className="text-xs text-amber-300/70 mt-1">
-              Restoring a backup will replace your current configuration. Your existing setup will be preserved in a new automatic backup before restoration.
+              Restoring a backup will replace your current configuration. Your
+              existing setup will be preserved in a new automatic backup before
+              restoration.
             </p>
           </div>
         </div>
