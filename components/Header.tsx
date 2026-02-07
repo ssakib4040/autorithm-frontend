@@ -1,8 +1,16 @@
 "use client";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
-import { Menu, Sparkles } from "lucide-react";
+import {
+  Menu,
+  Sparkles,
+  User,
+  LogOut,
+  Settings,
+  LayoutDashboard,
+  ShieldCheck,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +20,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function Header({
   width = "compact",
@@ -29,6 +46,19 @@ export default function Header({
     { href: "/make", label: "Make.com Integrations" },
     { href: "/contact", label: "Contact" },
   ];
+
+  const getUserInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -64,9 +94,60 @@ export default function Header({
                 Loading...
               </Button>
             ) : session ? (
-              <Button asChild size="sm">
-                <Link href="/dashboard/overview">Dashboard</Link>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-10 w-10 rounded-full"
+                  >
+                    <Avatar className="h-10 w-10">
+                      <AvatarFallback className="bg-primary text-primary-foreground">
+                        {getUserInitials(session.user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {session.user.name}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {session.user.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/overview" className="cursor-pointer">
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="cursor-pointer">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/settings" className="cursor-pointer">
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="cursor-pointer text-red-600 focus:text-red-600"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Button asChild size="sm">
                 <Link href="/auth/login">Login</Link>
@@ -109,9 +190,68 @@ export default function Header({
                         Loading...
                       </Button>
                     ) : session ? (
-                      <Button asChild className="w-full">
-                        <Link href="/dashboard/overview">Dashboard</Link>
-                      </Button>
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-3 px-2 py-2 rounded-lg bg-muted">
+                          <Avatar className="h-10 w-10">
+                            <AvatarFallback className="bg-primary text-primary-foreground">
+                              {getUserInitials(session.user.name)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col">
+                            <p className="text-sm font-medium">
+                              {session.user.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {session.user.email}
+                            </p>
+                          </div>
+                        </div>
+                        <Button
+                          asChild
+                          className="w-full"
+                          variant="outline"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <Link href="/dashboard/overview">
+                            <LayoutDashboard className="mr-2 h-4 w-4" />
+                            Dashboard
+                          </Link>
+                        </Button>
+                        <Button
+                          asChild
+                          className="w-full"
+                          variant="outline"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <Link href="/profile">
+                            <User className="mr-2 h-4 w-4" />
+                            Profile
+                          </Link>
+                        </Button>
+                        <Button
+                          asChild
+                          className="w-full"
+                          variant="outline"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <Link href="/dashboard/settings">
+                            <Settings className="mr-2 h-4 w-4" />
+                            Settings
+                          </Link>
+                        </Button>
+
+                        <Button
+                          onClick={() => {
+                            setIsOpen(false);
+                            handleSignOut();
+                          }}
+                          className="w-full"
+                          variant="destructive"
+                        >
+                          <LogOut className="mr-2 h-4 w-4" />
+                          Log out
+                        </Button>
+                      </div>
                     ) : (
                       <Button asChild className="w-full">
                         <Link href="/auth/login">Login</Link>

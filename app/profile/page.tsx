@@ -2,8 +2,6 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export default function Profile() {
   const router = useRouter();
@@ -17,7 +15,6 @@ export default function Profile() {
   if (status === "loading") {
     return (
       <>
-        <Header />
         <div className="min-h-screen bg-white dark:bg-zinc-900 flex items-center justify-center">
           <p className="text-zinc-600 dark:text-zinc-400">Loading...</p>
         </div>
@@ -29,8 +26,6 @@ export default function Profile() {
 
   return (
     <>
-      <Header />
-
       <div className="min-h-screen bg-white dark:bg-zinc-900 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-zinc-900 dark:text-white mb-8">
@@ -71,8 +66,6 @@ export default function Profile() {
           </button>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }
