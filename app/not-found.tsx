@@ -1,18 +1,25 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
 import { Home, ArrowRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Page Not Found - Autorithm",
+  description: "The page you are looking for does not exist.",
+};
 
 export default function NotFound() {
   return (
     <>
       <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center px-4 relative overflow-hidden">
         {/* Background decoration */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]" />
 
         <div className="relative text-center max-w-2xl">
           {/* 404 with subtle gradient */}
           <div className="mb-8">
-            <h1 className="text-8xl sm:text-9xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-zinc-900 via-zinc-700 to-zinc-600 dark:from-white dark:via-zinc-200 dark:to-zinc-400">
+            <h1 className="text-8xl sm:text-9xl font-bold bg-clip-text text-transparent bg-linear-to-br from-zinc-900 via-zinc-700 to-zinc-600 dark:from-white dark:via-zinc-200 dark:to-zinc-400">
               404
             </h1>
           </div>
