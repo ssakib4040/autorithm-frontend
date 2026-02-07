@@ -32,7 +32,7 @@ export default function Header({
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div
         className={`${width !== "full" ? "max-w-7xl" : ""} mx-auto px-4 sm:px-6 lg:px-8`}
       >
@@ -86,7 +86,7 @@ export default function Header({
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <SheetContent side="right" className="w-75 sm:w-100">
                 <SheetHeader>
                   <SheetTitle className="flex items-center space-x-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
