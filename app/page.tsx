@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Head from "next/head";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
 import { getFeaturedProducts } from "@/scripts/data/products";
 
 // Get featured products
@@ -45,7 +45,6 @@ export default function Home() {
           content="Pre-built automation workflows for n8n and Make.com. Save hours of development time with our premium automation kits."
         />
       </Head>
-      <Header />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">

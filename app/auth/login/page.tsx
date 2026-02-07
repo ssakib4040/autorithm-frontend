@@ -31,6 +31,17 @@ function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const callbackUrl = searchParams.get("callbackUrl");
+  const registered = searchParams.get("registered");
+  const verified = searchParams.get("verified");
+  const reset = searchParams.get("reset");
+
+  const successMessage = registered
+    ? "Registration successful! Please sign in."
+    : verified
+      ? "Email verified successfully! You can now sign in."
+      : reset === "success"
+        ? "Password reset successful! Please sign in with your new password."
+        : null;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -84,6 +95,14 @@ function LoginForm() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {successMessage && (
+                <Alert className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
+                  <AlertDescription className="text-green-800 dark:text-green-200">
+                    {successMessage}
+                  </AlertDescription>
+                </Alert>
+              )}
+
               {error && (
                 <Alert variant="destructive">
                   <AlertDescription>{error}</AlertDescription>
@@ -111,7 +130,7 @@ function LoginForm() {
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
                   <Link
-                    href="/forgot-password"
+                    href="/auth/forgot-password"
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     Forgot password?

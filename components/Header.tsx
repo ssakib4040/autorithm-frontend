@@ -71,7 +71,7 @@ export default function Header({
                   </Link>
                 ) : (
                   <Link
-                    href="/login"
+                    href="/auth/login"
                     className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
                   >
                     Login

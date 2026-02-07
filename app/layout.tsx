@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { Geist, Geist_Mono } from "next/font/google";
 
 import "../styles/globals.css";
 import AuthProvider from "./AuthProvider";
+import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
@@ -38,7 +39,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <Header width="full" />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
         <Analytics />
       </body>

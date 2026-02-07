@@ -43,7 +43,7 @@ export default function Register() {
       setSuccess(data.message);
 
       setTimeout(() => {
-        router.push("/login?registered=true");
+        router.push("/auth/login?registered=true");
       }, 2000);
     } catch (err) {
       const error = err as Error;
