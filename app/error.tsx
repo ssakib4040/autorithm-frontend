@@ -11,6 +11,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  console.log("Error:", error);
   return (
     <>
       <Header />
