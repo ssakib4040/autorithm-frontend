@@ -1,13 +1,11 @@
 import Link from "next/link";
-
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { productsApi } from "@/utils/api";
-import { notFound } from "next/navigation";
-import { Product } from "@/types/product";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Suspense } from "react";
 import { CheckCircle2, ChevronLeft, Sparkles, Clock } from "lucide-react";
+
+import { productsApi } from "@/utils/api";
+import { Product } from "@/types/product";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 type Platform = "n8n" | "make";
 
@@ -32,7 +30,7 @@ export default async function ProductDetails({
   // }
 
   return (
-    <>
+    <Suspense fallback={<ProductDetailsSkeleton />}>
       <main className="min-h-screen bg-white dark:bg-zinc-900">
         {/* Mobile Sticky CTA */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-950 border-t-2 border-zinc-200 dark:border-zinc-800 p-4 z-50 shadow-2xl">
@@ -387,6 +385,16 @@ export default async function ProductDetails({
           </div>
         </div>
       </main>
-    </>
+    </Suspense>
+  );
+}
+
+function ProductDetailsSkeleton() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center text-zinc-500 dark:text-zinc-400">
+        Loading product details...
+      </div>
+    </div>
   );
 }
