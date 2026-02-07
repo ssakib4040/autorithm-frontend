@@ -748,7 +748,7 @@ export default function Home() {
               size="lg"
               asChild
               variant="outline"
-              className="text-lg border-white text-white hover:bg-white hover:text-zinc-900"
+              className="text-lg"
             >
               <Link href="/contact">Get Custom Automation</Link>
             </Button>
