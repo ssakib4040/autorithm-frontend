@@ -40,8 +40,8 @@ export default function MakePage() {
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <div className="text-center max-w-4xl mx-auto">
@@ -509,7 +509,7 @@ export default function MakePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 bg-gradient-to-b from-zinc-900 to-black dark:from-zinc-950 dark:to-black">
+      <section className="py-24 bg-linear-to-b from-zinc-900 to-black dark:from-zinc-950 dark:to-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready for Production-Grade Make Automations?
