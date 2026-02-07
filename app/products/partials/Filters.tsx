@@ -60,7 +60,7 @@ export default function Filters({
     <>
       {/* Category Filter */}
       <div className="flex-1">
-        <label className="block text-sm font-semibold text-zinc-900 dark:text-white mb-2">
+        <label className="block text-sm font-semibold text-zinc-900 dark:text-white mb-3">
           Category
         </label>
         <select
@@ -70,12 +70,16 @@ export default function Filters({
               `/products${buildQueryString({
                 category: e.target.value,
                 page: "1",
-              })}`
+              })}`,
             );
           }}
-          className="w-full pl-4 pr-10 py-2 rounded-lg border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:border-zinc-900 dark:focus:border-white focus:outline-none appearance-none bg-size-[1.5em] bg-position-[right_0.5rem_center] bg-no-repeat"
+          className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none appearance-none cursor-pointer hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+            backgroundPosition: "right 0.75rem center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "1.25em 1.25em",
+            paddingRight: "2.5rem",
           }}
         >
           {categories.map((category) => (
@@ -88,7 +92,7 @@ export default function Filters({
 
       {/* Price Filter */}
       <div className="flex-1">
-        <label className="block text-sm font-semibold text-zinc-900 dark:text-white mb-2">
+        <label className="block text-sm font-semibold text-zinc-900 dark:text-white mb-3">
           Price Range
         </label>
         <select
@@ -98,12 +102,16 @@ export default function Filters({
               `/products${buildQueryString({
                 priceRange: e.target.value,
                 page: "1",
-              })}`
+              })}`,
             );
           }}
-          className="w-full pl-4 pr-10 py-2 rounded-lg border-2 border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:border-zinc-900 dark:focus:border-white focus:outline-none appearance-none bg-size-[1.5em] bg-position-[right_0.5rem_center] bg-no-repeat"
+          className="w-full px-4 py-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none appearance-none cursor-pointer hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+            backgroundPosition: "right 0.75rem center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "1.25em 1.25em",
+            paddingRight: "2.5rem",
           }}
         >
           <option value="All">All Prices</option>

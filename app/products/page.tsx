@@ -1,10 +1,21 @@
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { productsApi } from "@/utils/api";
-import Filters from "./partials/Filters";
-import { Product } from "@/types/product";
 import { Suspense } from "react";
+import { Metadata } from "next";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+
+import {
+  Card,
+  CardTitle,
+  CardHeader,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
+import Filters from "./partials/Filters";
+
+import { productsApi } from "@/utils/api";
+import { Product } from "@/types/product";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const tools = ["All", "n8n", "Make"];
 
@@ -16,6 +27,11 @@ interface ProductsPageProps {
     page?: string;
   }>;
 }
+
+export const metadata: Metadata = {
+  title: "Products - Autorithm",
+  description: "Explore our premium automation workflows for n8n and Make.com",
+};
 
 export default async function Products({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
@@ -49,7 +65,6 @@ export default async function Products({ searchParams }: ProductsPageProps) {
     totalPages = data.totalPages || 1;
   } catch (error) {
     console.error("Failed to fetch products:", error);
-    // Products will remain empty array, showing "No products found" message
   }
 
   // Helper to build query string
@@ -75,15 +90,17 @@ export default async function Products({ searchParams }: ProductsPageProps) {
 
   return (
     <>
-      <Header />
-
       {/* Page Hero */}
-      <section className="bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl font-bold text-zinc-900 dark:text-white mb-4">
+      <section className="relative overflow-hidden bg-linear-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 py-20">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Badge variant="secondary" className="mb-4">
+            Premium Workflows
+          </Badge>
+          <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-white mb-4">
             Automation Kits
           </h1>
-          <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl">
+          <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl">
             Production-ready n8n & Make workflows engineered for reliability.
             Deploy professional automation systems in minutes, not weeks.
           </p>
@@ -91,27 +108,28 @@ export default async function Products({ searchParams }: ProductsPageProps) {
       </section>
 
       {/* Filters */}
-      <section className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-10">
+      <section className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-16 z-10 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Tool Filter */}
             <div className="flex-1">
-              <label className="block text-sm font-semibold text-zinc-900 dark:text-white mb-2">
-                Tool
+              <label className="block text-sm font-semibold text-zinc-900 dark:text-white mb-3">
+                Platform
               </label>
               <div className="flex flex-wrap gap-2">
                 {tools.map((tool) => (
-                  <Link
+                  <Button
                     key={tool}
-                    href={`/products${buildQueryString({ tool, page: "1" })}`}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      selectedTool === tool
-                        ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900"
-                        : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700"
-                    }`}
+                    asChild
+                    variant={selectedTool === tool ? "default" : "outline"}
+                    size="sm"
                   >
-                    {tool}
-                  </Link>
+                    <Link
+                      href={`/products${buildQueryString({ tool, page: "1" })}`}
+                    >
+                      {tool}
+                    </Link>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -131,91 +149,127 @@ export default async function Products({ searchParams }: ProductsPageProps) {
         <section className="py-16 bg-zinc-50 dark:bg-zinc-950">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {products.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-zinc-600 dark:text-zinc-400">
-                  No products found with the selected filters.
-                </p>
-              </div>
+              <Card className="text-center py-12">
+                <CardContent className="pt-6">
+                  <p className="text-zinc-600 dark:text-zinc-400 text-lg">
+                    No products found with the selected filters.
+                  </p>
+                  <Button asChild variant="outline" className="mt-4">
+                    <Link href="/products">Clear Filters</Link>
+                  </Button>
+                </CardContent>
+              </Card>
             ) : (
               <>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                   {products.map((product) => (
-                    <Link
+                    <Card
                       key={product.id}
-                      href={`/products/${product.slug}?tool=${product.tool}`}
-                      className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-all hover:shadow-lg"
+                      className="group hover:shadow-xl transition-all duration-300"
                     >
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                      <CardHeader>
+                        <div className="flex items-center gap-2 mb-3">
+                          <Badge
+                            variant="secondary"
+                            className={
                               product.tool === "n8n"
                                 ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
                                 : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
-                            }`}
+                            }
                           >
                             {product.tool}
-                          </span>
-                          <span className="px-3 py-1 rounded-full text-sm font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
                             {product.category}
+                          </Badge>
+                        </div>
+                        <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                          {product.name}
+                        </CardTitle>
+                        <CardDescription className="text-sm line-clamp-2">
+                          {product.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="text-2xl font-bold text-zinc-900 dark:text-white">
+                            ${product.price}
                           </span>
                         </div>
-                      </div>
-                      <h3 className="text-xl font-semibold text-zinc-900 dark:text-white mb-2">
-                        {product.name}
-                      </h3>
-                      <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-                        {product.description}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-zinc-900 dark:text-white">
-                          ${product.price}
-                        </span>
-                        <div
-                          // href={`/products/${product.slug}`}
-                          className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
-                        >
-                          View Details
-                        </div>
-                      </div>
-                    </Link>
+                        <Button asChild className="w-full" variant="outline">
+                          <Link
+                            href={`/products/${product.slug}?tool=${product.tool}`}
+                          >
+                            View Details
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Link>
+                        </Button>
+                      </CardContent>
+                    </Card>
                   ))}
                 </div>
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="flex justify-center gap-2">
-                    {page > 1 ? (
-                      <Link
-                        href={`/products${buildQueryString({
-                          page: (page - 1).toString(),
-                        })}`}
-                        className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
-                      >
-                        Previous
-                      </Link>
-                    ) : (
-                      <span className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium opacity-50 cursor-not-allowed">
-                        Previous
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="lg"
+                      disabled={page === 1}
+                      className="w-full sm:w-auto"
+                    >
+                      {page > 1 ? (
+                        <Link
+                          href={`/products${buildQueryString({ page: (page - 1).toString() })}`}
+                        >
+                          <ChevronLeft className="mr-2 h-4 w-4" />
+                          Previous
+                        </Link>
+                      ) : (
+                        <span className="opacity-50">
+                          <ChevronLeft className="mr-2 h-4 w-4" />
+                          Previous
+                        </span>
+                      )}
+                    </Button>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                        Page
                       </span>
-                    )}
-                    <span className="px-4 py-2 text-zinc-900 dark:text-white">
-                      Page {page} of {totalPages}
-                    </span>
-                    {page < totalPages ? (
-                      <Link
-                        href={`/products${buildQueryString({
-                          page: (page + 1).toString(),
-                        })}`}
-                        className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
+                      <Badge
+                        variant="secondary"
+                        className="text-base px-3 py-1"
                       >
-                        Next
-                      </Link>
-                    ) : (
-                      <span className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium opacity-50 cursor-not-allowed">
-                        Next
+                        {page}
+                      </Badge>
+                      <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                        of {totalPages}
                       </span>
-                    )}
+                    </div>
+
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="lg"
+                      disabled={page === totalPages}
+                      className="w-full sm:w-auto"
+                    >
+                      {page < totalPages ? (
+                        <Link
+                          href={`/products${buildQueryString({ page: (page + 1).toString() })}`}
+                        >
+                          Next
+                          <ChevronRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      ) : (
+                        <span className="opacity-50">
+                          Next
+                          <ChevronRight className="ml-2 h-4 w-4" />
+                        </span>
+                      )}
+                    </Button>
                   </div>
                 )}
               </>
@@ -223,8 +277,6 @@ export default async function Products({ searchParams }: ProductsPageProps) {
           </div>
         </section>
       </Suspense>
-
-      <Footer />
     </>
   );
 }
@@ -233,17 +285,25 @@ function ProductGridSkeleton() {
   return (
     <section className="py-16 bg-zinc-50 dark:bg-zinc-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {Array.from({ length: 6 }).map((_, index) => (
-            <div
-              key={index}
-              className="p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 animate-pulse"
-            >
-              <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded w-1/4 mb-4"></div>
-              <div className="h-8 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4 mb-2"></div>
-              <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-full mb-6"></div>
-              <div className="h-8 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3"></div>
-            </div>
+            <Card key={index} className="animate-pulse">
+              <CardHeader>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-full w-16"></div>
+                  <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-full w-20"></div>
+                </div>
+                <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4 mb-2"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                  <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-4/5"></div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="h-8 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3 mb-4"></div>
+                <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
