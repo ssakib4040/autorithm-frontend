@@ -147,13 +147,7 @@ export default function Profile() {
   };
 
   if (status === "loading") {
-    return (
-      <>
-        <div className="min-h-screen bg-white dark:bg-zinc-900 flex items-center justify-center">
-          <p className="text-zinc-600 dark:text-zinc-400">Loading...</p>
-        </div>
-      </>
-    );
+    return <ProfileSettingsSkeleton />;
   }
 
   if (!session) {
@@ -165,7 +159,7 @@ export default function Profile() {
 
   return (
     <>
-      <div className="min-h-screen bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
+      <div className=" bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Profile Header */}
           <Card className="mb-8">
@@ -469,5 +463,70 @@ export default function Profile() {
         </div>
       </div>
     </>
+  );
+}
+
+function ProfileSettingsSkeleton() {
+  return (
+    <div className="min-h-screen bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Profile Header Skeleton */}
+        <Card className="mb-8">
+          <CardContent className="pt-6">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 animate-pulse">
+              {/* Avatar Skeleton */}
+              <div className="h-24 w-24 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+              
+              <div className="flex-1 text-center sm:text-left w-full">
+                {/* Name Skeleton */}
+                <div className="h-9 bg-zinc-200 dark:bg-zinc-800 rounded-md w-48 mx-auto sm:mx-0 mb-3" />
+                
+                {/* Email Skeleton */}
+                <div className="h-5 bg-zinc-200 dark:bg-zinc-800 rounded-md w-64 mx-auto sm:mx-0 mb-4" />
+                
+                {/* Badge Skeleton */}
+                <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
+                  <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-full w-32" />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Tabs Skeleton */}
+        <div className="space-y-6">
+          {/* Tabs List Skeleton */}
+          <div className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 p-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg animate-pulse">
+            <div className="h-10 bg-zinc-200 dark:bg-zinc-700 rounded-md" />
+            <div className="h-10 bg-zinc-200 dark:bg-zinc-700 rounded-md" />
+            <div className="h-10 bg-zinc-200 dark:bg-zinc-700 rounded-md" />
+            <div className="h-10 bg-zinc-200 dark:bg-zinc-700 rounded-md" />
+          </div>
+
+          {/* Card Content Skeleton */}
+          <Card>
+            <CardHeader className="animate-pulse">
+              <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-md w-48 mb-2" />
+              <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded-md w-full max-w-md" />
+            </CardHeader>
+            <CardContent className="space-y-6 animate-pulse">
+              {/* Form Fields Skeleton */}
+              <div className="space-y-2">
+                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded-md w-24 mb-2" />
+                <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md w-full" />
+              </div>
+              
+              <div className="space-y-2">
+                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded-md w-32 mb-2" />
+                <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md w-full" />
+              </div>
+
+              {/* Button Skeleton */}
+              <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md w-32" />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
   );
 }
