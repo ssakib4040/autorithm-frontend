@@ -12,7 +12,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Header({
   width = "compact",
@@ -60,7 +59,6 @@ export default function Header({
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <ThemeToggle />
             {isLoading ? (
               <Button disabled size="sm">
                 Loading...
@@ -78,7 +76,6 @@ export default function Header({
 
           {/* Mobile Menu */}
           <div className="flex md:hidden items-center space-x-2">
-            <ThemeToggle />
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
