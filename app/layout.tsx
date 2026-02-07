@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "../styles/globals.css";
 import AuthProvider from "./AuthProvider";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -42,6 +43,7 @@ export default function RootLayout({
           <AuthProvider>
             <Header width="full" />
             {children}
+            <Footer />
           </AuthProvider>
         </ThemeProvider>
         <Analytics />

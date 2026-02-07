@@ -17,7 +17,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -85,10 +84,7 @@ function ResetPasswordForm() {
   // Show error if no token
   if (!token && !success) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-        <div className="absolute top-4 right-4">
-          <ThemeToggle />
-        </div>
+      <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <Card className="border-2">
             <CardHeader>
@@ -116,12 +112,7 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
-      {/* Theme Toggle */}
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
-      </div>
-
+    <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         {/* Logo/Brand */}
         <div className="flex flex-col items-center space-y-2 text-center">
