@@ -1,11 +1,13 @@
 import Link from "next/link";
-// import { useState } from "react";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { productsApi } from "@/utils/api";
 import { notFound } from "next/navigation";
 import { Product } from "@/types/product";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { CheckCircle2, ChevronLeft, Sparkles, Clock } from "lucide-react";
 
 type Platform = "n8n" | "make";
 
@@ -22,7 +24,7 @@ export default async function ProductDetails({
   const selectedPlatform: Platform = "n8n";
 
   const productDetails = (await productsApi.getBySlug(
-    `${slug}?tool=${tool}`
+    `${slug}?tool=${tool}`,
   )) as Product;
 
   // if ("status" in productDetails && productDetails.status === 404) {
@@ -31,8 +33,6 @@ export default async function ProductDetails({
 
   return (
     <>
-      <Header />
-
       <main className="min-h-screen bg-white dark:bg-zinc-900">
         {/* Mobile Sticky CTA */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-950 border-t-2 border-zinc-200 dark:border-zinc-800 p-4 z-50 shadow-2xl">
@@ -45,7 +45,7 @@ export default async function ProductDetails({
                       $
                       {Math.round(
                         productDetails.price *
-                          (1 - productDetails.discount.percentage / 100)
+                          (1 - productDetails.discount.percentage / 100),
                       )}
                     </div>
                     <div className="text-sm font-semibold text-zinc-400 dark:text-zinc-600 line-through">
@@ -78,63 +78,50 @@ export default async function ProductDetails({
                 </>
               )}
             </div>
-            <button
-              className={`px-6 py-3 rounded-lg font-bold transition-colors ${
-                selectedPlatform === "n8n"
-                  ? "bg-blue-600 hover:bg-blue-700 text-white"
-                  : "bg-purple-600 hover:bg-purple-700 text-white"
-              }`}
+            <Button
+              size="lg"
+              className={selectedPlatform === "n8n"
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-purple-600 hover:bg-purple-700"
+              }
             >
               Buy Now
-            </button>
+            </Button>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 py-8 pb-24 lg:pb-8">
           {/* Back Button */}
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white mb-8"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back
-          </Link>
+          <Button asChild variant="ghost" className="mb-8 -ml-4">
+            <Link href="/products">
+              <ChevronLeft className="mr-2 h-4 w-4" />
+              Back to Products
+            </Link>
+          </Button>
 
           {/* 2 COLUMN GRID - ENTIRE PAGE */}
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* LEFT GRID - All Product Details */}
             <div>
               {/* Category */}
-              <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 mb-4">
+              <Badge variant="secondary" className="mb-4">
                 {productDetails.category}
-              </span>
+              </Badge>
 
               {/* Product Name with Platform Badge */}
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <h1 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white">
                   {productDetails.name}
                 </h1>
-                <span
-                  className={`px-4 py-2 rounded-lg text-base font-bold shrink-0 ${
+                <Badge
+                  className={`text-base px-4 py-2 ${
                     productDetails.tool === "n8n"
-                      ? "bg-blue-600 text-white"
-                      : "bg-purple-600 text-white"
+                      ? "bg-blue-600 hover:bg-blue-700 text-white"
+                      : "bg-purple-600 hover:bg-purple-700 text-white"
                   }`}
                 >
                   {productDetails.tool === "n8n" ? "n8n" : "Make"}
-                </span>
+                </Badge>
               </div>
 
               {/* Description */}
@@ -151,7 +138,7 @@ export default async function ProductDetails({
                   {productDetails.howItWorks.map(
                     (
                       step: { title: string; description: string },
-                      index: number
+                      index: number,
                     ) => (
                       <div
                         key={index}
@@ -169,7 +156,7 @@ export default async function ProductDetails({
                           </p>
                         </div>
                       </div>
-                    )
+                    ),
                   )}
                 </div>
               </div>
@@ -183,24 +170,12 @@ export default async function ProductDetails({
                   {productDetails.keyFeatures.map(
                     (feature: string, index: number) => (
                       <li key={index} className="flex items-start gap-3">
-                        <svg
-                          className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                         <span className="text-zinc-700 dark:text-zinc-300">
                           {feature}
                         </span>
                       </li>
-                    )
+                    ),
                   )}
                 </ul>
               </div>
@@ -248,7 +223,7 @@ export default async function ProductDetails({
                           >
                             • {assumption}
                           </li>
-                        )
+                        ),
                       )}
                     </ul>
                   </div>
@@ -308,13 +283,7 @@ export default async function ProductDetails({
                     <>
                       {/* Discount Badge */}
                       <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
-                        <svg
-                          className="w-4 h-4 text-emerald-600 dark:text-emerald-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
+                        <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                         <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
                           {productDetails.discount.percentage}% OFF •{" "}
                           {productDetails.discount.reason}
@@ -327,7 +296,7 @@ export default async function ProductDetails({
                           $
                           {Math.round(
                             productDetails.price *
-                              (1 - productDetails.discount.percentage / 100)
+                              (1 - productDetails.discount.percentage / 100),
                           )}
                         </div>
                         <div className="text-2xl font-semibold text-zinc-400 dark:text-zinc-600 line-through mb-1.5">
@@ -338,19 +307,7 @@ export default async function ProductDetails({
                       {/* Time Left */}
                       {productDetails.discount.timeLeft && (
                         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-100 dark:bg-red-900/30 mb-3">
-                          <svg
-                            className="w-3.5 h-3.5 text-red-600 dark:text-red-400"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
+                          <Clock className="w-3.5 h-3.5 text-red-600 dark:text-red-400" />
                           <span className="text-xs font-semibold text-red-700 dark:text-red-300">
                             {productDetails.discount.timeLeft} left
                           </span>
@@ -374,16 +331,17 @@ export default async function ProductDetails({
                   </p>
                 </div>
 
-                <button
-                  className={`w-full py-4 rounded-lg font-bold text-lg mb-4 transition-all transform hover:scale-105 ${
+                <Button
+                  size="lg"
+                  className={`w-full text-lg mb-4 ${
                     productDetails.tool === "n8n"
-                      ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
-                      : "bg-purple-600 hover:bg-purple-700 text-white shadow-lg"
+                      ? "bg-blue-600 hover:bg-blue-700 shadow-lg"
+                      : "bg-purple-600 hover:bg-purple-700 shadow-lg"
                   }`}
                 >
                   Buy {productDetails.tool === "n8n" ? "n8n" : "Make.com"}{" "}
                   Version
-                </button>
+                </Button>
 
                 {/* Platform Switcher */}
                 <div className="pt-4 border-t border-zinc-200 dark:border-zinc-700">
@@ -416,19 +374,7 @@ export default async function ProductDetails({
                 <ul className="space-y-3">
                   {productDetails.whatsIncluded.map((item, index) => (
                     <li key={index} className="flex items-start gap-2 text-sm">
-                      <svg
-                        className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                       <span className="text-zinc-700 dark:text-zinc-300">
                         {item}
                       </span>
@@ -440,8 +386,6 @@ export default async function ProductDetails({
           </div>
         </div>
       </main>
-
-      <Footer />
     </>
   );
 }
