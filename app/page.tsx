@@ -1,8 +1,7 @@
 import Link from "next/link";
-import Head from "next/head";
-import Footer from "@/components/Footer";
 
 import { getFeaturedProducts } from "@/scripts/data/products";
+import { Metadata } from "next";
 
 // Get featured products
 const featuredProducts = getFeaturedProducts(6);
@@ -35,17 +34,15 @@ const useCases = [
   },
 ];
 
+export const metadata: Metadata = {
+  title: "Autorithm - Premium Automation Marketplace",
+  description:
+    "Pre-built automation workflows for n8n and Make.com. Save hours of development time with our premium automation kits.",
+};
+
 export default function Home() {
   return (
     <div>
-      <Head>
-        <title>Autorithm - Premium Automation Marketplace</title>
-        <meta
-          name="description"
-          content="Pre-built automation workflows for n8n and Make.com. Save hours of development time with our premium automation kits."
-        />
-      </Head>
-
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
