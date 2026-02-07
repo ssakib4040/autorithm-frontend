@@ -1,7 +1,16 @@
 import Link from "next/link";
-
 import { getFeaturedProducts } from "@/scripts/data/products";
 import { Metadata } from "next";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, CheckCircle2, XCircle } from "lucide-react";
 
 // Get featured products
 const featuredProducts = getFeaturedProducts(6);
@@ -72,18 +81,15 @@ export default function Home() {
                 production-ready automation from day one.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/products"
-                  className="px-8 py-4 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors text-center text-lg"
-                >
-                  Browse Automation Kits
-                </Link>
-                <Link
-                  href="#contact"
-                  className="px-8 py-4 rounded-lg border-2 border-zinc-900 dark:border-white text-zinc-900 dark:text-white font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors text-center text-lg"
-                >
-                  Get Custom Automation
-                </Link>
+                <Button size="lg" asChild className="text-lg">
+                  <Link href="/products">
+                    Browse Automation Kits
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild className="text-lg">
+                  <Link href="#contact">Get Custom Automation</Link>
+                </Button>
               </div>
             </div>
             <div className="relative">
@@ -204,142 +210,112 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {/* Automation Kits */}
-            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 hover:border-zinc-900 dark:hover:border-white transition-colors">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-blue-600 dark:text-blue-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            <Card className="hover:border-primary transition-colors">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
+                  <svg
+                    className="w-6 h-6 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
+                    />
+                  </svg>
+                </div>
+                <CardTitle className="text-2xl">Automation Kits</CardTitle>
+                <CardDescription className="text-base">
+                  Ready-to-deploy workflow templates for common business
+                  processes. Install in minutes, customize to your needs, start
+                  seeing results immediately.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link
+                  href="#products"
+                  className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:gap-3 transition-all"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
-                Automation Kits
-              </h3>
-              <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-                Ready-to-deploy workflow templates for common business
-                processes. Install in minutes, customize to your needs, start
-                seeing results immediately.
-              </p>
-              <Link
-                href="#products"
-                className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:gap-3 transition-all"
-              >
-                Browse Kits
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </Link>
-            </div>
+                  Browse Kits
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </CardContent>
+            </Card>
 
             {/* Custom Automation */}
-            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 hover:border-zinc-900 dark:hover:border-white transition-colors">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-purple-600 dark:text-purple-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            <Card className="hover:border-primary transition-colors">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4">
+                  <svg
+                    className="w-6 h-6 text-purple-600 dark:text-purple-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                    />
+                  </svg>
+                </div>
+                <CardTitle className="text-2xl">Custom Automation</CardTitle>
+                <CardDescription className="text-base">
+                  Bespoke automation systems designed specifically for your
+                  workflows. From requirements to deployment, we handle the
+                  entire build process.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link
+                  href="#contact"
+                  className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-semibold hover:gap-3 transition-all"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
-                Custom Automation
-              </h3>
-              <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-                Bespoke automation systems designed specifically for your
-                workflows. From requirements to deployment, we handle the entire
-                build process.
-              </p>
-              <Link
-                href="#contact"
-                className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-semibold hover:gap-3 transition-all"
-              >
-                Start a Project
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </Link>
-            </div>
+                  Start a Project
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </CardContent>
+            </Card>
 
             {/* Managed Automation */}
-            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 hover:border-zinc-900 dark:hover:border-white transition-colors">
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-6">
-                <svg
-                  className="w-6 h-6 text-emerald-600 dark:text-emerald-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+            <Card className="hover:border-primary transition-colors">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4">
+                  <svg
+                    className="w-6 h-6 text-emerald-600 dark:text-emerald-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                <CardTitle className="text-2xl">Managed Automation</CardTitle>
+                <CardDescription className="text-base">
+                  Ongoing maintenance, monitoring, and optimization for your
+                  automation infrastructure. Focus on your business while we
+                  keep everything running smoothly.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link
+                  href="#contact"
+                  className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold hover:gap-3 transition-all"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
-                Managed Automation
-              </h3>
-              <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-                Ongoing maintenance, monitoring, and optimization for your
-                automation infrastructure. Focus on your business while we keep
-                everything running smoothly.
-              </p>
-              <Link
-                href="#contact"
-                className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold hover:gap-3 transition-all"
-              >
-                Learn More
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </Link>
-            </div>
+                  Learn More
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -478,18 +454,12 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="#products"
-                  className="px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors text-center"
-                >
-                  View n8n Templates
-                </Link>
-                <Link
-                  href="#products"
-                  className="px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold hover:bg-purple-700 transition-colors text-center"
-                >
-                  View Make Templates
-                </Link>
+                <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                  <Link href="#products">View n8n Templates</Link>
+                </Button>
+                <Button asChild className="bg-purple-600 hover:bg-purple-700">
+                  <Link href="#products">View Make Templates</Link>
+                </Button>
               </div>
             </div>
             <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border border-zinc-200 dark:border-zinc-800">
@@ -551,48 +521,50 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (
-              <div
+              <Card
                 key={product.id}
-                className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8 hover:border-zinc-900 dark:hover:border-white transition-colors"
+                className="group hover:shadow-lg transition-all"
               >
-                <div className="flex items-center gap-2 mb-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                      product.tool === "n8n"
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                        : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
-                    }`}
-                  >
-                    {product.tool}
-                  </span>
-                </div>
-                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-3">
-                  {product.name}
-                </h3>
-                <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-                  {product.description}
-                </p>
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-3xl font-bold text-zinc-900 dark:text-white">
-                    ${product.price}
-                  </span>
-                </div>
-                <Link
-                  href={`/products/${product.id}`}
-                  className="block w-full px-6 py-3 rounded-lg border-2 border-zinc-900 dark:border-white text-zinc-900 dark:text-white font-semibold hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-colors text-center"
-                >
-                  View Details
-                </Link>
-              </div>
+                <CardHeader>
+                  <div className="flex items-center justify-between mb-3">
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        product.tool === "n8n"
+                          ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                          : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
+                      }`}
+                    >
+                      {product.tool}
+                    </span>
+                    <span className="text-2xl font-bold text-zinc-900 dark:text-white">
+                      ${product.price}
+                    </span>
+                  </div>
+                  <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                    {product.name}
+                  </CardTitle>
+                  <CardDescription className="text-sm">
+                    {product.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button asChild variant="outline" className="w-full">
+                    <Link href={`/products/${product.id}`}>
+                      View Details
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
             ))}
           </div>
           <div className="text-center mt-12">
-            <Link
-              href="/products"
-              className="inline-block px-8 py-4 rounded-lg border-2 border-zinc-900 dark:border-white text-zinc-900 dark:text-white font-semibold hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-            >
-              View All Products
-            </Link>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/products">
+                View All Products
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -624,47 +596,50 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
             <div>
-              <h3 className="text-2xl font-semibold text-zinc-900 dark:text-white mb-6">
-                ✓ Autorithm Systems
-              </h3>
+              <div className="flex items-center gap-2 mb-6">
+                <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+                <h3 className="text-2xl font-semibold text-zinc-900 dark:text-white">
+                  Autorithm Systems
+                </h3>
+              </div>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <span className="text-emerald-500 mt-1">✓</span>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-700 dark:text-zinc-300">
                     <strong>Bulletproof error handling</strong> - Every edge
                     case covered
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-emerald-500 mt-1">✓</span>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-700 dark:text-zinc-300">
                     <strong>Complete documentation</strong> - Setup guides and
                     configuration instructions
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-emerald-500 mt-1">✓</span>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-700 dark:text-zinc-300">
                     <strong>Production-tested</strong> - Validated in real-world
                     environments
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-emerald-500 mt-1">✓</span>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-700 dark:text-zinc-300">
                     <strong>Modular architecture</strong> - Easy to customize
                     and extend
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-emerald-500 mt-1">✓</span>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-700 dark:text-zinc-300">
                     <strong>Ongoing support</strong> - Updates and assistance
                     when you need it
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-emerald-500 mt-1">✓</span>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-700 dark:text-zinc-300">
                     <strong>Built for scale</strong> - Handle growing workloads
                     without refactoring
@@ -673,42 +648,45 @@ export default function Home() {
               </ul>
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-zinc-400 dark:text-zinc-600 mb-6">
-                ✗ Cheap Templates
-              </h3>
+              <div className="flex items-center gap-2 mb-6">
+                <XCircle className="w-6 h-6 text-red-500" />
+                <h3 className="text-2xl font-semibold text-zinc-400 dark:text-zinc-600">
+                  Cheap Templates
+                </h3>
+              </div>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <span className="text-red-500 mt-1">✗</span>
+                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-500 dark:text-zinc-500">
                     Break on unexpected inputs and edge cases
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-red-500 mt-1">✗</span>
+                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-500 dark:text-zinc-500">
                     Minimal or no documentation provided
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-red-500 mt-1">✗</span>
+                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-500 dark:text-zinc-500">
                     Demo workflows that fail in production
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-red-500 mt-1">✗</span>
+                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-500 dark:text-zinc-500">
                     Monolithic design that&apos;s hard to modify
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-red-500 mt-1">✗</span>
+                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-500 dark:text-zinc-500">
                     No support after purchase
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="text-red-500 mt-1">✗</span>
+                  <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                   <span className="text-zinc-500 dark:text-zinc-500">
                     Performance issues at scale
                   </span>
@@ -732,17 +710,15 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {useCases.map((useCase, index) => (
-              <div
+              <Card
                 key={index}
-                className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8"
+                className="hover:border-primary transition-colors"
               >
-                <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-3">
-                  {useCase.title}
-                </h3>
-                <p className="text-zinc-600 dark:text-zinc-400">
-                  {useCase.description}
-                </p>
-              </div>
+                <CardHeader>
+                  <CardTitle className="text-lg">{useCase.title}</CardTitle>
+                  <CardDescription>{useCase.description}</CardDescription>
+                </CardHeader>
+              </Card>
             ))}
           </div>
         </div>
@@ -762,18 +738,20 @@ export default function Home() {
             we&apos;re here to help you automate with confidence.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/products"
-              className="px-8 py-4 rounded-lg bg-white text-zinc-900 font-semibold hover:bg-zinc-100 transition-colors text-lg"
+            <Button size="lg" asChild variant="secondary" className="text-lg">
+              <Link href="/products">
+                Explore All Products
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              asChild
+              variant="outline"
+              className="text-lg border-white text-white hover:bg-white hover:text-zinc-900"
             >
-              Explore All Products
-            </Link>
-            <Link
-              href="/contact"
-              className="px-8 py-4 rounded-lg border-2 border-white text-white font-semibold hover:bg-white hover:text-zinc-900 transition-colors text-lg"
-            >
-              Get Custom Automation
-            </Link>
+              <Link href="/contact">Get Custom Automation</Link>
+            </Button>
           </div>
           <p className="text-zinc-400 mt-8">
             Questions? Email us at{" "}
