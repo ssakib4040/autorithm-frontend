@@ -1,6 +1,18 @@
 "use client";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { Menu, Sparkles } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Header({
   width = "compact",
@@ -8,80 +20,113 @@ export default function Header({
   width?: "full" | "compact";
 }) {
   const { data: session, status } = useSession();
+  const [isOpen, setIsOpen] = useState(false);
 
   const isLoading = status === "loading";
 
+  const navLinks = [
+    { href: "/products", label: "Products" },
+    { href: "/n8n", label: "N8N Integrations" },
+    { href: "/make", label: "Make.com Integrations" },
+    { href: "/contact", label: "Contact" },
+  ];
+
   return (
-    <nav className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 sticky top-0 z-50">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div
-        className={`${width != "full" ? "max-w-7xl" : ""} mx-auto px-4 sm:px-6 lg:px-8`}
+        className={`${width !== "full" ? "max-w-7xl" : ""} mx-auto px-4 sm:px-6 lg:px-8`}
       >
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <Link
-              href="/"
-              className="text-2xl font-bold text-zinc-900 dark:text-white"
-            >
-              Autorithm
-            </Link>
-          </div>
-          <div className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/products"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-            >
-              Products
-            </Link>
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-2 group">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-transform group-hover:scale-105">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <span className="text-xl font-bold">Autorithm</span>
+          </Link>
 
-            {/* n8n */}
-            <Link
-              href="/n8n"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-            >
-              N8N Integrations
-            </Link>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-            {/* make.com */}
-            <Link
-              href="/make"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-            >
-              Make.com Integrations
-            </Link>
-
-            <Link
-              href="/contact"
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-            >
-              Contact
-            </Link>
-
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             {isLoading ? (
-              <div className="px-4 py-2 rounded-lg bg-zinc-300 dark:bg-zinc-700 text-white font-medium">
+              <Button disabled size="sm">
                 Loading...
-              </div>
+              </Button>
+            ) : session ? (
+              <Button asChild size="sm">
+                <Link href="/dashboard/overview">Dashboard</Link>
+              </Button>
             ) : (
-              <>
-                {session ? (
-                  <Link
-                    href="/dashboard/overview"
-                    className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
-                  >
-                    Dashboard
-                  </Link>
-                ) : (
-                  <Link
-                    href="/auth/login"
-                    className="px-4 py-2 rounded-lg bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors"
-                  >
-                    Login
-                  </Link>
-                )}
-              </>
+              <Button asChild size="sm">
+                <Link href="/auth/login">Login</Link>
+              </Button>
             )}
+          </div>
+
+          {/* Mobile Menu */}
+          <div className="flex md:hidden items-center space-x-2">
+            <ThemeToggle />
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <SheetHeader>
+                  <SheetTitle className="flex items-center space-x-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                      <Sparkles className="h-4 w-4" />
+                    </div>
+                    <span>Autorithm</span>
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col space-y-4 mt-8">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-foreground hover:text-primary transition-colors font-medium py-2"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                  <div className="pt-4 border-t">
+                    {isLoading ? (
+                      <Button disabled className="w-full">
+                        Loading...
+                      </Button>
+                    ) : session ? (
+                      <Button asChild className="w-full">
+                        <Link href="/dashboard/overview">Dashboard</Link>
+                      </Button>
+                    ) : (
+                      <Button asChild className="w-full">
+                        <Link href="/auth/login">Login</Link>
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }
