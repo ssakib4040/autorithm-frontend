@@ -4,6 +4,7 @@ import { Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
@@ -51,11 +52,17 @@ export default function Contact() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">Message</Label>
-                  <textarea
+                  {/* <textarea
                     id="message"
                     className="flex min-h-37.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="Your message..."
                     required
+                  /> */}
+                  <Textarea
+                    id="message"
+                    placeholder="Your message..."
+                    required
+                    className="min-h-37.5"
                   />
                 </div>
                 <Button type="submit" className="w-full" size="lg">

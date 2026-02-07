@@ -5,14 +5,13 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy - Autorithm",
-  description: "Privacy Policy outlining how we collect, use, and protect your data.",
+  description:
+    "Privacy Policy outlining how we collect, use, and protect your data.",
 };
 
 export default function PrivacyPolicy() {
   return (
     <>
-      <Header />
-
       <div className="min-h-screen bg-white dark:bg-zinc-900 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -32,12 +31,15 @@ export default function PrivacyPolicy() {
                 </h2>
                 <p className="leading-relaxed mb-4">
                   We collect information that you strictly provide to us
-                  directly, such as when you create an account, make a
-                  purchase, or contact us for support. This includes:
+                  directly, such as when you create an account, make a purchase,
+                  or contact us for support. This includes:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Name and email address</li>
-                  <li>Billing information (processed securely by our payment providers)</li>
+                  <li>
+                    Billing information (processed securely by our payment
+                    providers)
+                  </li>
                   <li>Account credentials</li>
                   <li>Communication history</li>
                 </ul>
@@ -53,7 +55,10 @@ export default function PrivacyPolicy() {
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Provide, maintain, and improve our services</li>
                   <li>Process transactions and send related information</li>
-                  <li>Send technical notices, updates, security alerts, and support messages</li>
+                  <li>
+                    Send technical notices, updates, security alerts, and
+                    support messages
+                  </li>
                   <li>Respond to your comments, questions, and requests</li>
                 </ul>
               </section>
@@ -66,8 +71,8 @@ export default function PrivacyPolicy() {
                   We do not sell, trade, or otherwise transfer your personally
                   identifiable information to outside parties. This does not
                   include trusted third parties who assist us in operating our
-                  website, conducting our business, or servicing you, so long
-                  as those parties agree to keep this information confidential.
+                  website, conducting our business, or servicing you, so long as
+                  those parties agree to keep this information confidential.
                 </p>
               </section>
 
