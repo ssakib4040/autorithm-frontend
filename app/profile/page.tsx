@@ -476,14 +476,14 @@ function ProfileSettingsSkeleton() {
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 animate-pulse">
               {/* Avatar Skeleton */}
               <div className="h-24 w-24 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-              
+
               <div className="flex-1 text-center sm:text-left w-full">
                 {/* Name Skeleton */}
                 <div className="h-9 bg-zinc-200 dark:bg-zinc-800 rounded-md w-48 mx-auto sm:mx-0 mb-3" />
-                
+
                 {/* Email Skeleton */}
                 <div className="h-5 bg-zinc-200 dark:bg-zinc-800 rounded-md w-64 mx-auto sm:mx-0 mb-4" />
-                
+
                 {/* Badge Skeleton */}
                 <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                   <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-full w-32" />
@@ -515,7 +515,7 @@ function ProfileSettingsSkeleton() {
                 <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded-md w-24 mb-2" />
                 <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md w-full" />
               </div>
-              
+
               <div className="space-y-2">
                 <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded-md w-32 mb-2" />
                 <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md w-full" />
