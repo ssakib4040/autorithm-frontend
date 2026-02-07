@@ -10,7 +10,6 @@ import {
   ShieldCheckIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
-import Header from "@/components/Header";
 
 export default function DashboardLayout({
   children,
@@ -37,7 +36,6 @@ export default function DashboardLayout({
 
   return (
     <>
-      <Header width="full" />
       <div className="flex h-screen bg-linear-to-br from-zinc-950 via-zinc-900 to-zinc-950">
         {/* Sidebar */}
         <aside className="w-64 bg-zinc-900/50 backdrop-blur-xl border-r border-zinc-800/50 flex flex-col">
