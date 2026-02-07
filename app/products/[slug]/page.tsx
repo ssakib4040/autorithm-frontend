@@ -334,7 +334,7 @@ export default async function ProductDetails({
 
                 <Button
                   size="lg"
-                  className={`w-full text-lg mb-4 ${
+                  className={`w-full text-lg mb-4 text-white ${
                     productDetails.tool === "n8n"
                       ? "bg-blue-600 hover:bg-blue-700 shadow-lg"
                       : "bg-purple-600 hover:bg-purple-700 shadow-lg"
