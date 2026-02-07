@@ -80,9 +80,10 @@ export default async function ProductDetails({
             </div>
             <Button
               size="lg"
-              className={selectedPlatform === "n8n"
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-purple-600 hover:bg-purple-700"
+              className={
+                selectedPlatform === "n8n"
+                  ? "bg-blue-600 hover:bg-blue-700"
+                  : "bg-purple-600 hover:bg-purple-700"
               }
             >
               Buy Now
