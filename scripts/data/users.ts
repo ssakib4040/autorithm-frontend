@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
 
 // Export async function to properly hash passwords
 export async function getUsers() {
@@ -7,20 +8,22 @@ export async function getUsers() {
 
   return [
     {
+      userId: uuidv4(),
       email: "ssakib6060@gmail.com",
       password: hashedPassword1,
       name: "Sadman Sakib",
       isAdmin: true,
-      isVerified: true,
+      isEmailVerified: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
     {
+      userId: uuidv4(),
       email: "john@example.com",
       password: hashedPassword2,
       name: "John Doe",
       isAdmin: false,
-      isVerified: false,
+      isEmailVerified: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     },

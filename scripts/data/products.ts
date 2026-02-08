@@ -1,6 +1,7 @@
 import { Product } from "@/types/product";
+import { getUsers } from "./users";
 
-export const allProducts: Product[] = [
+const productData: Omit<Product, "createdBy">[] = [
   {
     id: 1,
     name: "AI Lead Enrichment System",
@@ -1111,6 +1112,18 @@ export const allProducts: Product[] = [
     status: "draft",
   },
 ];
+
+// Export async function that assigns creators from users
+export async function getAllProducts(): Promise<Product[]> {
+  const users = await getUsers();
+  return productData.map((product, index) => ({
+    ...product,
+    createdBy: users[index % users.length].userId, // Distribute products among users
+  }));
+}
+
+// For backward compatibility, export product data
+export const allProducts = productData as Product[];
 
 // export const detailedProducts: ProductDetail[] = [
 //   {

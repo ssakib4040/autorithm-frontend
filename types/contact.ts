@@ -4,6 +4,7 @@ export interface Contact {
   subject: string;
   message: string;
   status: "new" | "in-progress" | "resolved";
+  userId?: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -8,6 +8,6 @@ export interface Purchase {
   };
   originalPrice: number;
   finalPrice: number;
-  purchasedBy: string; // User MongoDB _id (ObjectId) - can be populated to get full user details
+  purchasedBy: string; // User userId reference
   purchaseDate: Date;
 }

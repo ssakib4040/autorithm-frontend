@@ -6,6 +6,7 @@ export interface Product {
   category: string;
   price: number;
   slug: string;
+  createdBy?: string;
   discounts?: {
     percentage: number;
     reason: string;
