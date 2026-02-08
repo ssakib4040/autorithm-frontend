@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Mail, Lock, ArrowRight, User } from "lucide-react";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,12 +30,23 @@ export default function Register() {
   const [error, setError] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    console.log("turnstileToken =>  ", turnstileToken);
+
+    return;
+
+    if (!turnstileToken) {
+      setError("Please complete the security verification");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -143,11 +155,30 @@ export default function Register() {
                 </p>
               </div>
 
+              {/* Turnstile */}
+              <div className="w-full">
+                <Turnstile
+                  siteKey={
+                    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+                    "1x00000000000000000000AA"
+                  }
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onError={() =>
+                    setError("Verification failed. Please try again.")
+                  }
+                  onExpire={() => setTurnstileToken("")}
+                  options={{
+                    theme: "auto",
+                    size: "flexible",
+                  }}
+                />
+              </div>
+
               <Button
                 type="submit"
                 className="w-full"
                 size="lg"
-                disabled={isLoading}
+                disabled={isLoading || !turnstileToken}
               >
                 {isLoading ? (
                   <>

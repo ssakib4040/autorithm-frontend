@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, FormEvent, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Loader2, Mail, Lock, ArrowRight } from "lucide-react";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const callbackUrl = searchParams.get("callbackUrl");
   const registered = searchParams.get("registered");
@@ -45,6 +47,14 @@ function LoginForm() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
+
+    console.log("Turnstile token:", turnstileToken);
+
+    if (!turnstileToken) {
+      setError("Please complete the security verification");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -145,11 +155,30 @@ function LoginForm() {
                 </div>
               </div>
 
+              {/* Turnstile */}
+              <div className="w-full">
+                <Turnstile
+                  siteKey={
+                    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+                    "1x00000000000000000000AA"
+                  }
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onError={() =>
+                    setError("Verification failed. Please try again.")
+                  }
+                  onExpire={() => setTurnstileToken("")}
+                  options={{
+                    theme: "auto",
+                    size: "flexible",
+                  }}
+                />
+              </div>
+
               <Button
                 type="submit"
                 className="w-full"
                 size="lg"
-                disabled={isLoading}
+                disabled={isLoading || !turnstileToken}
               >
                 {isLoading ? (
                   <>
