@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { 
-  PlusIcon, 
-  PencilSquareIcon, 
-  TrashIcon, 
-  FunnelIcon, 
+import { useState } from "react";
+import Link from "next/link";
+import {
+  PlusIcon,
+  PencilSquareIcon,
+  TrashIcon,
+  FunnelIcon,
   MagnifyingGlassIcon,
   EllipsisVerticalIcon,
   UserGroupIcon,
@@ -17,110 +17,110 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ShieldCheckIcon,
-  EnvelopeIcon
-} from '@heroicons/react/24/outline';
+  EnvelopeIcon,
+} from "@heroicons/react/24/outline";
 
 const users = [
-  { 
-    id: 1, 
-    name: 'Alice Johnson', 
-    email: 'alice@example.com', 
-    role: 'Admin', 
-    status: 'Active', 
-    joined: '2024-01-15',
-    lastActive: '2 hours ago',
+  {
+    id: 1,
+    name: "Alice Johnson",
+    email: "alice@example.com",
+    role: "Admin",
+    status: "Active",
+    joined: "2024-01-15",
+    lastActive: "2 hours ago",
     purchases: 12,
-    revenue: 4850
+    revenue: 4850,
   },
-  { 
-    id: 2, 
-    name: 'Bob Smith', 
-    email: 'bob@example.com', 
-    role: 'User', 
-    status: 'Active', 
-    joined: '2024-02-20',
-    lastActive: '5 minutes ago',
+  {
+    id: 2,
+    name: "Bob Smith",
+    email: "bob@example.com",
+    role: "User",
+    status: "Active",
+    joined: "2024-02-20",
+    lastActive: "5 minutes ago",
     purchases: 8,
-    revenue: 2340
+    revenue: 2340,
   },
-  { 
-    id: 3, 
-    name: 'Charlie Brown', 
-    email: 'charlie@example.com', 
-    role: 'User', 
-    status: 'Inactive', 
-    joined: '2024-03-10',
-    lastActive: '2 days ago',
+  {
+    id: 3,
+    name: "Charlie Brown",
+    email: "charlie@example.com",
+    role: "User",
+    status: "Inactive",
+    joined: "2024-03-10",
+    lastActive: "2 days ago",
     purchases: 3,
-    revenue: 890
+    revenue: 890,
   },
-  { 
-    id: 4, 
-    name: 'Diana Ross', 
-    email: 'diana@example.com', 
-    role: 'Editor', 
-    status: 'Active', 
-    joined: '2024-03-15',
-    lastActive: '1 hour ago',
+  {
+    id: 4,
+    name: "Diana Ross",
+    email: "diana@example.com",
+    role: "Editor",
+    status: "Active",
+    joined: "2024-03-15",
+    lastActive: "1 hour ago",
     purchases: 15,
-    revenue: 6720
+    revenue: 6720,
   },
-  { 
-    id: 5, 
-    name: 'Ethan Hunt', 
-    email: 'ethan@example.com', 
-    role: 'User', 
-    status: 'Active', 
-    joined: '2024-04-01',
-    lastActive: '30 minutes ago',
+  {
+    id: 5,
+    name: "Ethan Hunt",
+    email: "ethan@example.com",
+    role: "User",
+    status: "Active",
+    joined: "2024-04-01",
+    lastActive: "30 minutes ago",
     purchases: 6,
-    revenue: 1450
+    revenue: 1450,
   },
-  { 
-    id: 6, 
-    name: 'Fiona Apple', 
-    email: 'fiona@example.com', 
-    role: 'User', 
-    status: 'Suspended', 
-    joined: '2024-04-10',
-    lastActive: '1 week ago',
+  {
+    id: 6,
+    name: "Fiona Apple",
+    email: "fiona@example.com",
+    role: "User",
+    status: "Suspended",
+    joined: "2024-04-10",
+    lastActive: "1 week ago",
     purchases: 2,
-    revenue: 450
+    revenue: 450,
   },
 ];
 
 const stats = [
-  { 
-    label: 'Total Users', 
-    value: '1,284', 
-    change: '+12.5%', 
-    trending: 'up',
+  {
+    label: "Total Users",
+    value: "1,284",
+    change: "+12.5%",
+    trending: "up",
     icon: UserGroupIcon,
-    color: 'blue'
+    color: "blue",
   },
-  { 
-    label: 'Active Users', 
-    value: '1,092', 
-    change: '+8.2%', 
-    trending: 'up',
+  {
+    label: "Active Users",
+    value: "1,092",
+    change: "+8.2%",
+    trending: "up",
     icon: CheckCircleIcon,
-    color: 'emerald'
+    color: "emerald",
   },
-  { 
-    label: 'Inactive', 
-    value: '156', 
-    change: '-3.1%', 
-    trending: 'down',
+  {
+    label: "Inactive",
+    value: "156",
+    change: "-3.1%",
+    trending: "down",
     icon: XCircleIcon,
-    color: 'amber'
+    color: "amber",
   },
-  { 
-    label: 'Suspended', 
-    value: '36', 
-    change: '+2.4%', 
-    trending: 'up',
+  {
+    label: "Suspended",
+    value: "36",
+    change: "+2.4%",
+    trending: "up",
     icon: ClockIcon,
-    color: 'red'
+    color: "red",
   },
 ];
 
@@ -129,31 +129,35 @@ export default function UsersPage() {
   const [showActions, setShowActions] = useState<number | null>(null);
 
   const toggleUserSelection = (userId: number) => {
-    setSelectedUsers(prev => 
-      prev.includes(userId) 
-        ? prev.filter(id => id !== userId)
-        : [...prev, userId]
+    setSelectedUsers((prev) =>
+      prev.includes(userId)
+        ? prev.filter((id) => id !== userId)
+        : [...prev, userId],
     );
   };
 
   const toggleAllUsers = () => {
-    setSelectedUsers(prev => 
-      prev.length === users.length ? [] : users.map(u => u.id)
+    setSelectedUsers((prev) =>
+      prev.length === users.length ? [] : users.map((u) => u.id),
     );
   };
 
   const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
   };
 
   const getAvatarColor = (id: number) => {
     const colors = [
-      'bg-blue-500',
-      'bg-purple-500',
-      'bg-pink-500',
-      'bg-emerald-500',
-      'bg-amber-500',
-      'bg-cyan-500',
+      "bg-blue-500",
+      "bg-purple-500",
+      "bg-pink-500",
+      "bg-emerald-500",
+      "bg-amber-500",
+      "bg-cyan-500",
     ];
     return colors[id % colors.length];
   };
@@ -164,7 +168,9 @@ export default function UsersPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-white">User Management</h1>
-          <p className="text-zinc-400 mt-1">Manage and monitor all user accounts</p>
+          <p className="text-zinc-400 mt-1">
+            Manage and monitor all user accounts
+          </p>
         </div>
         <div className="flex gap-3">
           <button className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors">
@@ -184,14 +190,23 @@ export default function UsersPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
-          <div key={index} className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 transition-colors">
+          <div
+            key={index}
+            className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 transition-colors"
+          >
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p className="text-zinc-400 text-sm font-medium">{stat.label}</p>
-                <p className="text-2xl font-bold text-white mt-2">{stat.value}</p>
-                <span className={`inline-flex items-center gap-1 text-xs font-medium mt-2 ${
-                  stat.trending === 'up' ? 'text-emerald-400' : 'text-red-400'
-                }`}>
+                <p className="text-zinc-400 text-sm font-medium">
+                  {stat.label}
+                </p>
+                <p className="text-2xl font-bold text-white mt-2">
+                  {stat.value}
+                </p>
+                <span
+                  className={`inline-flex items-center gap-1 text-xs font-medium mt-2 ${
+                    stat.trending === "up" ? "text-emerald-400" : "text-red-400"
+                  }`}
+                >
                   {stat.change}
                   <span className="text-zinc-500">vs last month</span>
                 </span>
@@ -209,10 +224,10 @@ export default function UsersPage() {
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="flex-1 relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
-            <input 
-              type="text" 
-              placeholder="Search by name, email, or role..." 
-              className="w-full bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700" 
+            <input
+              type="text"
+              placeholder="Search by name, email, or role..."
+              className="w-full bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700"
             />
           </div>
           <div className="flex gap-3 flex-wrap">
@@ -241,7 +256,8 @@ export default function UsersPage() {
         {selectedUsers.length > 0 && (
           <div className="mt-4 pt-4 border-t border-zinc-800 flex items-center justify-between">
             <span className="text-sm text-zinc-400">
-              {selectedUsers.length} user{selectedUsers.length !== 1 ? 's' : ''} selected
+              {selectedUsers.length} user{selectedUsers.length !== 1 ? "s" : ""}{" "}
+              selected
             </span>
             <div className="flex gap-2">
               <button className="bg-zinc-800 hover:bg-zinc-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
@@ -265,28 +281,45 @@ export default function UsersPage() {
             <thead className="bg-zinc-950 border-b border-zinc-800">
               <tr>
                 <th className="px-6 py-4 w-12">
-                  <input 
-                    type="checkbox" 
+                  <input
+                    type="checkbox"
                     checked={selectedUsers.length === users.length}
                     onChange={toggleAllUsers}
                     className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
                   />
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">User</th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Role</th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Last Active</th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Purchases</th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">Revenue</th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider text-right">Actions</th>
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                  User
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                  Role
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                  Last Active
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                  Purchases
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                  Revenue
+                </th>
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider text-right">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800">
               {users.map((user) => (
-                <tr key={user.id} className="hover:bg-zinc-800/50 transition-colors group">
+                <tr
+                  key={user.id}
+                  className="hover:bg-zinc-800/50 transition-colors group"
+                >
                   <td className="px-6 py-4">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={selectedUsers.includes(user.id)}
                       onChange={() => toggleUserSelection(user.id)}
                       className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
@@ -294,11 +327,15 @@ export default function UsersPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full ${getAvatarColor(user.id)} flex items-center justify-center text-white font-semibold text-sm shrink-0`}>
+                      <div
+                        className={`w-10 h-10 rounded-full ${getAvatarColor(user.id)} flex items-center justify-center text-white font-semibold text-sm shrink-0`}
+                      >
                         {getInitials(user.name)}
                       </div>
                       <div className="min-w-0">
-                        <div className="font-medium text-white truncate">{user.name}</div>
+                        <div className="font-medium text-white truncate">
+                          {user.name}
+                        </div>
                         <div className="text-zinc-400 text-xs flex items-center gap-1 mt-0.5">
                           <EnvelopeIcon className="h-3 w-3" />
                           {user.email}
@@ -307,52 +344,74 @@ export default function UsersPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                      user.role === 'Admin' 
-                        ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' 
-                        : user.role === 'Editor'
-                        ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                        : 'bg-zinc-700 text-zinc-300 border border-zinc-600'
-                    }`}>
-                      {user.role === 'Admin' && <ShieldCheckIcon className="h-3 w-3" />}
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                        user.role === "Admin"
+                          ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                          : user.role === "Editor"
+                            ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                            : "bg-zinc-700 text-zinc-300 border border-zinc-600"
+                      }`}
+                    >
+                      {user.role === "Admin" && (
+                        <ShieldCheckIcon className="h-3 w-3" />
+                      )}
                       {user.role}
                     </span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                      user.status === 'Active' 
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
-                        : user.status === 'Suspended'
-                        ? 'bg-red-500/10 text-red-400 border border-red-500/20'
-                        : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                    }`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${
-                        user.status === 'Active' ? 'bg-emerald-400' : user.status === 'Suspended' ? 'bg-red-400' : 'bg-amber-400'
-                      }`}></span>
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                        user.status === "Active"
+                          ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                          : user.status === "Suspended"
+                            ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                            : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                      }`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          user.status === "Active"
+                            ? "bg-emerald-400"
+                            : user.status === "Suspended"
+                              ? "bg-red-400"
+                              : "bg-amber-400"
+                        }`}
+                      ></span>
                       {user.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-zinc-400 text-sm">{user.lastActive}</td>
-                  <td className="px-6 py-4 text-white font-medium">{user.purchases}</td>
-                  <td className="px-6 py-4 text-white font-medium">${user.revenue.toLocaleString()}</td>
+                  <td className="px-6 py-4 text-zinc-400 text-sm">
+                    {user.lastActive}
+                  </td>
+                  <td className="px-6 py-4 text-white font-medium">
+                    {user.purchases}
+                  </td>
+                  <td className="px-6 py-4 text-white font-medium">
+                    ${user.revenue.toLocaleString()}
+                  </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
-                      <Link 
-                        href={`/admin/users/${user.id}`} 
+                      <Link
+                        href={`/admin/users/${user.id}`}
                         className="p-2 hover:bg-zinc-700 rounded-lg text-zinc-400 hover:text-white transition-all"
                         title="Edit user"
                       >
                         <PencilSquareIcon className="h-4 w-4" />
                       </Link>
-                      <button 
+                      <button
                         className="p-2 hover:bg-zinc-700 rounded-lg text-zinc-400 hover:text-red-400 transition-all"
                         title="Delete user"
                       >
                         <TrashIcon className="h-4 w-4" />
                       </button>
                       <div className="relative">
-                        <button 
-                          onClick={() => setShowActions(showActions === user.id ? null : user.id)}
+                        <button
+                          onClick={() =>
+                            setShowActions(
+                              showActions === user.id ? null : user.id,
+                            )
+                          }
                           className="p-2 hover:bg-zinc-700 rounded-lg text-zinc-400 hover:text-white transition-all"
                         >
                           <EllipsisVerticalIcon className="h-4 w-4" />
@@ -387,17 +446,26 @@ export default function UsersPage() {
         <div className="bg-zinc-950 border-t border-zinc-800 px-6 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-zinc-400">
-              Showing <span className="font-medium text-white">1</span> to <span className="font-medium text-white">6</span> of{' '}
+              Showing <span className="font-medium text-white">1</span> to{" "}
+              <span className="font-medium text-white">6</span> of{" "}
               <span className="font-medium text-white">24</span> users
             </div>
             <div className="flex items-center gap-2">
               <button className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 <ChevronLeftIcon className="h-4 w-4" />
               </button>
-              <button className="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm font-medium">1</button>
-              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">2</button>
-              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">3</button>
-              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">4</button>
+              <button className="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm font-medium">
+                1
+              </button>
+              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">
+                2
+              </button>
+              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">
+                3
+              </button>
+              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">
+                4
+              </button>
               <button className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors">
                 <ChevronRightIcon className="h-4 w-4" />
               </button>
