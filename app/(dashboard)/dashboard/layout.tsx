@@ -42,7 +42,7 @@ const navItems = [
     description: "Dashboard home",
   },
   {
-    href: "/dashboard/config/demo-project",
+    href: "/dashboard/controls",
     label: "Controls",
     icon: Sliders,
     description: "Project settings",
