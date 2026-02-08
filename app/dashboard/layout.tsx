@@ -16,11 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navItems = [
   {
@@ -89,11 +85,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
           const Icon = item.icon;
           const isActive = pathname.startsWith(item.href.split("?")[0]);
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onLinkClick}
-            >
+            <Link key={item.href} href={item.href} onClick={onLinkClick}>
               <Button
                 variant={isActive ? "default" : "ghost"}
                 className={cn(
