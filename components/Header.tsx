@@ -86,10 +86,11 @@ export default function Header({
             ))}
           </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* Right Actions - User Dropdown & Mobile Menu */}
+          <div className="flex items-center space-x-2">
+            {/* User Dropdown - Works on all screen sizes */}
             {isLoading ? (
-              <Button disabled size="sm">
+              <Button disabled size="sm" className="hidden md:inline-flex">
                 Loading...
               </Button>
             ) : session ? (
@@ -152,10 +153,8 @@ export default function Header({
                 <Link href="/auth/login">Login</Link>
               </Button>
             )}
-          </div>
 
-          {/* Mobile Menu */}
-          <div className="flex md:hidden items-center space-x-2">
+            {/* Mobile Navigation Menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
@@ -183,80 +182,6 @@ export default function Header({
                       {link.label}
                     </Link>
                   ))}
-                  <div className="pt-4 border-t">
-                    {isLoading ? (
-                      <Button disabled className="w-full">
-                        Loading...
-                      </Button>
-                    ) : session ? (
-                      <div className="space-y-3">
-                        <div className="flex items-center space-x-3 px-2 py-2 rounded-lg bg-muted">
-                          <Avatar className="h-10 w-10">
-                            <AvatarFallback className="bg-primary text-primary-foreground">
-                              {getUserInitials(session.user.name)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex flex-col">
-                            <p className="text-sm font-medium">
-                              {session.user.name}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {session.user.email}
-                            </p>
-                          </div>
-                        </div>
-                        <Button
-                          asChild
-                          className="w-full"
-                          variant="outline"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          <Link href="/dashboard/overview">
-                            <LayoutDashboard className="mr-2 h-4 w-4" />
-                            Dashboard
-                          </Link>
-                        </Button>
-                        <Button
-                          asChild
-                          className="w-full"
-                          variant="outline"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          <Link href="/profile">
-                            <User className="mr-2 h-4 w-4" />
-                            Profile
-                          </Link>
-                        </Button>
-                        <Button
-                          asChild
-                          className="w-full"
-                          variant="outline"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          <Link href="/dashboard/settings">
-                            <Settings className="mr-2 h-4 w-4" />
-                            Settings
-                          </Link>
-                        </Button>
-
-                        <Button
-                          onClick={() => {
-                            setIsOpen(false);
-                            handleSignOut();
-                          }}
-                          className="w-full"
-                          variant="destructive"
-                        >
-                          <LogOut className="mr-2 h-4 w-4" />
-                          Log out
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button asChild className="w-full">
-                        <Link href="/auth/login">Login</Link>
-                      </Button>
-                    )}
-                  </div>
                 </div>
               </SheetContent>
             </Sheet>
