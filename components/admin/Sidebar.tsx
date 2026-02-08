@@ -15,7 +15,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Overview", href: "/admin", icon: HomeIcon, exact: true },
+  { name: "Overview", href: "/admin/overview", icon: HomeIcon, exact: true },
   { name: "Products", href: "/admin/products", icon: ShoppingBagIcon },
   { name: "Purchases", href: "/admin/purchases", icon: CreditCardIcon },
   { name: "Users", href: "/admin/users", icon: UsersIcon },
@@ -105,7 +105,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
           <div className="text-xs text-zinc-500">
             <div className="flex justify-between py-0.5">
-              <span>Today's Sales:</span>
+              <span>Today&apos;s Sales:</span>
               <span className="text-zinc-300 font-medium">$1,234</span>
             </div>
             <div className="flex justify-between py-0.5">
