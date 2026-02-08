@@ -12,7 +12,6 @@ import {
   BookOpen,
   ChevronRight,
   Menu,
-  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -20,59 +19,52 @@ import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const navItems = [
+  {
+    href: "/dashboard/overview",
+    label: "Overview",
+    icon: LayoutGrid,
+    description: "Dashboard home",
+  },
+  {
+    href: "/dashboard/config/demo-project",
+    label: "Controls",
+    icon: Sliders,
+    description: "Project settings",
+  },
+  {
+    href: "/dashboard/presets",
+    label: "Presets",
+    icon: Layers,
+    description: "Saved configurations",
+  },
+  {
+    href: "/dashboard/usage",
+    label: "Usage",
+    icon: BarChart3,
+    description: "Analytics & stats",
+  },
+  {
+    href: "/dashboard/settings",
+    label: "Backup & Restore",
+    icon: Shield,
+    description: "Data protection",
+  },
+  {
+    href: "/dashboard/docs",
+    label: "Documentation",
+    icon: BookOpen,
+    description: "Guides & help",
+  },
+];
+
+function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems = [
-    {
-      href: "/dashboard/overview",
-      label: "Overview",
-      icon: LayoutGrid,
-      description: "Dashboard home",
-    },
-    {
-      href: "/dashboard/config/demo-project",
-      label: "Controls",
-      icon: Sliders,
-      description: "Project settings",
-    },
-    {
-      href: "/dashboard/presets",
-      label: "Presets",
-      icon: Layers,
-      description: "Saved configurations",
-    },
-    {
-      href: "/dashboard/usage",
-      label: "Usage",
-      icon: BarChart3,
-      description: "Analytics & stats",
-    },
-    {
-      href: "/dashboard/settings",
-      label: "Backup & Restore",
-      icon: Shield,
-      description: "Data protection",
-    },
-    {
-      href: "/dashboard/docs",
-      label: "Documentation",
-      icon: BookOpen,
-      description: "Guides & help",
-    },
-  ];
-
-  const SidebarContent = () => (
+  return (
     <>
       {/* Header */}
       <div className="p-6 border-b border-zinc-200 dark:border-zinc-800">
@@ -100,7 +92,7 @@ export default function DashboardLayout({
             <Link
               key={item.href}
               href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={onLinkClick}
             >
               <Button
                 variant={isActive ? "default" : "ghost"}
@@ -166,6 +158,14 @@ export default function DashboardLayout({
       </div>
     </>
   );
+}
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="flex h-screen bg-zinc-50 dark:bg-zinc-950">
@@ -196,7 +196,7 @@ export default function DashboardLayout({
             </SheetTrigger>
             <SheetContent side="left" className="w-72 p-0">
               <div className="flex flex-col h-full">
-                <SidebarContent />
+                <SidebarContent onLinkClick={() => setMobileMenuOpen(false)} />
               </div>
             </SheetContent>
           </Sheet>
