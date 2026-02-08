@@ -324,11 +324,13 @@ export default function DashboardLayout({
               </SheetTrigger>
               <SheetContent side="left" className="w-72 p-0">
                 <div className="flex flex-col h-full">
-                  <SidebarContent onLinkClick={() => setMobileMenuOpen(false)} />
+                  <SidebarContent
+                    onLinkClick={() => setMobileMenuOpen(false)}
+                  />
                 </div>
               </SheetContent>
             </Sheet>
-            
+
             <div className="h-8 w-8 rounded-lg bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center">
               <LayoutGrid className="h-4 w-4 text-white" />
             </div>
@@ -409,7 +411,7 @@ export default function DashboardLayout({
         <div className="hidden lg:block">
           <DashboardHeader />
         </div>
-        
+
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto">
           <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">{children}</div>
