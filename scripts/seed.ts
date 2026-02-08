@@ -4,6 +4,7 @@ import { getDb } from "../lib/mongodb";
 import { getUsers } from "./data/users";
 import { allProducts } from "./data/products";
 import { allPurchases } from "./data/purchases";
+import { allContacts } from "./data/contacts";
 
 /**
  * Database seeding script
@@ -13,6 +14,7 @@ import { allPurchases } from "./data/purchases";
  * 1. Users (needed for purchase references)
  * 2. Products
  * 3. Purchases (references users and products)
+ * 4. Contacts (independent, can be seeded anytime)
  */
 
 async function seedUsers() {
@@ -69,6 +71,19 @@ async function seedPurchases() {
   console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} purchases`));
 }
 
+async function seedContacts() {
+  const db = await getDb();
+
+  console.log(chalk.yellow("\n📧 Seeding Contacts..."));
+  const collection = db.collection("contacts");
+
+  await collection.deleteMany({});
+  console.log(chalk.gray("  ✓ Cleared existing contacts"));
+
+  const result = await collection.insertMany(allContacts);
+  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} contacts`));
+}
+
 async function seed() {
   try {
     // Safety check for production
@@ -86,6 +101,7 @@ async function seed() {
     await seedUsers();
     await seedProducts();
     await seedPurchases();
+    await seedContacts();
 
     console.log(chalk.gray("\n" + "━".repeat(50)));
     console.log(chalk.green.bold("✅ Seed completed successfully!\n"));
