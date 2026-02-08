@@ -9,6 +9,11 @@ import {
   LogOut,
   Settings,
   LayoutDashboard,
+  ShoppingBag,
+  Workflow,
+  Plug,
+  Mail,
+  ChevronRight,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -40,10 +45,10 @@ export default function Header({
   const isLoading = status === "loading";
 
   const navLinks = [
-    { href: "/products", label: "Products" },
-    { href: "/n8n", label: "N8N Integrations" },
-    { href: "/make", label: "Make.com Integrations" },
-    { href: "/contact", label: "Contact" },
+    { href: "/products", label: "Products", icon: ShoppingBag },
+    { href: "/n8n", label: "N8N Integrations", icon: Workflow },
+    { href: "/make", label: "Make.com Integrations", icon: Plug },
+    { href: "/contact", label: "Contact", icon: Mail },
   ];
 
   const getUserInitials = (name: string) => {
@@ -162,26 +167,45 @@ export default function Header({
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-75 sm:w-100">
-                <SheetHeader>
-                  <SheetTitle className="flex items-center space-x-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                      <Sparkles className="h-4 w-4" />
+              <SheetContent side="right" className="w-80">
+                <SheetHeader className="border-b pb-4">
+                  <SheetTitle className="flex items-center space-x-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-blue-500 to-blue-600 shadow-lg">
+                      <Sparkles className="h-5 w-5 text-white" />
                     </div>
-                    <span>Autorithm</span>
+                    <div className="text-left">
+                      <span className="text-lg font-bold">Autorithm</span>
+                      <p className="text-xs text-muted-foreground font-normal">
+                        Automation Studio
+                      </p>
+                    </div>
                   </SheetTitle>
                 </SheetHeader>
-                <div className="flex flex-col space-y-4 mt-8">
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="text-foreground hover:text-primary transition-colors font-medium py-2"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
+                <div className="flex flex-col mt-6">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-muted-foreground px-3 mb-3">
+                      NAVIGATION
+                    </p>
+                    {navLinks.map((link) => {
+                      const Icon = link.icon;
+                      return (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center justify-between px-3 py-3 rounded-lg text-foreground hover:bg-accent hover:text-primary transition-all font-medium group"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted group-hover:bg-primary/10 transition-colors">
+                              <Icon className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                            </div>
+                            <span className="text-sm">{link.label}</span>
+                          </div>
+                          <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
