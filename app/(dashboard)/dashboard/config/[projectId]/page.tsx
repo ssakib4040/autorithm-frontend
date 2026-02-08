@@ -11,6 +11,10 @@ import {
   ArrowDownTrayIcon,
   XMarkIcon,
   DocumentDuplicateIcon,
+  CubeIcon,
+  Square3Stack3DIcon,
+  ClockIcon,
+  CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 
 type BlockType =
@@ -207,7 +211,7 @@ export default function ProjectControlsPage({
             type="text"
             value={block.value as string}
             onChange={(e) => updateFn(block.id, e.target.value)}
-            className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2.5 bg-zinc-950/50 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
             placeholder="Enter text"
           />
         );
@@ -217,30 +221,38 @@ export default function ProjectControlsPage({
             type="number"
             value={block.value as number}
             onChange={(e) => updateFn(block.id, Number(e.target.value))}
-            className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+            className="w-full px-4 py-2.5 bg-zinc-950/50 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
             placeholder="Enter number"
           />
         );
       case "boolean":
         return (
-          <button
-            onClick={() => updateFn(block.id, !(block.value as boolean))}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-              block.value ? "bg-blue-600" : "bg-zinc-700"
-            }`}
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                block.value ? "translate-x-6" : "translate-x-1"
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => updateFn(block.id, !(block.value as boolean))}
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-all shadow-lg ${
+                block.value ? "bg-blue-600" : "bg-zinc-700"
               }`}
-            />
-          </button>
+            >
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform shadow-md ${
+                  block.value ? "translate-x-6" : "translate-x-1"
+                }`}
+              />
+            </button>
+            <span className="text-sm text-zinc-400">
+              {block.value ? "Enabled" : "Disabled"}
+            </span>
+          </div>
         );
       case "list":
         return (
           <div className="space-y-2">
             {(block.value as string[]).map((item: string, idx: number) => (
               <div key={idx} className="flex items-center gap-2">
+                <div className="shrink-0 w-6 h-6 rounded-full bg-zinc-800/50 border border-zinc-700 flex items-center justify-center text-xs text-zinc-500 font-medium">
+                  {idx + 1}
+                </div>
                 <input
                   type="text"
                   value={item}
@@ -249,7 +261,7 @@ export default function ProjectControlsPage({
                     newList[idx] = e.target.value;
                     updateFn(block.id, newList);
                   }}
-                  className="flex-1 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+                  className="flex-1 px-4 py-2.5 bg-zinc-950/50 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                   placeholder="Value"
                 />
                 <button
@@ -259,7 +271,7 @@ export default function ProjectControlsPage({
                     );
                     updateFn(block.id, newList);
                   }}
-                  className="p-2 text-zinc-500 hover:text-red-400"
+                  className="p-2.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
                 >
                   <XMarkIcon className="h-4 w-4" />
                 </button>
@@ -269,9 +281,10 @@ export default function ProjectControlsPage({
               onClick={() =>
                 updateFn(block.id, [...(block.value as string[]), ""])
               }
-              className="text-sm text-blue-400 hover:text-blue-300"
+              className="text-sm text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1.5"
             >
-              + Add item
+              <PlusIcon className="h-4 w-4" />
+              Add item
             </button>
           </div>
         );
@@ -291,9 +304,10 @@ export default function ProjectControlsPage({
                       newPairs[idx].key = e.target.value;
                       updateFn(block.id, newPairs);
                     }}
-                    className="flex-1 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+                    className="flex-1 px-4 py-2.5 bg-zinc-950/50 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                     placeholder="Key"
                   />
+                  <span className="text-zinc-600 font-bold">:</span>
                   <input
                     type="text"
                     value={pair.value}
@@ -304,7 +318,7 @@ export default function ProjectControlsPage({
                       newPairs[idx].value = e.target.value;
                       updateFn(block.id, newPairs);
                     }}
-                    className="flex-1 px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+                    className="flex-1 px-4 py-2.5 bg-zinc-950/50 border border-zinc-800 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                     placeholder="Value"
                   />
                   <button
@@ -317,7 +331,7 @@ export default function ProjectControlsPage({
                       );
                       updateFn(block.id, newPairs);
                     }}
-                    className="p-2 text-zinc-500 hover:text-red-400"
+                    className="p-2.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-all"
                   >
                     <XMarkIcon className="h-4 w-4" />
                   </button>
@@ -331,9 +345,10 @@ export default function ProjectControlsPage({
                   { key: "", value: "" },
                 ])
               }
-              className="text-sm text-blue-400 hover:text-blue-300"
+              className="text-sm text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1.5"
             >
-              + Add pair
+              <PlusIcon className="h-4 w-4" />
+              Add pair
             </button>
           </div>
         );
@@ -342,52 +357,130 @@ export default function ProjectControlsPage({
     }
   };
 
+  const totalBlocks = blocks.reduce((count, block) => {
+    if (block.type === "section" && block.children) {
+      return count + 1 + block.children.length;
+    }
+    return count + 1;
+  }, 0);
+
+  const sectionCount = blocks.filter((b) => b.type === "section").length;
+
   return (
     <div className="space-y-6">
-      <div className="border-b border-zinc-800/50 pb-6">
-        <div className="flex items-center justify-between mb-2">
-          <h1 className="text-3xl font-bold text-white">Project Controls</h1>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setShowImportModal(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800/50 border border-zinc-700/50 text-zinc-300 text-sm font-medium hover:bg-zinc-800 hover:text-white transition-all"
-            >
-              <ArrowDownTrayIcon className="h-4 w-4" />
-              Import
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800/50 border border-zinc-700/50 text-zinc-300 text-sm font-medium hover:bg-zinc-800 hover:text-white transition-all">
-              <ArrowUpTrayIcon className="h-4 w-4" />
-              Export
-            </button>
-          </div>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Project Configuration
+          </h1>
+          <p className="text-zinc-400 text-sm">
+            Build custom configuration structures with blocks and sections
+          </p>
         </div>
-        <p className="text-zinc-400 text-sm mb-3">
-          Build your own configuration structure for this project.
-        </p>
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
-          <div className="h-2 w-2 rounded-full bg-blue-400"></div>
-          <span className="text-xs font-mono text-blue-300">{projectId}</span>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700/50 text-zinc-300 text-sm font-medium hover:bg-zinc-800 hover:border-zinc-600 hover:text-white transition-all shadow-lg"
+          >
+            <ArrowDownTrayIcon className="h-4 w-4" />
+            Import
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-800/50 border border-zinc-700/50 text-zinc-300 text-sm font-medium hover:bg-zinc-800 hover:border-zinc-600 hover:text-white transition-all shadow-lg">
+            <ArrowUpTrayIcon className="h-4 w-4" />
+            Export
+          </button>
         </div>
       </div>
 
+      {/* Project ID Badge */}
+      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-linear-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20">
+        <div className="h-2 w-2 rounded-full bg-blue-400 animate-pulse"></div>
+        <span className="text-sm font-medium text-zinc-300">Project ID:</span>
+        <span className="text-sm font-mono text-blue-300 font-semibold">
+          {projectId}
+        </span>
+      </div>
+
+      {/* Stats Cards */}
+      {blocks.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-linear-to-br from-zinc-900 to-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                <CubeIcon className="h-6 w-6 text-blue-400" />
+              </div>
+            </div>
+            <p className="text-zinc-400 text-sm font-medium mb-1">
+              Total Blocks
+            </p>
+            <p className="text-3xl font-bold text-white">{totalBlocks}</p>
+            <p className="text-xs text-zinc-500 mt-2">
+              All configuration items
+            </p>
+          </div>
+
+          <div className="bg-linear-to-br from-zinc-900 to-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                <Square3Stack3DIcon className="h-6 w-6 text-purple-400" />
+              </div>
+            </div>
+            <p className="text-zinc-400 text-sm font-medium mb-1">Sections</p>
+            <p className="text-3xl font-bold text-white">{sectionCount}</p>
+            <p className="text-xs text-zinc-500 mt-2">Grouped configurations</p>
+          </div>
+
+          <div className="bg-linear-to-br from-zinc-900 to-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-green-500/10 border border-green-500/20">
+                <CheckCircleIcon className="h-6 w-6 text-green-400" />
+              </div>
+            </div>
+            <p className="text-zinc-400 text-sm font-medium mb-1">Status</p>
+            <p className="text-xl font-bold text-green-400">Active</p>
+            <p className="text-xs text-zinc-500 mt-2">Configuration ready</p>
+          </div>
+
+          <div className="bg-linear-to-br from-zinc-900 to-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <ClockIcon className="h-6 w-6 text-amber-400" />
+              </div>
+            </div>
+            <p className="text-zinc-400 text-sm font-medium mb-1">
+              Last Modified
+            </p>
+            <p className="text-xl font-bold text-white">Just now</p>
+            <p className="text-xs text-zinc-500 mt-2">Auto-saved</p>
+          </div>
+        </div>
+      )}
+
+      {/* Content Area */}
       {blocks.length === 0 ? (
         <div className="flex items-center justify-center py-32">
           <div className="text-center max-w-md">
-            <div className="h-20 w-20 rounded-2xl bg-zinc-800/50 border border-zinc-700/50 flex items-center justify-center mx-auto mb-6">
-              <Bars3Icon className="h-10 w-10 text-zinc-600" />
+            <div className="relative mx-auto mb-8">
+              <div className="h-24 w-24 rounded-3xl bg-linear-to-br from-blue-500/10 to-purple-500/10 border border-zinc-700/50 flex items-center justify-center mx-auto backdrop-blur-xl">
+                <Bars3Icon className="h-12 w-12 text-zinc-600" />
+              </div>
+              <div className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-blue-500/20 border border-blue-500/40 animate-ping"></div>
+              <div className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-blue-500 border border-blue-400"></div>
             </div>
-            <h2 className="text-xl font-semibold text-white mb-2">
-              Blank Canvas
+            <h2 className="text-2xl font-bold text-white mb-3">
+              Start Building
             </h2>
-            <p className="text-zinc-500 text-sm mb-6">
-              Start building your configuration structure by adding blocks
+            <p className="text-zinc-500 text-sm mb-8 leading-relaxed">
+              Create your custom configuration structure with blocks and
+              sections. Add text fields, numbers, toggles, lists, and more.
             </p>
             <button
               onClick={() => setShowAddModal(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-medium hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-600/20"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-linear-to-r from-blue-600 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-400 transition-all shadow-xl shadow-blue-600/25 hover:shadow-2xl hover:shadow-blue-600/40"
             >
               <PlusIcon className="h-5 w-5" />
-              Add Block
+              Add Your First Block
             </button>
           </div>
         </div>
@@ -395,7 +488,7 @@ export default function ProjectControlsPage({
         <div className="space-y-4">
           <button
             onClick={() => setShowAddModal(true)}
-            className="w-full py-3 border-2 border-dashed border-zinc-800 rounded-xl text-zinc-500 hover:border-blue-500/50 hover:text-blue-400 hover:bg-blue-500/5 transition-all flex items-center justify-center gap-2 font-medium"
+            className="w-full py-4 border-2 border-dashed border-zinc-800 rounded-2xl text-zinc-500 hover:border-blue-500/50 hover:text-blue-400 hover:bg-blue-500/5 transition-all flex items-center justify-center gap-2 font-semibold shadow-lg hover:shadow-blue-500/10"
           >
             <PlusIcon className="h-5 w-5" />
             Add Block
@@ -405,13 +498,13 @@ export default function ProjectControlsPage({
             block.type === "section" ? (
               <div
                 key={block.id}
-                className="bg-zinc-900/30 backdrop-blur-xl border border-zinc-800/50 rounded-2xl overflow-hidden shadow-xl"
+                className="bg-linear-to-br from-zinc-900/80 to-zinc-900/40 backdrop-blur-xl border border-zinc-800/50 rounded-2xl overflow-hidden shadow-2xl hover:border-zinc-700/50 transition-all"
               >
-                <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/50 bg-zinc-900/50">
+                <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-800/50 bg-zinc-900/60">
                   <div className="flex items-center gap-3 flex-1">
                     <button
                       onClick={() => toggleSection(block.id)}
-                      className="text-zinc-400 hover:text-white"
+                      className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-all"
                     >
                       {expandedSections.has(block.id) ? (
                         <ChevronUpIcon className="h-5 w-5" />
@@ -419,29 +512,40 @@ export default function ProjectControlsPage({
                         <ChevronDownIcon className="h-5 w-5" />
                       )}
                     </button>
+                    <div className="p-2.5 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                      <Square3Stack3DIcon className="h-5 w-5 text-purple-400" />
+                    </div>
                     <input
                       type="text"
                       value={block.title}
                       onChange={(e) =>
                         updateBlockTitle(block.id, e.target.value)
                       }
-                      className="flex-1 text-lg font-semibold text-white bg-transparent border-none focus:outline-none"
+                      className="flex-1 text-lg font-bold text-white bg-transparent border-none focus:outline-none"
+                      placeholder="Section name"
                     />
-                    <span className="text-xs text-zinc-500 bg-zinc-800/50 px-3 py-1.5 rounded-lg font-mono">
+                    <span className="text-xs text-zinc-400 bg-zinc-800/50 px-3 py-1.5 rounded-lg font-mono border border-zinc-700/50">
                       section
                     </span>
+                    {block.children && block.children.length > 0 && (
+                      <span className="text-xs text-zinc-500 bg-zinc-800/30 px-2.5 py-1 rounded-lg font-medium">
+                        {block.children.length} items
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => duplicateBlock(block)}
-                      className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50"
+                      className="p-2.5 rounded-lg text-zinc-400 hover:text-blue-400 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20 transition-all"
+                      title="Duplicate section"
                     >
                       <DocumentDuplicateIcon className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => removeBlock(block.id)}
-                      className="p-2 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-red-500/10"
+                      className="p-2.5 rounded-lg text-zinc-400 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all"
+                      title="Delete section"
                     >
                       <TrashIcon className="h-4 w-4" />
                     </button>
@@ -451,15 +555,19 @@ export default function ProjectControlsPage({
                 {expandedSections.has(block.id) && (
                   <div className="p-6 space-y-3">
                     {block.children && block.children.length === 0 ? (
-                      <div className="text-center py-8">
-                        <p className="text-sm text-zinc-500 mb-3">
-                          No blocks in this section
+                      <div className="text-center py-12 bg-zinc-950/30 rounded-xl border border-zinc-800/30">
+                        <div className="h-16 w-16 rounded-2xl bg-zinc-800/30 border border-zinc-700/50 flex items-center justify-center mx-auto mb-4">
+                          <CubeIcon className="h-8 w-8 text-zinc-600" />
+                        </div>
+                        <p className="text-sm text-zinc-500 mb-4 font-medium">
+                          This section is empty
                         </p>
                         <button
                           onClick={() => addBlockToSection(block.id)}
-                          className="text-sm text-blue-400 hover:text-blue-300 font-medium"
+                          className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 font-semibold px-4 py-2 rounded-lg hover:bg-blue-500/10 transition-all"
                         >
-                          Add block
+                          <PlusIcon className="h-4 w-4" />
+                          Add first block
                         </button>
                       </div>
                     ) : (
@@ -467,9 +575,9 @@ export default function ProjectControlsPage({
                         {block.children?.map((child) => (
                           <div
                             key={child.id}
-                            className="group flex items-start gap-4 p-4 bg-zinc-900/50 border border-zinc-800/30 rounded-xl hover:border-zinc-700/50 transition-all"
+                            className="group flex items-start gap-4 p-5 bg-zinc-950/50 border border-zinc-800/40 rounded-xl hover:border-zinc-700/60 hover:bg-zinc-950/70 transition-all shadow-lg"
                           >
-                            <button className="mt-3 text-zinc-600 hover:text-zinc-400 cursor-grab">
+                            <button className="mt-3 text-zinc-600 hover:text-zinc-400 cursor-grab active:cursor-grabbing p-1 rounded hover:bg-zinc-800/50 transition-all">
                               <Bars3Icon className="h-5 w-5" />
                             </button>
 
@@ -485,9 +593,10 @@ export default function ProjectControlsPage({
                                       e.target.value,
                                     )
                                   }
-                                  className="flex-1 px-3 py-2 bg-zinc-950/50 border border-zinc-800/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50"
+                                  className="flex-1 px-4 py-2.5 bg-zinc-900/50 border border-zinc-800/50 rounded-lg text-white text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                                  placeholder="Field name"
                                 />
-                                <span className="text-xs text-zinc-500 bg-zinc-800/50 px-3 py-1.5 rounded-lg font-mono">
+                                <span className="text-xs text-zinc-400 bg-zinc-800/50 px-3 py-1.5 rounded-lg font-mono border border-zinc-700/50 shrink-0">
                                   {child.type}
                                 </span>
                               </div>
@@ -503,7 +612,8 @@ export default function ProjectControlsPage({
                               onClick={() =>
                                 removeBlockFromSection(block.id, child.id)
                               }
-                              className="p-2 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
+                              className="p-2.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all border border-transparent hover:border-red-500/20"
+                              title="Remove block"
                             >
                               <TrashIcon className="h-4 w-4" />
                             </button>
@@ -511,9 +621,10 @@ export default function ProjectControlsPage({
                         ))}
                         <button
                           onClick={() => addBlockToSection(block.id)}
-                          className="w-full py-2 border border-dashed border-zinc-800 rounded-lg text-zinc-500 hover:border-blue-500/50 hover:text-blue-400 text-sm font-medium transition-all"
+                          className="w-full py-3 border-2 border-dashed border-zinc-800 rounded-xl text-zinc-500 hover:border-blue-500/50 hover:text-blue-400 hover:bg-blue-500/5 text-sm font-semibold transition-all flex items-center justify-center gap-2"
                         >
-                          + Add block
+                          <PlusIcon className="h-4 w-4" />
+                          Add block to section
                         </button>
                       </>
                     )}
@@ -523,9 +634,9 @@ export default function ProjectControlsPage({
             ) : (
               <div
                 key={block.id}
-                className="group flex items-start gap-4 p-4 bg-zinc-900/30 backdrop-blur-xl border border-zinc-800/50 rounded-xl hover:border-zinc-700/50 transition-all shadow-lg"
+                className="group flex items-start gap-4 p-5 bg-linear-to-br from-zinc-900/80 to-zinc-900/40 backdrop-blur-xl border border-zinc-800/50 rounded-2xl hover:border-zinc-700/50 transition-all shadow-xl hover:shadow-2xl"
               >
-                <button className="mt-3 text-zinc-600 hover:text-zinc-400 cursor-grab">
+                <button className="mt-3 text-zinc-600 hover:text-zinc-400 cursor-grab active:cursor-grabbing p-1 rounded hover:bg-zinc-800/50 transition-all">
                   <Bars3Icon className="h-5 w-5" />
                 </button>
 
@@ -537,9 +648,10 @@ export default function ProjectControlsPage({
                       onChange={(e) =>
                         updateBlockTitle(block.id, e.target.value)
                       }
-                      className="flex-1 px-3 py-2 bg-zinc-950/50 border border-zinc-800/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50"
+                      className="flex-1 px-4 py-2.5 bg-zinc-950/50 border border-zinc-800/50 rounded-lg text-white text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                      placeholder="Field name"
                     />
-                    <span className="text-xs text-zinc-500 bg-zinc-800/50 px-3 py-1.5 rounded-lg font-mono">
+                    <span className="text-xs text-zinc-400 bg-zinc-800/50 px-3 py-1.5 rounded-lg font-mono border border-zinc-700/50 shrink-0">
                       {block.type}
                     </span>
                   </div>
@@ -550,13 +662,15 @@ export default function ProjectControlsPage({
                 <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => duplicateBlock(block)}
-                    className="p-2 rounded-lg text-zinc-500 hover:text-white hover:bg-zinc-800/50"
+                    className="p-2.5 rounded-lg text-zinc-500 hover:text-blue-400 hover:bg-blue-500/10 border border-transparent hover:border-blue-500/20 transition-all"
+                    title="Duplicate block"
                   >
                     <DocumentDuplicateIcon className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => removeBlock(block.id)}
-                    className="p-2 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10"
+                    className="p-2.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all"
+                    title="Delete block"
                   >
                     <TrashIcon className="h-4 w-4" />
                   </button>
@@ -567,65 +681,107 @@ export default function ProjectControlsPage({
         </div>
       )}
 
+      {/* Add Block Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full shadow-2xl">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
-              <h3 className="text-lg font-semibold text-white">
-                Choose Block Type
-              </h3>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-800">
+              <div>
+                <h3 className="text-xl font-bold text-white">Add New Block</h3>
+                <p className="text-sm text-zinc-400 mt-1">
+                  Choose a block type to add to your configuration
+                </p>
+              </div>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-zinc-400 hover:text-white"
+                className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="p-6 space-y-3">
+            <div className="p-6 space-y-2.5 max-h-[60vh] overflow-y-auto">
               {[
                 {
                   type: "text" as BlockType,
-                  label: "Text",
-                  desc: "Single line text input",
+                  label: "Text Input",
+                  desc: "Single line text field",
+                  icon: "ABC",
+                  color: "blue",
                 },
                 {
                   type: "number" as BlockType,
-                  label: "Number",
-                  desc: "Numeric value",
+                  label: "Number Input",
+                  desc: "Numeric value field",
+                  icon: "123",
+                  color: "green",
                 },
                 {
                   type: "boolean" as BlockType,
-                  label: "Boolean",
-                  desc: "True/false toggle",
+                  label: "Boolean Toggle",
+                  desc: "True/false switch",
+                  icon: "✓",
+                  color: "purple",
                 },
                 {
                   type: "list" as BlockType,
-                  label: "List",
-                  desc: "Multiple values",
+                  label: "List Items",
+                  desc: "Array of multiple values",
+                  icon: "[]",
+                  color: "amber",
                 },
                 {
                   type: "keyvalue" as BlockType,
-                  label: "Key-Value Map",
-                  desc: "Key-value pairs",
+                  label: "Key-Value Pairs",
+                  desc: "Object with key-value pairs",
+                  icon: "{}",
+                  color: "pink",
                 },
                 {
                   type: "section" as BlockType,
-                  label: "Section / Group",
-                  desc: "Container for other blocks",
+                  label: "Section Container",
+                  desc: "Group blocks together",
+                  icon: "§",
+                  color: "cyan",
                 },
               ].map((item) => (
                 <button
                   key={item.type}
                   onClick={() => setSelectedBlockType(item.type)}
-                  className={`w-full p-4 rounded-xl text-left transition-all ${
+                  className={`w-full p-4 rounded-xl text-left transition-all group ${
                     selectedBlockType === item.type
-                      ? "bg-blue-600/20 border-2 border-blue-500"
-                      : "bg-zinc-800/30 border-2 border-zinc-800 hover:border-zinc-700"
+                      ? `bg-${item.color}-600/20 border-2 border-${item.color}-500 shadow-lg shadow-${item.color}-500/20`
+                      : "bg-zinc-800/30 border-2 border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800/50"
                   }`}
                 >
-                  <div className="font-medium text-white">{item.label}</div>
-                  <div className="text-xs text-zinc-500 mt-1">{item.desc}</div>
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`shrink-0 h-12 w-12 rounded-xl flex items-center justify-center font-bold text-lg ${
+                        selectedBlockType === item.type
+                          ? `bg-${item.color}-500/20 text-${item.color}-400 border border-${item.color}-500/30`
+                          : `bg-zinc-700/30 text-zinc-500 border border-zinc-700/50 group-hover:bg-zinc-700/50`
+                      }`}
+                    >
+                      {item.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div
+                        className={`font-semibold mb-1 ${
+                          selectedBlockType === item.type
+                            ? "text-white"
+                            : "text-zinc-300 group-hover:text-white"
+                        }`}
+                      >
+                        {item.label}
+                      </div>
+                      <div className="text-xs text-zinc-500">{item.desc}</div>
+                    </div>
+                    {selectedBlockType === item.type && (
+                      <CheckCircleIcon
+                        className={`h-6 w-6 text-${item.color}-400 shrink-0`}
+                      />
+                    )}
+                  </div>
                 </button>
               ))}
             </div>
@@ -633,13 +789,13 @@ export default function ProjectControlsPage({
             <div className="flex gap-3 px-6 pb-6">
               <button
                 onClick={addBlock}
-                className="flex-1 px-4 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-500"
+                className="flex-1 px-5 py-3.5 rounded-xl bg-linear-to-r from-blue-600 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-600/25"
               >
                 Add Block
               </button>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="px-4 py-3 rounded-xl bg-zinc-800 text-zinc-300 font-medium hover:bg-zinc-700"
+                className="px-5 py-3.5 rounded-xl bg-zinc-800 text-zinc-300 font-semibold hover:bg-zinc-700 hover:text-white transition-all"
               >
                 Cancel
               </button>
@@ -648,62 +804,90 @@ export default function ProjectControlsPage({
         </div>
       )}
 
+      {/* Import Modal */}
       {showImportModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full shadow-2xl">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
-              <h3 className="text-lg font-semibold text-white">
-                Import Project Configuration
-              </h3>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-3xl w-full shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-800">
+              <div>
+                <h3 className="text-xl font-bold text-white">
+                  Import Configuration
+                </h3>
+                <p className="text-sm text-zinc-400 mt-1">
+                  Import your project configuration from JSON
+                </p>
+              </div>
               <button
                 onClick={() => setShowImportModal(false)}
-                className="text-zinc-400 hover:text-white"
+                className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all"
               >
                 <XMarkIcon className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="p-6 space-y-4">
+            <div className="p-6 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
+                <label className="block text-sm font-semibold text-zinc-300 mb-3">
                   JSON Configuration
                 </label>
                 <textarea
-                  className="w-full h-64 px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-zinc-300 font-mono text-sm focus:outline-none focus:border-blue-500 resize-none"
-                  placeholder="Paste JSON configuration..."
+                  className="w-full h-80 px-4 py-3 bg-zinc-950/50 border border-zinc-800 rounded-xl text-zinc-300 font-mono text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none transition-all"
+                  placeholder={`{\n  "blocks": [\n    {\n      "type": "text",\n      "title": "App Name",\n      "value": "My App"\n    }\n  ]\n}`}
                 />
+                <p className="text-xs text-zinc-500 mt-2">
+                  Paste your configuration in valid JSON format
+                </p>
               </div>
 
-              <div className="flex gap-3">
-                <label className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700 cursor-pointer hover:bg-zinc-800">
-                  <input
-                    type="radio"
-                    name="import-mode"
-                    defaultChecked
-                    className="text-blue-600"
-                  />
-                  <span className="text-sm text-zinc-300">Replace</span>
+              <div>
+                <label className="block text-sm font-semibold text-zinc-300 mb-3">
+                  Import Mode
                 </label>
-                <label className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700 cursor-pointer hover:bg-zinc-800">
-                  <input
-                    type="radio"
-                    name="import-mode"
-                    className="text-blue-600"
-                  />
-                  <span className="text-sm text-zinc-300">Merge</span>
-                </label>
+                <div className="flex gap-3">
+                  <label className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-800/50 border-2 border-blue-500 cursor-pointer hover:bg-zinc-800 transition-all">
+                    <input
+                      type="radio"
+                      name="import-mode"
+                      defaultChecked
+                      className="text-blue-600 focus:ring-blue-500"
+                    />
+                    <div>
+                      <div className="text-sm font-semibold text-white">
+                        Replace
+                      </div>
+                      <div className="text-xs text-zinc-500">
+                        Replace all existing blocks
+                      </div>
+                    </div>
+                  </label>
+                  <label className="flex-1 flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-800/50 border-2 border-zinc-800 cursor-pointer hover:bg-zinc-800 transition-all">
+                    <input
+                      type="radio"
+                      name="import-mode"
+                      className="text-blue-600 focus:ring-blue-500"
+                    />
+                    <div>
+                      <div className="text-sm font-semibold text-white">
+                        Merge
+                      </div>
+                      <div className="text-xs text-zinc-500">
+                        Add to existing blocks
+                      </div>
+                    </div>
+                  </label>
+                </div>
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-2">
                 <button
                   onClick={() => setShowImportModal(false)}
-                  className="flex-1 px-4 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-500"
+                  className="flex-1 px-5 py-3.5 rounded-xl bg-linear-to-r from-blue-600 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-600/25"
                 >
-                  Import
+                  Import Configuration
                 </button>
                 <button
                   onClick={() => setShowImportModal(false)}
-                  className="px-4 py-3 rounded-xl bg-zinc-800 text-zinc-300 font-medium hover:bg-zinc-700"
+                  className="px-5 py-3.5 rounded-xl bg-zinc-800 text-zinc-300 font-semibold hover:bg-zinc-700 hover:text-white transition-all"
                 >
                   Cancel
                 </button>
