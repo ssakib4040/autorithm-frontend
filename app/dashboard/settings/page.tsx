@@ -2,10 +2,23 @@
 
 import { useState } from "react";
 import {
-  ClockIcon,
-  ShieldCheckIcon,
-  ArrowPathIcon,
-} from "@heroicons/react/24/outline";
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Clock,
+  Shield,
+  RotateCcw,
+  Download,
+  AlertTriangle,
+} from "lucide-react";
 
 export default function BackupRestorePage() {
   const [enableScheduled, setEnableScheduled] = useState(true);
@@ -37,56 +50,74 @@ export default function BackupRestorePage() {
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-zinc-800/50 pb-6">
-        <h1 className="text-3xl font-bold text-white mb-2">Backup & Restore</h1>
-        <p className="text-zinc-400 text-sm">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
+          Backup & Restore
+        </h1>
+        <p className="text-zinc-600 dark:text-zinc-400">
           Protect your workflows and configurations with automated backups.
           Restore any previous state with confidence.
         </p>
       </div>
 
-      <div className="bg-zinc-900/30 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-10 w-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-            <ShieldCheckIcon className="h-5 w-5 text-blue-400" />
-          </div>
-          <h2 className="text-lg font-semibold text-white">Instant Backup</h2>
-        </div>
-
-        <p className="text-sm text-zinc-400 mb-6">
-          Create a snapshot of your current configuration and all workflow data.
-          Perfect before making major changes.
-        </p>
-
-        <button className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-600/20">
-          Create Backup Now
-        </button>
-      </div>
-
-      <div className="bg-zinc-900/30 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-            <ClockIcon className="h-5 w-5 text-emerald-400" />
-          </div>
-          <h2 className="text-lg font-semibold text-white">
-            Scheduled Backups
-          </h2>
-        </div>
-
-        <div className="space-y-6">
-          <div className="flex items-center justify-between py-3 border-b border-zinc-800/50">
+      {/* Instant Backup Card */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-950/20 flex items-center justify-center">
+              <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            </div>
             <div>
-              <p className="text-sm font-medium text-white">
+              <CardTitle>Instant Backup</CardTitle>
+              <CardDescription>
+                Create a snapshot of your current configuration
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6">
+            Create a snapshot of your current configuration and all workflow
+            data. Perfect before making major changes.
+          </p>
+          <Button className="w-full" size="lg">
+            <Shield className="mr-2 h-4 w-4" />
+            Create Backup Now
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Scheduled Backups Card */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-lg bg-emerald-100 dark:bg-emerald-950/20 flex items-center justify-center">
+              <Clock className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+            </div>
+            <div>
+              <CardTitle>Scheduled Backups</CardTitle>
+              <CardDescription>
+                Automatically backup at specified intervals
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Enable Toggle */}
+          <div className="flex items-center justify-between p-4 rounded-lg border border-zinc-200 dark:border-zinc-800">
+            <div>
+              <p className="text-sm font-medium text-zinc-900 dark:text-white">
                 Enable Scheduled Backups
               </p>
-              <p className="text-xs text-zinc-500 mt-0.5">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
                 Automatically backup at specified intervals
               </p>
             </div>
             <button
               onClick={() => setEnableScheduled(!enableScheduled)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                enableScheduled ? "bg-blue-600" : "bg-zinc-700"
+                enableScheduled ? "bg-blue-600" : "bg-zinc-300 dark:bg-zinc-700"
               }`}
             >
               <span
@@ -97,16 +128,16 @@ export default function BackupRestorePage() {
             </button>
           </div>
 
+          {/* Schedule Settings */}
           {enableScheduled && (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Frequency
-                </label>
+            <div className="space-y-4 pt-4">
+              <div className="space-y-2">
+                <Label htmlFor="frequency">Frequency</Label>
                 <select
+                  id="frequency"
                   value={frequency}
                   onChange={(e) => setFrequency(e.target.value)}
-                  className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white focus:outline-none focus:border-blue-500"
+                  className="flex h-10 w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:ring-offset-zinc-950 dark:placeholder:text-zinc-400 dark:focus-visible:ring-zinc-300"
                 >
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>
@@ -114,71 +145,89 @@ export default function BackupRestorePage() {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-2">
-                  Time (24h)
-                </label>
-                <input
+              <div className="space-y-2">
+                <Label htmlFor="time">Time (24h format)</Label>
+                <Input
+                  id="time"
                   type="time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-xl text-white focus:outline-none focus:border-blue-500"
                 />
               </div>
-            </>
+
+              <Button variant="outline" className="w-full">
+                Save Schedule
+              </Button>
+            </div>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      <div className="bg-zinc-900/30 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-10 w-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
-            <ArrowPathIcon className="h-5 w-5 text-amber-400" />
+      {/* Restore Card */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-lg bg-orange-100 dark:bg-orange-950/20 flex items-center justify-center">
+              <RotateCcw className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+            </div>
+            <div>
+              <CardTitle>Restore</CardTitle>
+              <CardDescription>
+                Restore a previous backup of your configuration
+              </CardDescription>
+            </div>
           </div>
-          <h2 className="text-lg font-semibold text-white">Restore</h2>
-        </div>
-
-        <div className="flex items-start gap-3 p-4 mb-6 rounded-xl bg-amber-500/10 border border-amber-500/20">
-          <div className="h-5 w-5 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <span className="text-xs text-white font-bold">!</span>
-          </div>
-          <div>
-            <p className="text-sm font-medium text-amber-200">
-              Restore with care
-            </p>
-            <p className="text-xs text-amber-300/70 mt-1">
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Warning Alert */}
+          <Alert
+            variant="default"
+            className="border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950/20"
+          >
+            <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+            <AlertDescription className="text-orange-900 dark:text-orange-100">
+              <span className="font-semibold">Restore with care:</span>{" "}
               Restoring a backup will replace your current configuration. Your
               existing setup will be preserved in a new automatic backup before
               restoration.
-            </p>
-          </div>
-        </div>
+            </AlertDescription>
+          </Alert>
 
-        <div className="space-y-3">
-          {backups.map((backup) => (
-            <div
-              key={backup.id}
-              className="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800/30 rounded-xl hover:border-zinc-700/50 transition-all"
-            >
-              <div>
-                <p className="text-sm font-medium text-white">
-                  {backup.timestamp}
-                </p>
-                <p className="text-xs text-zinc-500 mt-0.5">{backup.size}</p>
+          {/* Backup List */}
+          <div className="space-y-3">
+            {backups.map((backup) => (
+              <div
+                key={backup.id}
+                className="flex items-center justify-between p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                    <Download className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-zinc-900 dark:text-white">
+                      {backup.timestamp}
+                    </p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      {backup.size}
+                    </p>
+                  </div>
+                </div>
+                <Button size="sm">Restore</Button>
               </div>
-              <button className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-500 transition-colors">
-                Restore
-              </button>
-            </div>
-          ))}
-        </div>
+            ))}
 
-        {backups.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-sm text-zinc-500">No backups available</p>
+            {backups.length === 0 && (
+              <div className="text-center py-12 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-lg">
+                <Download className="h-10 w-10 text-zinc-400 mx-auto mb-3" />
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  No backups available
+                </p>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
