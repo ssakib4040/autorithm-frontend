@@ -60,7 +60,7 @@ const navItems = [
     description: "Analytics & stats",
   },
   {
-    href: "/dashboard/settings",
+    href: "/dashboard/backup",
     label: "Backup & Restore",
     icon: Shield,
     description: "Data protection",
