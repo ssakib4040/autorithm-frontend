@@ -160,9 +160,9 @@ export default function DashboardLayout({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex h-screen overflow-hidden bg-zinc-50 dark:bg-zinc-950">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex-col">
+      <aside className="hidden lg:flex w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex-col overflow-hidden">
         <SidebarContent />
       </aside>
 
@@ -196,8 +196,10 @@ export default function DashboardLayout({
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-auto bg-zinc-50 dark:bg-zinc-950 pt-16 lg:pt-0">
-        <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">{children}</div>
+      <main className="flex-1 flex flex-col overflow-hidden bg-zinc-50 dark:bg-zinc-950 pt-16 lg:pt-0">
+        <div className="flex-1 overflow-y-auto">
+          <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">{children}</div>
+        </div>
       </main>
     </div>
   );
