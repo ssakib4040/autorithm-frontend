@@ -10,7 +10,7 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  
+
   // Hide header and footer for dashboard and admin routes
   const isDashboard = pathname?.startsWith("/dashboard");
   const isAdmin = pathname?.startsWith("/admin");
