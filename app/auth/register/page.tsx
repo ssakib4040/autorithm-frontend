@@ -38,10 +38,6 @@ export default function Register() {
     setError("");
     setSuccess("");
 
-    console.log("turnstileToken =>  ", turnstileToken);
-
-    return;
-
     if (!turnstileToken) {
       setError("Please complete the security verification");
       return;
