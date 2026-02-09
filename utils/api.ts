@@ -24,11 +24,13 @@ async function apiRequest<T>(
 
     console.log(`[API] ${options.method || "GET"} ${url}`);
 
-    const headers: Record<string, string> = options.headers as Record<string, string> || {};
-    
+    const headers: Record<string, string> =
+      (options.headers as Record<string, string>) || {};
+
     // Add Vercel bypass token if available
     if (process.env.NEXT_PUBLIC_VERCEL_BYPASS_TOKEN) {
-      headers["x-vercel-protection-bypass"] = process.env.NEXT_PUBLIC_VERCEL_BYPASS_TOKEN;
+      headers["x-vercel-protection-bypass"] =
+        process.env.NEXT_PUBLIC_VERCEL_BYPASS_TOKEN;
     }
 
     const res = await fetch(url, {
@@ -36,21 +38,6 @@ async function apiRequest<T>(
       ...options,
       headers,
     });
-
-    // if (!res.ok) {
-    //   let errorData = {};
-    //   try {
-    //     errorData = await res.json();
-    //   } catch {
-    //     // Response body is not JSON, continue with empty object
-    //   }
-
-    //   const message =
-    //     errorData.message || `API request failed with status ${res.status}`;
-    //   const error = new Error(message);
-    //   (error as any).status = res.status;
-    //   throw error;
-    // }
 
     const data = await res.json();
     console.log(`[API] Success:`, data);

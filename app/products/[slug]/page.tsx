@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CheckCircle2, ChevronLeft, Sparkles, Clock } from "lucide-react";
 
@@ -23,11 +24,15 @@ export default async function ProductDetails({
 
   const productDetails = (await productsApi.getBySlug(
     `${slug}?tool=${tool}`,
-  )) as Product;
+  )) as Product & { message?: string };
 
-  // if ("status" in productDetails && productDetails.status === 404) {
-  //   notFound();
-  // }
+  // Handle 404 response from API
+  if (
+    "message" in productDetails &&
+    productDetails.message === "Product not found"
+  ) {
+    notFound();
+  }
 
   return (
     <Suspense fallback={<ProductDetailsSkeleton />}>
