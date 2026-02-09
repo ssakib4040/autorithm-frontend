@@ -169,6 +169,71 @@ export async function getAllPurchases(): Promise<Purchase[]> {
     });
   }
 
+  // Purchase 11: Product 11
+  const product11 = products.find((p) => p.id === 11);
+  if (product11) {
+    purchases.push({
+      id: purchaseId++,
+      productId: product11.id,
+      originalPrice: product11.price,
+      finalPrice: product11.price,
+      purchasedBy: user1,
+      purchaseDate: new Date("2026-01-08T09:00:00"),
+    });
+  }
+
+  // Purchase 12: Product 12
+  const product12 = products.find((p) => p.id === 12);
+  if (product12) {
+    purchases.push({
+      id: purchaseId++,
+      productId: product12.id,
+      originalPrice: product12.price,
+      finalPrice: product12.price,
+      purchasedBy: user2,
+      purchaseDate: new Date("2026-01-09T11:20:00"),
+    });
+  }
+
+  // Purchase 13: Product 13
+  const product13 = products.find((p) => p.id === 13);
+  if (product13) {
+    purchases.push({
+      id: purchaseId++,
+      productId: product13.id,
+      originalPrice: product13.price,
+      finalPrice: product13.price,
+      purchasedBy: user1,
+      purchaseDate: new Date("2026-01-10T14:45:00"),
+    });
+  }
+
+  // Purchase 14: Product 14
+  const product14 = products.find((p) => p.id === 14);
+  if (product14) {
+    purchases.push({
+      id: purchaseId++,
+      productId: product14.id,
+      originalPrice: product14.price,
+      finalPrice: product14.price,
+      purchasedBy: user2,
+      purchaseDate: new Date("2026-01-11T10:10:00"),
+    });
+  }
+
+  // Purchase 15: Product 15
+  const product15 = products.find((p) => p.id === 15);
+  if (product15) {
+    purchases.push({
+      id: purchaseId++,
+      productId: product15.id,
+      originalPrice: product15.price,
+      finalPrice: product15.price,
+      purchasedBy: user1,
+      purchaseDate: new Date("2026-01-12T16:30:00"),
+    });
+  }
+
   return purchases;
 }
 

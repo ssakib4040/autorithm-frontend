@@ -40,7 +40,7 @@ async function getProducts(
   if (params?.search) searchParams.append("search", params.search);
 
   const queryString = searchParams.toString();
-  const url = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/admin/products${queryString ? `?${queryString}` : ""}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/admin/products${queryString ? `?${queryString}` : ""}`;
 
   const response = await fetch(url, {
     headers: {

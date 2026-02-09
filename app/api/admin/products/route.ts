@@ -48,6 +48,14 @@ export async function GET(request: Request) {
     // Fetch all purchases to calculate sales and revenue
     const allPurchases = await db.collection("purchases").find({}).toArray();
 
+    console.log("Total purchases found:", allPurchases.length);
+    if (allPurchases.length > 0) {
+      console.log(
+        "First purchase sample:",
+        JSON.stringify(allPurchases[0], null, 2),
+      );
+    }
+
     // Calculate sales and revenue per product
     const productStats = allPurchases.reduce(
       (acc, purchase) => {
@@ -59,7 +67,12 @@ export async function GET(request: Request) {
         acc[productId].revenue += purchase.finalPrice || 0;
         return acc;
       },
-      {} as Record<number, { sales: number; revenue: number }>,
+      {} as Record<string | number, { sales: number; revenue: number }>,
+    );
+
+    console.log(
+      "Product stats calculated:",
+      JSON.stringify(productStats, null, 2),
     );
 
     // Fetch products
@@ -72,11 +85,19 @@ export async function GET(request: Request) {
       .toArray();
 
     // Add sales and revenue to each product
-    const products = productsRaw.map((product) => ({
-      ...product,
-      sales: productStats[product.id]?.sales || 0,
-      revenue: `$${productStats[product.id]?.revenue || 0}`,
-    }));
+    const products = productsRaw.map((product) => {
+      // Try both number and string keys
+      const stats =
+        productStats[product.id] ||
+        productStats[String(product.id)] ||
+        productStats[Number(product.id)];
+
+      return {
+        ...product,
+        sales: stats?.sales || 0,
+        revenue: `$${stats?.revenue || 0}`,
+      };
+    });
 
     const total = await db.collection("products").countDocuments(query);
 
@@ -95,14 +116,6 @@ export async function GET(request: Request) {
       (sum, purchase) => sum + (purchase.finalPrice || 0),
       0,
     );
-
-    console.log("Meta calculation:", {
-      totalProducts,
-      activeProducts,
-      draftProducts,
-      totalRevenue,
-      allStatuses: allProducts.map((p) => p.status),
-    });
 
     return NextResponse.json(
       {
