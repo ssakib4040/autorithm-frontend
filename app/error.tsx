@@ -1,8 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export default function Error({
   error,
@@ -14,8 +12,6 @@ export default function Error({
   console.log("Error:", error);
   return (
     <>
-      <Header />
-
       <div className="min-h-screen bg-white dark:bg-zinc-900 flex items-center justify-center px-4 py-16">
         <div className="max-w-2xl w-full text-center">
           {/* Error Icon */}
@@ -74,8 +70,6 @@ export default function Error({
           </p>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }
