@@ -1,17 +1,17 @@
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
+import { faker } from "@faker-js/faker";
 
 // Export async function to properly hash passwords
 export async function getUsers() {
-  const hashedPassword1 = await bcrypt.hash("password", 10);
-  const hashedPassword2 = await bcrypt.hash("password", 10);
+  const hashedPassword = await bcrypt.hash("password", 10);
 
-  return [
+  const users = [
     {
       userId: uuidv4(),
-      email: "ssakib6060@gmail.com",
-      password: hashedPassword1,
-      name: "Sadman Sakib",
+      email: "admin@gmail.com",
+      password: hashedPassword,
+      name: "Administrator",
       isAdmin: true,
       isEmailVerified: true,
       createdAt: new Date(),
@@ -19,13 +19,29 @@ export async function getUsers() {
     },
     {
       userId: uuidv4(),
-      email: "john@example.com",
-      password: hashedPassword2,
+      email: "john@example.com.com",
+      password: hashedPassword,
       name: "John Doe",
       isAdmin: false,
-      isEmailVerified: false,
+      isEmailVerified: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
   ];
+
+  // Generate 50 additional users using faker
+  for (let i = 0; i < 50; i++) {
+    users.push({
+      userId: uuidv4(),
+      email: faker.internet.email().toLowerCase(),
+      password: hashedPassword,
+      name: faker.person.fullName(),
+      isAdmin: false,
+      isEmailVerified: faker.datatype.boolean(),
+      createdAt: faker.date.past({ years: 1 }),
+      updatedAt: new Date(),
+    });
+  }
+
+  return users;
 }
