@@ -9,7 +9,7 @@ import {
   ChartBarIcon,
   ArchiveBoxIcon,
 } from "@heroicons/react/24/outline";
-import ProductsClient from "./_components/ProductsClient";
+import ProductsClient from "./ProductsClient";
 
 interface Product {
   slug: string;

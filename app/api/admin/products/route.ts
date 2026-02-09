@@ -45,14 +45,38 @@ export async function GET(request: Request) {
 
     const db = await getDb();
 
+    // Fetch all purchases to calculate sales and revenue
+    const allPurchases = await db.collection("purchases").find({}).toArray();
+
+    // Calculate sales and revenue per product
+    const productStats = allPurchases.reduce(
+      (acc, purchase) => {
+        const productId = purchase.productId;
+        if (!acc[productId]) {
+          acc[productId] = { sales: 0, revenue: 0 };
+        }
+        acc[productId].sales += 1;
+        acc[productId].revenue += purchase.finalPrice || 0;
+        return acc;
+      },
+      {} as Record<number, { sales: number; revenue: number }>,
+    );
+
     // Fetch products
-    const products = await db
+    const productsRaw = await db
       .collection("products")
       .find(query, { projection: { _id: 0 } })
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .toArray();
+
+    // Add sales and revenue to each product
+    const products = productsRaw.map((product) => ({
+      ...product,
+      sales: productStats[product.id]?.sales || 0,
+      revenue: `$${productStats[product.id]?.revenue || 0}`,
+    }));
 
     const total = await db.collection("products").countDocuments(query);
 
@@ -65,8 +89,10 @@ export async function GET(request: Request) {
     const draftProducts = allProducts.filter(
       (p) => p.status === "draft",
     ).length;
-    const totalRevenue = allProducts.reduce(
-      (sum, p) => sum + (p.revenue || 0),
+
+    // Calculate total revenue from purchases
+    const totalRevenue = allPurchases.reduce(
+      (sum, purchase) => sum + (purchase.finalPrice || 0),
       0,
     );
 
@@ -74,6 +100,7 @@ export async function GET(request: Request) {
       totalProducts,
       activeProducts,
       draftProducts,
+      totalRevenue,
       allStatuses: allProducts.map((p) => p.status),
     });
 
