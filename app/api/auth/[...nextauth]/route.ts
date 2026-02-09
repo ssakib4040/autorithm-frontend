@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import NextAuth, { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -76,6 +77,18 @@ export const authOptions: NextAuthOptions = {
           .collection("users")
           .findOne({ _id: new ObjectId(user.id) });
         token.isAdmin = dbUser?.isAdmin || false;
+
+        // Generate JWT token for API authentication
+        token.accessToken = jwt.sign(
+          {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            isAdmin: dbUser?.isAdmin || false,
+          },
+          process.env.JWT_SECRET || "fallback-secret",
+          { expiresIn: "7d" },
+        );
       }
       return token;
     },
@@ -87,6 +100,8 @@ export const authOptions: NextAuthOptions = {
         (session.user as { id?: string; isAdmin?: boolean }).isAdmin =
           token.isAdmin as boolean;
       }
+      // Add access token to session
+      session.accessToken = token.accessToken as string;
       return session;
     },
     async redirect({ url, baseUrl }) {

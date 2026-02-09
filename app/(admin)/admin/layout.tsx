@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Sidebar from "@/components/admin/Sidebar";
 import { Bars3Icon } from "@heroicons/react/24/outline";
+
+import Sidebar from "@/components/admin/Sidebar";
 
 export default function DashboardLayout({
   children,

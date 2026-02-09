@@ -2,9 +2,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
-import { CheckCircle2, ChevronLeft, Sparkles, Clock, Package } from "lucide-react";
+import {
+  CheckCircle2,
+  ChevronLeft,
+  Sparkles,
+  Clock,
+  Package,
+} from "lucide-react";
 
-import { productsApi } from "@/utils/api";
+import { productsApi } from "@/features/api";
 import { Product } from "@/types/product";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,36 +18,36 @@ import { Button } from "@/components/ui/button";
 // Technology logo mapping
 const getTechLogo = (techName: string): string | null => {
   const logos: Record<string, string> = {
-    "OpenAI": "/brands/openai.svg",
-    "Apify": "/brands/apify.svg",
-    "Supabase": "/brands/supabase.svg",
-    "PostgreSQL": "/brands/postgresql.svg",
-    "Stripe": "/brands/stripe.svg",
-    "Gmail": "/brands/gmail.svg",
-    "Google": "/brands/google.svg",
-    "Slack": "/brands/slack.svg",
-    "Discord": "/brands/discord.svg",
-    "Telegram": "/brands/telegram.svg",
-    "HubSpot": "/brands/hubspot.svg",
-    "Salesforce": "/brands/salesforce.svg",
-    "MongoDB": "/brands/mongodb.svg",
-    "Redis": "/brands/redis.svg",
-    "AWS": "/brands/aws.svg",
-    "Anthropic": "/brands/anthropic.svg",
-    "Claude": "/brands/anthropic.svg",
-    "Notion": "/brands/notion.svg",
-    "Airtable": "/brands/airtable.svg",
-    "Zapier": "/brands/zapier.svg",
-    "Twilio": "/brands/twilio.svg",
-    "SendGrid": "/brands/sendgrid.svg",
-    "Mailgun": "/brands/mailgun.svg",
+    OpenAI: "/brands/openai.svg",
+    Apify: "/brands/apify.svg",
+    Supabase: "/brands/supabase.svg",
+    PostgreSQL: "/brands/postgresql.svg",
+    Stripe: "/brands/stripe.svg",
+    Gmail: "/brands/gmail.svg",
+    Google: "/brands/google.svg",
+    Slack: "/brands/slack.svg",
+    Discord: "/brands/discord.svg",
+    Telegram: "/brands/telegram.svg",
+    HubSpot: "/brands/hubspot.svg",
+    Salesforce: "/brands/salesforce.svg",
+    MongoDB: "/brands/mongodb.svg",
+    Redis: "/brands/redis.svg",
+    AWS: "/brands/aws.svg",
+    Anthropic: "/brands/anthropic.svg",
+    Claude: "/brands/anthropic.svg",
+    Notion: "/brands/notion.svg",
+    Airtable: "/brands/airtable.svg",
+    Zapier: "/brands/zapier.svg",
+    Twilio: "/brands/twilio.svg",
+    SendGrid: "/brands/sendgrid.svg",
+    Mailgun: "/brands/mailgun.svg",
   };
-  
+
   // Try to match the technology name (case-insensitive)
-  const matchedKey = Object.keys(logos).find(
-    key => techName.toLowerCase().includes(key.toLowerCase())
+  const matchedKey = Object.keys(logos).find((key) =>
+    techName.toLowerCase().includes(key.toLowerCase()),
   );
-  
+
   return matchedKey ? logos[matchedKey] : null;
 };
 

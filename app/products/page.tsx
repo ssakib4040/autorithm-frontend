@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import Filters from "./partials/Filters";
 
-import { productsApi } from "@/utils/api";
+import { productsApi } from "@/features/api";
 import { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

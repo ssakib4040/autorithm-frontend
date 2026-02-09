@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-import { authApi } from "@/utils/api";
+import { authApi } from "@/features/api";
 
 export default function Register() {
   const [name, setName] = useState("");

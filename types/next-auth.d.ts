@@ -17,6 +17,7 @@ declare module "next-auth" {
       isAdmin?: boolean;
       purchasedProducts: number[];
     };
+    accessToken?: string;
   }
 }
 
@@ -25,5 +26,6 @@ declare module "next-auth/jwt" {
     id: string;
     isAdmin?: boolean;
     purchasedProducts: number[];
+    accessToken?: string;
   }
 }
