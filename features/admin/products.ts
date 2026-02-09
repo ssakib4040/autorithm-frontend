@@ -3,6 +3,12 @@ import { Product } from "@/types/product";
 interface AdminProductsResponse {
   products: Product[];
   total: number;
+  meta: {
+    totalProducts: number;
+    activeProducts: number;
+    draftProducts: number;
+    totalRevenue: number;
+  };
 }
 
 interface AdminProductResponse {

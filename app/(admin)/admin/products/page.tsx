@@ -33,8 +33,12 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
-
-  console.log("session > ", session);
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    activeProducts: 0,
+    draftProducts: 0,
+    totalRevenue: 0,
+  });
 
   const fetchProducts = async () => {
     if (!session?.accessToken) return;
@@ -45,7 +49,14 @@ export default function ProductsPage() {
         status: selectedStatus,
         category: selectedCategory,
       });
+      console.log("data => ", data);
       setProducts(data.products || []);
+      if (data.meta) {
+        console.log("Setting stats:", data.meta);
+        setStats(data.meta);
+      } else {
+        console.log("No meta in response");
+      }
     } catch (error) {
       console.error("Failed to fetch products:", error);
     } finally {
@@ -74,28 +85,31 @@ export default function ProductsPage() {
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
-  const stats = [
+
+  console.log("Current stats state:", stats);
+
+  const statsDisplay = [
     {
       name: "Total Products",
-      value: "124",
+      value: stats.totalProducts.toString(),
       icon: ShoppingBagIcon,
       color: "blue",
     },
     {
       name: "Active Products",
-      value: "98",
+      value: stats.activeProducts.toString(),
       icon: ChartBarIcon,
       color: "emerald",
     },
     {
       name: "Total Revenue",
-      value: "$45,231",
+      value: `$${stats.totalRevenue.toLocaleString()}`,
       icon: CurrencyDollarIcon,
       color: "purple",
     },
     {
-      name: "Archived",
-      value: "12",
+      name: "Draft Products",
+      value: stats.draftProducts.toString(),
       icon: ArchiveBoxIcon,
       color: "orange",
     },
@@ -124,7 +138,7 @@ export default function ProductsPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
+        {statsDisplay.map((stat) => (
           <div
             key={stat.name}
             className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-5"

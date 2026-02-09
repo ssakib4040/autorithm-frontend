@@ -56,6 +56,27 @@ export async function GET(request: Request) {
 
     const total = await db.collection("products").countDocuments(query);
 
+    // Calculate meta statistics
+    const allProducts = await db.collection("products").find({}).toArray();
+    const totalProducts = allProducts.length;
+    const activeProducts = allProducts.filter(
+      (p) => p.status === "active",
+    ).length;
+    const draftProducts = allProducts.filter(
+      (p) => p.status === "draft",
+    ).length;
+    const totalRevenue = allProducts.reduce(
+      (sum, p) => sum + (p.revenue || 0),
+      0,
+    );
+
+    console.log("Meta calculation:", {
+      totalProducts,
+      activeProducts,
+      draftProducts,
+      allStatuses: allProducts.map((p) => p.status),
+    });
+
     return NextResponse.json(
       {
         products,
@@ -63,6 +84,12 @@ export async function GET(request: Request) {
         limit,
         total,
         totalPages: Math.ceil(total / limit),
+        meta: {
+          totalProducts,
+          activeProducts,
+          draftProducts,
+          totalRevenue,
+        },
       },
       { status: 200 },
     );
