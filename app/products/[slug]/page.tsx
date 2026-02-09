@@ -1,12 +1,49 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import Image from "next/image";
 import { CheckCircle2, ChevronLeft, Sparkles, Clock } from "lucide-react";
 
 import { productsApi } from "@/utils/api";
 import { Product } from "@/types/product";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+
+// Technology logo mapping
+const getTechLogo = (techName: string) => {
+  const logos: Record<string, string> = {
+    "OpenAI": "https://api.iconify.design/simple-icons/openai.svg",
+    "Apify": "https://api.iconify.design/simple-icons/apify.svg",
+    "Supabase": "https://api.iconify.design/simple-icons/supabase.svg",
+    "PostgreSQL": "https://api.iconify.design/simple-icons/postgresql.svg",
+    "Stripe": "https://api.iconify.design/simple-icons/stripe.svg",
+    "Gmail": "https://api.iconify.design/simple-icons/gmail.svg",
+    "Google": "https://api.iconify.design/simple-icons/google.svg",
+    "Slack": "https://api.iconify.design/simple-icons/slack.svg",
+    "Discord": "https://api.iconify.design/simple-icons/discord.svg",
+    "Telegram": "https://api.iconify.design/simple-icons/telegram.svg",
+    "HubSpot": "https://api.iconify.design/simple-icons/hubspot.svg",
+    "Salesforce": "https://api.iconify.design/simple-icons/salesforce.svg",
+    "MongoDB": "https://api.iconify.design/simple-icons/mongodb.svg",
+    "Redis": "https://api.iconify.design/simple-icons/redis.svg",
+    "AWS": "https://api.iconify.design/simple-icons/amazonaws.svg",
+    "Anthropic": "https://api.iconify.design/simple-icons/anthropic.svg",
+    "Claude": "https://api.iconify.design/simple-icons/anthropic.svg",
+    "Notion": "https://api.iconify.design/simple-icons/notion.svg",
+    "Airtable": "https://api.iconify.design/simple-icons/airtable.svg",
+    "Zapier": "https://api.iconify.design/simple-icons/zapier.svg",
+    "Twilio": "https://api.iconify.design/simple-icons/twilio.svg",
+    "SendGrid": "https://api.iconify.design/simple-icons/sendgrid.svg",
+    "Mailgun": "https://api.iconify.design/simple-icons/mailgun.svg",
+  };
+  
+  // Try to match the technology name (case-insensitive)
+  const matchedKey = Object.keys(logos).find(
+    key => techName.toLowerCase().includes(key.toLowerCase())
+  );
+  
+  return matchedKey ? logos[matchedKey] : null;
+};
 
 type Platform = "n8n" | "make";
 
@@ -207,12 +244,34 @@ export default async function ProductDetails({
                     </p>
                   </div>
                   <div className="col-span-2">
-                    <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1">
-                      APIS & INTEGRATIONS
+                    <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-2">
+                      TECHNOLOGIES USED
                     </h3>
-                    <p className="text-zinc-900 dark:text-white text-xs">
-                      {productDetails.technicalDetails.apis.join(", ")}
-                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {productDetails.technicalDetails.apis.map(
+                        (api: string, index: number) => {
+                          const logo = getTechLogo(api);
+                          return (
+                            <Badge
+                              key={index}
+                              variant="secondary"
+                              className="text-xs font-medium flex items-center gap-1.5 px-3 py-1.5"
+                            >
+                              {logo && (
+                                <Image
+                                  src={logo}
+                                  alt={api}
+                                  width={14}
+                                  height={14}
+                                  className="dark:invert"
+                                />
+                              )}
+                              {api}
+                            </Badge>
+                          );
+                        },
+                      )}
+                    </div>
                   </div>
                   <div className="col-span-2">
                     <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1">
