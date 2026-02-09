@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Image from "next/image";
-import { CheckCircle2, ChevronLeft, Sparkles, Clock } from "lucide-react";
+import { CheckCircle2, ChevronLeft, Sparkles, Clock, Package } from "lucide-react";
 
 import { productsApi } from "@/utils/api";
 import { Product } from "@/types/product";
@@ -10,31 +10,31 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 // Technology logo mapping
-const getTechLogo = (techName: string) => {
+const getTechLogo = (techName: string): string | null => {
   const logos: Record<string, string> = {
-    "OpenAI": "https://api.iconify.design/simple-icons/openai.svg",
-    "Apify": "https://api.iconify.design/simple-icons/apify.svg",
-    "Supabase": "https://api.iconify.design/simple-icons/supabase.svg",
-    "PostgreSQL": "https://api.iconify.design/simple-icons/postgresql.svg",
-    "Stripe": "https://api.iconify.design/simple-icons/stripe.svg",
-    "Gmail": "https://api.iconify.design/simple-icons/gmail.svg",
-    "Google": "https://api.iconify.design/simple-icons/google.svg",
-    "Slack": "https://api.iconify.design/simple-icons/slack.svg",
-    "Discord": "https://api.iconify.design/simple-icons/discord.svg",
-    "Telegram": "https://api.iconify.design/simple-icons/telegram.svg",
-    "HubSpot": "https://api.iconify.design/simple-icons/hubspot.svg",
-    "Salesforce": "https://api.iconify.design/simple-icons/salesforce.svg",
-    "MongoDB": "https://api.iconify.design/simple-icons/mongodb.svg",
-    "Redis": "https://api.iconify.design/simple-icons/redis.svg",
-    "AWS": "https://api.iconify.design/simple-icons/amazonaws.svg",
-    "Anthropic": "https://api.iconify.design/simple-icons/anthropic.svg",
-    "Claude": "https://api.iconify.design/simple-icons/anthropic.svg",
-    "Notion": "https://api.iconify.design/simple-icons/notion.svg",
-    "Airtable": "https://api.iconify.design/simple-icons/airtable.svg",
-    "Zapier": "https://api.iconify.design/simple-icons/zapier.svg",
-    "Twilio": "https://api.iconify.design/simple-icons/twilio.svg",
-    "SendGrid": "https://api.iconify.design/simple-icons/sendgrid.svg",
-    "Mailgun": "https://api.iconify.design/simple-icons/mailgun.svg",
+    "OpenAI": "/brands/openai.svg",
+    "Apify": "/brands/apify.svg",
+    "Supabase": "/brands/supabase.svg",
+    "PostgreSQL": "/brands/postgresql.svg",
+    "Stripe": "/brands/stripe.svg",
+    "Gmail": "/brands/gmail.svg",
+    "Google": "/brands/google.svg",
+    "Slack": "/brands/slack.svg",
+    "Discord": "/brands/discord.svg",
+    "Telegram": "/brands/telegram.svg",
+    "HubSpot": "/brands/hubspot.svg",
+    "Salesforce": "/brands/salesforce.svg",
+    "MongoDB": "/brands/mongodb.svg",
+    "Redis": "/brands/redis.svg",
+    "AWS": "/brands/aws.svg",
+    "Anthropic": "/brands/anthropic.svg",
+    "Claude": "/brands/anthropic.svg",
+    "Notion": "/brands/notion.svg",
+    "Airtable": "/brands/airtable.svg",
+    "Zapier": "/brands/zapier.svg",
+    "Twilio": "/brands/twilio.svg",
+    "SendGrid": "/brands/sendgrid.svg",
+    "Mailgun": "/brands/mailgun.svg",
   };
   
   // Try to match the technology name (case-insensitive)
@@ -255,16 +255,20 @@ export default async function ProductDetails({
                             <Badge
                               key={index}
                               variant="secondary"
-                              className="text-xs font-medium flex items-center gap-1.5 px-3 py-1.5"
+                              className="text-sm font-medium flex items-center gap-2 px-3 py-2"
                             >
-                              {logo && (
-                                <Image
-                                  src={logo}
-                                  alt={api}
-                                  width={14}
-                                  height={14}
-                                  className="dark:invert"
-                                />
+                              {logo ? (
+                                <div className="w-5 h-5 flex items-center justify-center bg-white rounded-full p-0.5 border border-zinc-200">
+                                  <Image
+                                    src={logo}
+                                    alt={api}
+                                    width={18}
+                                    height={18}
+                                    className="object-contain"
+                                  />
+                                </div>
+                              ) : (
+                                <Package className="w-4 h-4" />
                               )}
                               {api}
                             </Badge>
