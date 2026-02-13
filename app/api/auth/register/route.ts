@@ -39,11 +39,17 @@ export async function POST(request: Request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Admin assignment - Grant admin privileges to specific email
+    const ADMIN_EMAIL = "admin@autorithm.com";
+    const isAdmin = email.toLowerCase() === ADMIN_EMAIL;
+
     // Create new user
     const newUser = {
       email: email.toLowerCase(),
       password: hashedPassword,
       name: name || "",
+      isAdmin: isAdmin,
+      emailVerified: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
