@@ -59,8 +59,12 @@ export async function GET(request: NextRequest) {
 
     // Get total counts for stats (without filter)
     const totalUsers = await usersCollection.countDocuments({});
-    const totalActive = await usersCollection.countDocuments({ status: "active" });
-    const totalSuspended = await usersCollection.countDocuments({ status: "suspended" });
+    const totalActive = await usersCollection.countDocuments({
+      status: "active",
+    });
+    const totalSuspended = await usersCollection.countDocuments({
+      status: "suspended",
+    });
 
     return NextResponse.json({
       users,

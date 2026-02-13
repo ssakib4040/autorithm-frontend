@@ -105,32 +105,35 @@ export default function UsersPage() {
     return colors[hash];
   };
 
-  const stats = useMemo(() => [
-    {
-      label: "Total Users",
-      value: meta.total_users.toLocaleString(),
-      change: "",
-      trending: "up" as const,
-      icon: UserGroupIcon,
-      color: "blue",
-    },
-    {
-      label: "Active Users",
-      value: meta.total_active.toLocaleString(),
-      change: "",
-      trending: "up" as const,
-      icon: CheckCircleIcon,
-      color: "emerald",
-    },
-    {
-      label: "Suspended",
-      value: meta.total_suspended.toLocaleString(),
-      change: "",
-      trending: "up" as const,
-      icon: ClockIcon,
-      color: "red",
-    },
-  ], [meta]);
+  const stats = useMemo(
+    () => [
+      {
+        label: "Total Users",
+        value: meta.total_users.toLocaleString(),
+        change: "",
+        trending: "up" as const,
+        icon: UserGroupIcon,
+        color: "blue",
+      },
+      {
+        label: "Active Users",
+        value: meta.total_active.toLocaleString(),
+        change: "",
+        trending: "up" as const,
+        icon: CheckCircleIcon,
+        color: "emerald",
+      },
+      {
+        label: "Suspended",
+        value: meta.total_suspended.toLocaleString(),
+        change: "",
+        trending: "up" as const,
+        icon: ClockIcon,
+        color: "red",
+      },
+    ],
+    [meta],
+  );
 
   useEffect(() => {
     if (!accessToken) return;
