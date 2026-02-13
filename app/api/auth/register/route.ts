@@ -50,6 +50,7 @@ export async function POST(request: Request) {
       name: name || "",
       isAdmin: isAdmin,
       emailVerified: false,
+      status: "active",
       createdAt: new Date(),
       updatedAt: new Date(),
     };

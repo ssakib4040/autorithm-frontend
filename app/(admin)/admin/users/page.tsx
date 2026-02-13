@@ -25,6 +25,7 @@ type UserRow = {
   id: string;
   name: string;
   email: string;
+  isAdmin?: boolean;
   role: string;
   status: string;
   joined: string;
@@ -49,6 +50,13 @@ export default function UsersPage() {
   const [showActions, setShowActions] = useState<string | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [stats, setStats] = useState<StatsCard[]>([]);
+  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 25,
+    total: 0,
+    totalPages: 1,
+  });
 
   const toggleUserSelection = (userId: string) => {
     setSelectedUsers((prev) =>
@@ -142,7 +150,7 @@ export default function UsersPage() {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch("/api/admin/users", {
+        const response = await fetch(`/api/admin/users?page=${page}&limit=25`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -154,17 +162,20 @@ export default function UsersPage() {
 
         const data = await response.json();
         setUsers(data.users || []);
+        setPagination(data.pagination || { page: 1, limit: 25, total: 0, totalPages: 1 });
       } catch (error) {
         console.error("Failed to load users", error);
       }
     };
 
     fetchUsers();
-  }, [accessToken]);
+  }, [accessToken, page]);
 
   useEffect(() => {
     setStats(derivedStats);
   }, [derivedStats]);
+
+  console.log("Users:", users);
 
   return (
     <div className="space-y-6">
@@ -176,7 +187,7 @@ export default function UsersPage() {
             Manage and monitor all user accounts
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors">
             <ArrowDownTrayIcon className="h-4 w-4" />
             Export
@@ -258,12 +269,12 @@ export default function UsersPage() {
 
         {/* Bulk Actions */}
         {selectedUsers.length > 0 && (
-          <div className="mt-4 pt-4 border-t border-zinc-800 flex items-center justify-between">
+          <div className="mt-4 pt-4 border-t border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <span className="text-sm text-zinc-400">
               {selectedUsers.length} user{selectedUsers.length !== 1 ? "s" : ""}{" "}
               selected
             </span>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button className="bg-zinc-800 hover:bg-zinc-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
                 Change Role
               </button>
@@ -280,7 +291,110 @@ export default function UsersPage() {
 
       {/* Users Table */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="block xl:hidden divide-y divide-zinc-800">
+          {users.map((user) => (
+            <div key={user.id} className="p-4 space-y-3">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-10 h-10 rounded-full ${getAvatarColor(user.id)} flex items-center justify-center text-white font-semibold text-sm shrink-0`}
+                  >
+                    {getInitials(user.name)}
+                  </div>
+                  <div>
+                    <div className="font-medium text-white">{user.name}</div>
+                    <div className="text-zinc-400 text-xs flex items-center gap-1 mt-0.5">
+                      <EnvelopeIcon className="h-3 w-3" />
+                      {user.email}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() =>
+                    setShowActions(showActions === user.id ? null : user.id)
+                  }
+                  className="p-2 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition-all"
+                >
+                  <EllipsisVerticalIcon className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <span
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                    user.isAdmin
+                      ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                      : user.role === "Editor"
+                        ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                        : "bg-zinc-700 text-zinc-300 border border-zinc-600"
+                  }`}
+                >
+                  {user.isAdmin && <ShieldCheckIcon className="h-3 w-3" />}
+                  {user.isAdmin ? "Admin" : "User"}
+                </span>
+                <span
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                    user.status === "Active"
+                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                      : user.status === "Suspended"
+                        ? "bg-red-500/10 text-red-400 border border-red-500/20"
+                        : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                  }`}
+                >
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      user.status === "Active"
+                        ? "bg-emerald-400"
+                        : user.status === "Suspended"
+                          ? "bg-red-400"
+                          : "bg-amber-400"
+                    }`}
+                  ></span>
+                  {user.status}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-3 text-xs text-zinc-400">
+                <div>
+                  <p className="text-zinc-500">Purchases</p>
+                  <p className="text-white font-medium">{user.purchases}</p>
+                </div>
+                <div>
+                  <p className="text-zinc-500">Revenue</p>
+                  <p className="text-white font-medium">
+                    ${(user.revenue ?? 0).toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-zinc-500">Last Active</p>
+                  <p className="text-white font-medium">{user.lastActive}</p>
+                </div>
+                <div>
+                  <p className="text-zinc-500">Joined</p>
+                  <p className="text-white font-medium">{user.joined}</p>
+                </div>
+              </div>
+              {showActions === user.id && (
+                <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-950 p-2 space-y-1">
+                  <Link
+                    href={`/admin/users/${user.id}`}
+                    className="block px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 rounded-md"
+                  >
+                    View Profile
+                  </Link>
+                  <button className="w-full text-left px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 rounded-md">
+                    Send Email
+                  </button>
+                  <button className="w-full text-left px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 rounded-md">
+                    Reset Password
+                  </button>
+                  <button className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-zinc-800 rounded-md">
+                    Suspend Account
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="hidden xl:block overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-zinc-950 border-b border-zinc-800">
               <tr>
@@ -295,19 +409,19 @@ export default function UsersPage() {
                 <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                   User
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden md:table-cell">
                   Role
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden lg:table-cell">
                   Status
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden xl:table-cell">
                   Last Active
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden sm:table-cell">
                   Purchases
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden md:table-cell">
                   Revenue
                 </th>
                 <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider text-right">
@@ -347,37 +461,35 @@ export default function UsersPage() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 hidden md:table-cell">
                     <span
                       className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                        user.role === "Admin"
+                        user.isAdmin
                           ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
                           : user.role === "Editor"
                             ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
                             : "bg-zinc-700 text-zinc-300 border border-zinc-600"
                       }`}
                     >
-                      {user.role === "Admin" && (
-                        <ShieldCheckIcon className="h-3 w-3" />
-                      )}
-                      {user.role}
+                      {user.isAdmin && <ShieldCheckIcon className="h-3 w-3" />}
+                      {user.isAdmin ? "Admin" : "User"}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 hidden lg:table-cell">
                     <span
                       className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                        user.status === "Active"
+                        user.status === "active"
                           ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                          : user.status === "Suspended"
+                          : user.status === "suspended"
                             ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                            : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                            : ""
                       }`}
                     >
                       <span
                         className={`w-1.5 h-1.5 rounded-full ${
-                          user.status === "Active"
+                          user.status === "active"
                             ? "bg-emerald-400"
-                            : user.status === "Suspended"
+                            : user.status === "suspended"
                               ? "bg-red-400"
                               : "bg-amber-400"
                         }`}
@@ -385,13 +497,13 @@ export default function UsersPage() {
                       {user.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-zinc-400 text-sm">
+                  <td className="px-6 py-4 text-zinc-400 text-sm hidden xl:table-cell">
                     {user.lastActive}
                   </td>
-                  <td className="px-6 py-4 text-white font-medium">
+                  <td className="px-6 py-4 text-white font-medium hidden sm:table-cell">
                     {user.purchases}
                   </td>
-                  <td className="px-6 py-4 text-white font-medium">
+                  <td className="px-6 py-4 text-white font-medium hidden md:table-cell">
                     ${(user.revenue ?? 0).toLocaleString()}
                   </td>
                   <td className="px-6 py-4">
@@ -450,27 +562,48 @@ export default function UsersPage() {
         <div className="bg-zinc-950 border-t border-zinc-800 px-6 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-zinc-400">
-              Showing <span className="font-medium text-white">1</span> to{" "}
-              <span className="font-medium text-white">6</span> of{" "}
-              <span className="font-medium text-white">24</span> users
+              Showing <span className="font-medium text-white">{pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.limit + 1}</span> to{" "}
+              <span className="font-medium text-white">{Math.min(pagination.page * pagination.limit, pagination.total)}</span> of{" "}
+              <span className="font-medium text-white">{pagination.total}</span> users
             </div>
-            <div className="flex items-center gap-2">
-              <button className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <div className="flex flex-wrap items-center gap-2">
+              <button 
+                onClick={() => setPage(page - 1)}
+                disabled={page === 1}
+                className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <ChevronLeftIcon className="h-4 w-4" />
               </button>
-              <button className="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm font-medium">
-                1
-              </button>
-              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">
-                2
-              </button>
-              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">
-                3
-              </button>
-              <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">
-                4
-              </button>
-              <button className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors">
+              {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                let pageNum;
+                if (pagination.totalPages <= 5) {
+                  pageNum = i + 1;
+                } else if (page <= 3) {
+                  pageNum = i + 1;
+                } else if (page >= pagination.totalPages - 2) {
+                  pageNum = pagination.totalPages - 4 + i;
+                } else {
+                  pageNum = page - 2 + i;
+                }
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setPage(pageNum)}
+                    className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                      page === pageNum
+                        ? "bg-blue-600 text-white font-medium"
+                        : "border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+              <button
+                onClick={() => setPage(page + 1)}
+                disabled={page === pagination.totalPages}
+                className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <ChevronRightIcon className="h-4 w-4" />
               </button>
             </div>

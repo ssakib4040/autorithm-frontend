@@ -9,9 +9,10 @@ export async function getUsers() {
   const users = [
     {
       userId: uuidv4(),
-      email: "admin@gmail.com",
+      email: "admin@autorithm.com",
       password: hashedPassword,
       name: "Administrator",
+      status: "active",
       isAdmin: true,
       isEmailVerified: true,
       createdAt: new Date(),
@@ -19,9 +20,10 @@ export async function getUsers() {
     },
     {
       userId: uuidv4(),
-      email: "john@example.com.com",
+      email: "ssakib6060@gmail.com",
       password: hashedPassword,
       name: "John Doe",
+      status: "active",
       isAdmin: false,
       isEmailVerified: true,
       createdAt: new Date(),
@@ -29,13 +31,14 @@ export async function getUsers() {
     },
   ];
 
-  // Generate 50 additional users using faker
-  for (let i = 0; i < 50; i++) {
+  // Generate 10 additional users using faker
+  for (let i = 0; i < 10; i++) {
     users.push({
       userId: uuidv4(),
       email: faker.internet.email().toLowerCase(),
       password: hashedPassword,
       name: faker.person.fullName(),
+      status: faker.helpers.arrayElement(["active", "suspended"]),
       isAdmin: false,
       isEmailVerified: faker.datatype.boolean(),
       createdAt: faker.date.past({ years: 1 }),
