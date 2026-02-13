@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import {
   PlusIcon,
   PencilSquareIcon,
@@ -20,115 +21,36 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 
-const users = [
-  {
-    id: 1,
-    name: "Alice Johnson",
-    email: "alice@example.com",
-    role: "Admin",
-    status: "Active",
-    joined: "2024-01-15",
-    lastActive: "2 hours ago",
-    purchases: 12,
-    revenue: 4850,
-  },
-  {
-    id: 2,
-    name: "Bob Smith",
-    email: "bob@example.com",
-    role: "User",
-    status: "Active",
-    joined: "2024-02-20",
-    lastActive: "5 minutes ago",
-    purchases: 8,
-    revenue: 2340,
-  },
-  {
-    id: 3,
-    name: "Charlie Brown",
-    email: "charlie@example.com",
-    role: "User",
-    status: "Inactive",
-    joined: "2024-03-10",
-    lastActive: "2 days ago",
-    purchases: 3,
-    revenue: 890,
-  },
-  {
-    id: 4,
-    name: "Diana Ross",
-    email: "diana@example.com",
-    role: "Editor",
-    status: "Active",
-    joined: "2024-03-15",
-    lastActive: "1 hour ago",
-    purchases: 15,
-    revenue: 6720,
-  },
-  {
-    id: 5,
-    name: "Ethan Hunt",
-    email: "ethan@example.com",
-    role: "User",
-    status: "Active",
-    joined: "2024-04-01",
-    lastActive: "30 minutes ago",
-    purchases: 6,
-    revenue: 1450,
-  },
-  {
-    id: 6,
-    name: "Fiona Apple",
-    email: "fiona@example.com",
-    role: "User",
-    status: "Suspended",
-    joined: "2024-04-10",
-    lastActive: "1 week ago",
-    purchases: 2,
-    revenue: 450,
-  },
-];
+type UserRow = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+  joined: string;
+  lastActive: string;
+  purchases: number;
+  revenue: number;
+};
 
-const stats = [
-  {
-    label: "Total Users",
-    value: "1,284",
-    change: "+12.5%",
-    trending: "up",
-    icon: UserGroupIcon,
-    color: "blue",
-  },
-  {
-    label: "Active Users",
-    value: "1,092",
-    change: "+8.2%",
-    trending: "up",
-    icon: CheckCircleIcon,
-    color: "emerald",
-  },
-  {
-    label: "Inactive",
-    value: "156",
-    change: "-3.1%",
-    trending: "down",
-    icon: XCircleIcon,
-    color: "amber",
-  },
-  {
-    label: "Suspended",
-    value: "36",
-    change: "+2.4%",
-    trending: "up",
-    icon: ClockIcon,
-    color: "red",
-  },
-];
+type StatsCard = {
+  label: string;
+  value: string;
+  change: string;
+  trending: "up" | "down";
+  icon: typeof UserGroupIcon;
+  color: string;
+};
 
 export default function UsersPage() {
-  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
-  const [showActions, setShowActions] = useState<number | null>(null);
+  const { data: session } = useSession();
+  const accessToken = session?.accessToken;
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [showActions, setShowActions] = useState<string | null>(null);
+  const [users, setUsers] = useState<UserRow[]>([]);
+  const [stats, setStats] = useState<StatsCard[]>([]);
 
-  const toggleUserSelection = (userId: number) => {
+  const toggleUserSelection = (userId: string) => {
     setSelectedUsers((prev) =>
       prev.includes(userId)
         ? prev.filter((id) => id !== userId)
@@ -150,7 +72,7 @@ export default function UsersPage() {
       .toUpperCase();
   };
 
-  const getAvatarColor = (id: number) => {
+  const getAvatarColor = (id?: string) => {
     const colors = [
       "bg-blue-500",
       "bg-purple-500",
@@ -159,8 +81,90 @@ export default function UsersPage() {
       "bg-amber-500",
       "bg-cyan-500",
     ];
-    return colors[id % colors.length];
+    if (!id) {
+      return colors[0];
+    }
+    let hash = 0;
+    for (let i = 0; i < id.length; i += 1) {
+      hash = (hash + id.charCodeAt(i)) % colors.length;
+    }
+    return colors[hash];
   };
+
+  const derivedStats = useMemo(() => {
+    const totalUsers = users.length;
+    const activeUsers = users.filter((user) => user.status === "Active").length;
+    const inactiveUsers = users.filter(
+      (user) => user.status === "Inactive",
+    ).length;
+    const suspendedUsers = users.filter(
+      (user) => user.status === "Suspended",
+    ).length;
+
+    return [
+      {
+        label: "Total Users",
+        value: totalUsers.toLocaleString(),
+        change: "",
+        trending: "up",
+        icon: UserGroupIcon,
+        color: "blue",
+      },
+      {
+        label: "Active Users",
+        value: activeUsers.toLocaleString(),
+        change: "",
+        trending: "up",
+        icon: CheckCircleIcon,
+        color: "emerald",
+      },
+      {
+        label: "Inactive",
+        value: inactiveUsers.toLocaleString(),
+        change: "",
+        trending: "down",
+        icon: XCircleIcon,
+        color: "amber",
+      },
+      {
+        label: "Suspended",
+        value: suspendedUsers.toLocaleString(),
+        change: "",
+        trending: "up",
+        icon: ClockIcon,
+        color: "red",
+      },
+    ] as StatsCard[];
+  }, [users]);
+
+  useEffect(() => {
+    if (!accessToken) return;
+
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("/api/admin/users", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+
+        const data = await response.json();
+        setUsers(data.users || []);
+      } catch (error) {
+        console.error("Failed to load users", error);
+      }
+    };
+
+    fetchUsers();
+  }, [accessToken]);
+
+  useEffect(() => {
+    setStats(derivedStats);
+  }, [derivedStats]);
 
   return (
     <div className="space-y-6">
@@ -388,7 +392,7 @@ export default function UsersPage() {
                     {user.purchases}
                   </td>
                   <td className="px-6 py-4 text-white font-medium">
-                    ${user.revenue.toLocaleString()}
+                    ${(user.revenue ?? 0).toLocaleString()}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
