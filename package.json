@@ -13,7 +13,8 @@
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage",
     "validate": "yarn lint && yarn test:ci && yarn build",
-    "seed": "tsx --env-file=.env scripts/seed.ts"
+    "seed": "tsx --env-file=.env scripts/seed.ts",
+    "migrate": "migrate-mongo"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
@@ -24,7 +25,7 @@
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dotenv": "^17.2.3",
+    "dotenv": "^17.3.1",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.563.0",
     "mongodb": "^7.0.0",
@@ -48,6 +49,7 @@
     "@types/uuid": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "migrate-mongo": "^14.0.7",
     "shadcn": "^3.8.4",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
