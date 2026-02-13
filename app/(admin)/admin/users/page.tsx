@@ -17,7 +17,6 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ShieldCheckIcon,
-  EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 
 type UserRow = {
@@ -28,8 +27,6 @@ type UserRow = {
   role: string;
   status: string;
   joined: string;
-  lastActive: string;
-  purchases: number;
   revenue: number;
 };
 
@@ -160,7 +157,11 @@ export default function UsersPage() {
         }
 
         const data = await response.json();
-        setUsers(data.users || []);
+        const usersWithId = (data.users || []).map((user: any) => ({
+          ...user,
+          id: user.userId || user._id,
+        }));
+        setUsers(usersWithId);
         setPagination(
           data.pagination || { page: 1, limit: 25, total: 0, totalPages: 1 },
         );
@@ -300,110 +301,7 @@ export default function UsersPage() {
 
       {/* Users Table */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
-        <div className="block xl:hidden divide-y divide-zinc-800">
-          {users.map((user) => (
-            <div key={user.id} className="p-4 space-y-3">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-10 h-10 rounded-full ${getAvatarColor(user.id)} flex items-center justify-center text-white font-semibold text-sm shrink-0`}
-                  >
-                    {getInitials(user.name)}
-                  </div>
-                  <div>
-                    <div className="font-medium text-white">{user.name}</div>
-                    <div className="text-zinc-400 text-xs flex items-center gap-1 mt-0.5">
-                      <EnvelopeIcon className="h-3 w-3" />
-                      {user.email}
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={() =>
-                    setShowActions(showActions === user.id ? null : user.id)
-                  }
-                  className="p-2 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition-all"
-                >
-                  <EllipsisVerticalIcon className="h-4 w-4" />
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <span
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                    user.isAdmin
-                      ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
-                      : user.role === "Editor"
-                        ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                        : "bg-zinc-700 text-zinc-300 border border-zinc-600"
-                  }`}
-                >
-                  {user.isAdmin && <ShieldCheckIcon className="h-3 w-3" />}
-                  {user.isAdmin ? "Admin" : "User"}
-                </span>
-                <span
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                    user.status === "Active"
-                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                      : user.status === "Suspended"
-                        ? "bg-red-500/10 text-red-400 border border-red-500/20"
-                        : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                  }`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full ${
-                      user.status === "Active"
-                        ? "bg-emerald-400"
-                        : user.status === "Suspended"
-                          ? "bg-red-400"
-                          : "bg-amber-400"
-                    }`}
-                  ></span>
-                  {user.status}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-3 text-xs text-zinc-400">
-                <div>
-                  <p className="text-zinc-500">Purchases</p>
-                  <p className="text-white font-medium">{user.purchases}</p>
-                </div>
-                <div>
-                  <p className="text-zinc-500">Revenue</p>
-                  <p className="text-white font-medium">
-                    ${(user.revenue ?? 0).toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-zinc-500">Last Active</p>
-                  <p className="text-white font-medium">{user.lastActive}</p>
-                </div>
-                <div>
-                  <p className="text-zinc-500">Joined</p>
-                  <p className="text-white font-medium">{user.joined}</p>
-                </div>
-              </div>
-              {showActions === user.id && (
-                <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-950 p-2 space-y-1">
-                  <Link
-                    href={`/admin/users/${user.id}`}
-                    className="block px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 rounded-md"
-                  >
-                    View Profile
-                  </Link>
-                  <button className="w-full text-left px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 rounded-md">
-                    Send Email
-                  </button>
-                  <button className="w-full text-left px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 rounded-md">
-                    Reset Password
-                  </button>
-                  <button className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-zinc-800 rounded-md">
-                    Suspend Account
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="hidden xl:block overflow-x-auto">
+        <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-zinc-950 border-b border-zinc-800">
               <tr>
@@ -424,11 +322,8 @@ export default function UsersPage() {
                 <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden lg:table-cell">
                   Status
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden xl:table-cell">
-                  Last Active
-                </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden sm:table-cell">
-                  Purchases
+                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden md:table-cell">
+                  Joined
                 </th>
                 <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden md:table-cell">
                   Revenue
@@ -463,8 +358,7 @@ export default function UsersPage() {
                         <div className="font-medium text-white truncate">
                           {user.name}
                         </div>
-                        <div className="text-zinc-400 text-xs flex items-center gap-1 mt-0.5">
-                          <EnvelopeIcon className="h-3 w-3" />
+                        <div className="text-zinc-400 text-xs mt-0.5">
                           {user.email}
                         </div>
                       </div>
@@ -506,11 +400,8 @@ export default function UsersPage() {
                       {user.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-zinc-400 text-sm hidden xl:table-cell">
-                    {user.lastActive}
-                  </td>
-                  <td className="px-6 py-4 text-white font-medium hidden sm:table-cell">
-                    {user.purchases}
+                  <td className="px-6 py-4 text-zinc-400 text-sm hidden md:table-cell">
+                    {user.joined}
                   </td>
                   <td className="px-6 py-4 text-white font-medium hidden md:table-cell">
                     ${(user.revenue ?? 0).toLocaleString()}
@@ -534,14 +425,14 @@ export default function UsersPage() {
                         <button
                           onClick={() =>
                             setShowActions(
-                              showActions === user.id ? null : user.id,
+                              showActions === user.email ? null : user.email,
                             )
                           }
                           className="p-2 hover:bg-zinc-700 rounded-lg text-zinc-400 hover:text-white transition-all"
                         >
                           <EllipsisVerticalIcon className="h-4 w-4" />
                         </button>
-                        {showActions === user.id && (
+                        {showActions === user.email && (
                           <div className="absolute right-0 mt-2 w-48 bg-zinc-800 border border-zinc-700 rounded-lg shadow-xl z-10 py-1">
                             <button className="w-full px-4 py-2 text-left text-sm text-zinc-300 hover:bg-zinc-700 transition-colors">
                               View Profile
