@@ -30,14 +30,14 @@ type UserRow = {
   revenue: number;
 };
 
-type StatsCard = {
-  label: string;
-  value: string;
-  change: string;
-  trending: "up" | "down";
-  icon: typeof UserGroupIcon;
-  color: string;
-};
+// type StatsCard = {
+//   label: string;
+//   value: string;
+//   change: string;
+//   trending: "up" | "down";
+//   icon: typeof UserGroupIcon;
+//   color: string;
+// };
 
 export default function UsersPage() {
   const { data: session } = useSession();
@@ -157,6 +157,7 @@ export default function UsersPage() {
         }
 
         const data = await response.json();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const usersWithId = (data.users || []).map((user: any) => ({
           ...user,
           id: user.userId || user._id,
