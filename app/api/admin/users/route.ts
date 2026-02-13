@@ -34,9 +34,10 @@ export async function GET(request: NextRequest) {
     }
 
     if (role) {
-      filter.role = role;
       if (role.toLowerCase() === "admin") {
         filter.isAdmin = true;
+      } else if (role.toLowerCase() === "user") {
+        filter.isAdmin = { $ne: true };
       }
     }
 
@@ -56,6 +57,11 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .toArray();
 
+    // Get total counts for stats (without filter)
+    const totalUsers = await usersCollection.countDocuments({});
+    const totalActive = await usersCollection.countDocuments({ status: "active" });
+    const totalSuspended = await usersCollection.countDocuments({ status: "suspended" });
+
     return NextResponse.json({
       users,
       pagination: {
@@ -63,6 +69,11 @@ export async function GET(request: NextRequest) {
         limit,
         total,
         totalPages: Math.ceil(total / limit),
+      },
+      meta: {
+        total_users: totalUsers,
+        total_active: totalActive,
+        total_suspended: totalSuspended,
       },
     });
   } catch (error) {

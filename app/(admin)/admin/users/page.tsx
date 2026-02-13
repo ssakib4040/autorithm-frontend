@@ -12,7 +12,6 @@ import {
   EllipsisVerticalIcon,
   UserGroupIcon,
   CheckCircleIcon,
-  XCircleIcon,
   ClockIcon,
   ArrowDownTrayIcon,
   ChevronLeftIcon,
@@ -49,7 +48,6 @@ export default function UsersPage() {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [showActions, setShowActions] = useState<string | null>(null);
   const [users, setUsers] = useState<UserRow[]>([]);
-  const [stats, setStats] = useState<StatsCard[]>([]);
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -57,6 +55,14 @@ export default function UsersPage() {
     total: 0,
     totalPages: 1,
   });
+  const [meta, setMeta] = useState({
+    total_users: 0,
+    total_active: 0,
+    total_suspended: 0,
+  });
+  const [search, setSearch] = useState("");
+  const [roleFilter, setRoleFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const toggleUserSelection = (userId: string) => {
     setSelectedUsers((prev) =>
@@ -99,58 +105,48 @@ export default function UsersPage() {
     return colors[hash];
   };
 
-  const derivedStats = useMemo(() => {
-    const totalUsers = users.length;
-    const activeUsers = users.filter((user) => user.status === "Active").length;
-    const inactiveUsers = users.filter(
-      (user) => user.status === "Inactive",
-    ).length;
-    const suspendedUsers = users.filter(
-      (user) => user.status === "Suspended",
-    ).length;
-
-    return [
-      {
-        label: "Total Users",
-        value: totalUsers.toLocaleString(),
-        change: "",
-        trending: "up",
-        icon: UserGroupIcon,
-        color: "blue",
-      },
-      {
-        label: "Active Users",
-        value: activeUsers.toLocaleString(),
-        change: "",
-        trending: "up",
-        icon: CheckCircleIcon,
-        color: "emerald",
-      },
-      {
-        label: "Inactive",
-        value: inactiveUsers.toLocaleString(),
-        change: "",
-        trending: "down",
-        icon: XCircleIcon,
-        color: "amber",
-      },
-      {
-        label: "Suspended",
-        value: suspendedUsers.toLocaleString(),
-        change: "",
-        trending: "up",
-        icon: ClockIcon,
-        color: "red",
-      },
-    ] as StatsCard[];
-  }, [users]);
+  const stats = useMemo(() => [
+    {
+      label: "Total Users",
+      value: meta.total_users.toLocaleString(),
+      change: "",
+      trending: "up" as const,
+      icon: UserGroupIcon,
+      color: "blue",
+    },
+    {
+      label: "Active Users",
+      value: meta.total_active.toLocaleString(),
+      change: "",
+      trending: "up" as const,
+      icon: CheckCircleIcon,
+      color: "emerald",
+    },
+    {
+      label: "Suspended",
+      value: meta.total_suspended.toLocaleString(),
+      change: "",
+      trending: "up" as const,
+      icon: ClockIcon,
+      color: "red",
+    },
+  ], [meta]);
 
   useEffect(() => {
     if (!accessToken) return;
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch(`/api/admin/users?page=${page}&limit=25`, {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: "25",
+        });
+
+        if (search) params.append("search", search);
+        if (roleFilter) params.append("role", roleFilter);
+        if (statusFilter) params.append("status", statusFilter);
+
+        const response = await fetch(`/api/admin/users?${params.toString()}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -162,18 +158,19 @@ export default function UsersPage() {
 
         const data = await response.json();
         setUsers(data.users || []);
-        setPagination(data.pagination || { page: 1, limit: 25, total: 0, totalPages: 1 });
+        setPagination(
+          data.pagination || { page: 1, limit: 25, total: 0, totalPages: 1 },
+        );
+        setMeta(
+          data.meta || { total_users: 0, total_active: 0, total_suspended: 0 },
+        );
       } catch (error) {
         console.error("Failed to load users", error);
       }
     };
 
     fetchUsers();
-  }, [accessToken, page]);
-
-  useEffect(() => {
-    setStats(derivedStats);
-  }, [derivedStats]);
+  }, [accessToken, page, search, roleFilter, statusFilter]);
 
   console.log("Users:", users);
 
@@ -203,7 +200,7 @@ export default function UsersPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {stats.map((stat, index) => (
           <div
             key={index}
@@ -217,14 +214,6 @@ export default function UsersPage() {
                 <p className="text-2xl font-bold text-white mt-2">
                   {stat.value}
                 </p>
-                <span
-                  className={`inline-flex items-center gap-1 text-xs font-medium mt-2 ${
-                    stat.trending === "up" ? "text-emerald-400" : "text-red-400"
-                  }`}
-                >
-                  {stat.change}
-                  <span className="text-zinc-500">vs last month</span>
-                </span>
               </div>
               <div className={`p-3 rounded-xl bg-${stat.color}-500/10`}>
                 <stat.icon className={`h-6 w-6 text-${stat.color}-400`} />
@@ -242,26 +231,43 @@ export default function UsersPage() {
             <input
               type="text"
               placeholder="Search by name, email, or role..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
               className="w-full bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700"
             />
           </div>
           <div className="flex gap-3 flex-wrap">
             <div className="relative">
               <FunnelIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 pointer-events-none" />
-              <select className="appearance-none bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-none focus:border-zinc-700 cursor-pointer">
-                <option>All Roles</option>
-                <option>Admin</option>
-                <option>Editor</option>
-                <option>User</option>
+              <select
+                value={roleFilter}
+                onChange={(e) => {
+                  setRoleFilter(e.target.value);
+                  setPage(1);
+                }}
+                className="appearance-none bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-none focus:border-zinc-700 cursor-pointer"
+              >
+                <option value="">All Roles</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
               </select>
             </div>
             <div className="relative">
               <FunnelIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 pointer-events-none" />
-              <select className="appearance-none bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-none focus:border-zinc-700 cursor-pointer">
-                <option>All Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
-                <option>Suspended</option>
+              <select
+                value={statusFilter}
+                onChange={(e) => {
+                  setStatusFilter(e.target.value);
+                  setPage(1);
+                }}
+                className="appearance-none bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-none focus:border-zinc-700 cursor-pointer"
+              >
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="suspended">Suspended</option>
               </select>
             </div>
           </div>
@@ -562,43 +568,56 @@ export default function UsersPage() {
         <div className="bg-zinc-950 border-t border-zinc-800 px-6 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-sm text-zinc-400">
-              Showing <span className="font-medium text-white">{pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.limit + 1}</span> to{" "}
-              <span className="font-medium text-white">{Math.min(pagination.page * pagination.limit, pagination.total)}</span> of{" "}
-              <span className="font-medium text-white">{pagination.total}</span> users
+              Showing{" "}
+              <span className="font-medium text-white">
+                {pagination.total === 0
+                  ? 0
+                  : (pagination.page - 1) * pagination.limit + 1}
+              </span>{" "}
+              to{" "}
+              <span className="font-medium text-white">
+                {Math.min(pagination.page * pagination.limit, pagination.total)}
+              </span>{" "}
+              of{" "}
+              <span className="font-medium text-white">{pagination.total}</span>{" "}
+              users
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <button 
+              <button
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
                 className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronLeftIcon className="h-4 w-4" />
               </button>
-              {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
-                let pageNum;
-                if (pagination.totalPages <= 5) {
-                  pageNum = i + 1;
-                } else if (page <= 3) {
-                  pageNum = i + 1;
-                } else if (page >= pagination.totalPages - 2) {
-                  pageNum = pagination.totalPages - 4 + i;
-                } else {
-                  pageNum = page - 2 + i;
-                }
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => setPage(pageNum)}
-                    className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
-                      page === pageNum
-                        ? "bg-blue-600 text-white font-medium"
-                        : "border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white"
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              })}
+              {Array.from(
+                { length: Math.min(5, pagination.totalPages) },
+                (_, i) => {
+                  let pageNum;
+                  if (pagination.totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (page <= 3) {
+                    pageNum = i + 1;
+                  } else if (page >= pagination.totalPages - 2) {
+                    pageNum = pagination.totalPages - 4 + i;
+                  } else {
+                    pageNum = page - 2 + i;
+                  }
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setPage(pageNum)}
+                      className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
+                        page === pageNum
+                          ? "bg-blue-600 text-white font-medium"
+                          : "border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white"
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                },
+              )}
               <button
                 onClick={() => setPage(page + 1)}
                 disabled={page === pagination.totalPages}
