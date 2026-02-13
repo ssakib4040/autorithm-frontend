@@ -20,6 +20,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 type UserRow = {
+  [x: string]: string | number | Date | boolean | undefined;
   id: string;
   name: string;
   email: string;
@@ -27,7 +28,7 @@ type UserRow = {
   role: string;
   status: string;
   joined: string;
-  revenue: number;
+  createdAt: number;
 };
 
 // type StatsCard = {
@@ -326,9 +327,7 @@ export default function UsersPage() {
                 <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden md:table-cell">
                   Joined
                 </th>
-                <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden md:table-cell">
-                  Revenue
-                </th>
+
                 <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider text-right">
                   Actions
                 </th>
@@ -402,11 +401,13 @@ export default function UsersPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-zinc-400 text-sm hidden md:table-cell">
-                    {user.joined}
+                    {new Date(user?.createdAt).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
                   </td>
-                  <td className="px-6 py-4 text-white font-medium hidden md:table-cell">
-                    ${(user.revenue ?? 0).toLocaleString()}
-                  </td>
+
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
                       <Link
