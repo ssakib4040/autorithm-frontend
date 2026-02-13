@@ -115,6 +115,27 @@ export const authApi = {
     }),
 };
 
+// Contact API
+export const contactApi = {
+  create: (
+    data: {
+      name: string;
+      subject: string;
+      message: string;
+      turnstileToken: string;
+    },
+    token: string,
+  ) =>
+    apiRequest<{ message: string }>("/contact", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }),
+};
+
 function buildQuery(params?: Record<string, string | number>): string {
   if (!params) return "";
   const searchParams = new URLSearchParams();

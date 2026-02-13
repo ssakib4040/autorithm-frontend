@@ -1,11 +1,6 @@
 import { Metadata } from "next";
-import { Send } from "lucide-react";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
+import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact Us - Autorithm",
@@ -15,74 +10,33 @@ export const metadata: Metadata = {
 export default function Contact() {
   return (
     <>
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-white mb-4">
-              Contact Us
+      <div className="relative min-h-screen overflow-hidden bg-linear-to-b from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#0f172a12_1px,transparent_1px),linear-gradient(to_bottom,#0f172a12_1px,transparent_1px)] bg-size-[28px_28px] opacity-40 dark:opacity-25" />
+        <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center mb-12 space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
+              Contact Support
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-white">
+              Contact the Autorithm team
             </h1>
             <p className="text-lg text-zinc-600 dark:text-zinc-400">
-              Have a question or need help? Send us a message.
+              Share what you are building or stuck on. We respond fast and keep
+              it practical.
             </p>
           </div>
 
-          {/* Contact Form */}
-          <Card className="mb-8">
-            <CardContent className="pt-6">
-              <form className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Your name" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="you@example.com"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
-                  <Input id="subject" placeholder="How can we help?" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message">Message</Label>
-                  {/* <textarea
-                    id="message"
-                    className="flex min-h-37.5 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="Your message..."
-                    required
-                  /> */}
-                  <Textarea
-                    id="message"
-                    placeholder="Your message..."
-                    required
-                    className="min-h-37.5"
-                  />
-                </div>
-                <Button type="submit" className="w-full" size="lg">
-                  <Send className="mr-2 h-4 w-4" />
-                  Send Message
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+          <ContactForm />
 
-          {/* Email Alternative */}
-          <div className="text-center p-6 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">
-              Or email us directly at
+          <div className="mt-8 text-center rounded-2xl border border-zinc-200/80 bg-white/90 px-6 py-8 shadow-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/80">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              Prefer email? Reach us directly at
             </p>
             <a
-              href="mailto:hello@autorithm.com"
-              className="text-lg font-semibold text-zinc-900 dark:text-white hover:text-primary transition-colors"
+              href="mailto:contact@autorithm.com"
+              className="mt-2 block text-xl font-semibold text-zinc-900 transition-colors hover:text-zinc-700 dark:text-white dark:hover:text-zinc-200"
             >
-              hello@autorithm.com
+              contact@autorithm.com
             </a>
           </div>
         </div>
