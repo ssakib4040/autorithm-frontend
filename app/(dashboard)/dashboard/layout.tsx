@@ -18,6 +18,7 @@ import {
   Key,
   Gift,
   Star,
+  HardDrive,
   ChevronRight,
   Menu,
   Bell,
@@ -91,6 +92,11 @@ const navItems = [
     href: "/dashboard/reviews",
     label: "Reviews & Ratings",
     icon: Star,
+  },
+  {
+    href: "/dashboard/backup",
+    label: "Backup & Restore",
+    icon: HardDrive,
   },
   {
     href: "/dashboard/support",
