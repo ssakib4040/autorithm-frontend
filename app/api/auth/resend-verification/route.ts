@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { User } from "@/models";
 import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
@@ -15,12 +16,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Find user
-    const user = await db
-      .collection("users")
-      .findOne({ email: email.toLowerCase() });
+    const user = await User.findOne({ email: email.toLowerCase() }).lean();
 
     if (!user) {
       // Don't reveal if user exists

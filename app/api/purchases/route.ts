@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
+
+import { connectMongoose } from "@/lib/mongoose";
+import { Purchase } from "@/models";
 import { requireAuth } from "@/lib/auth";
 
 /**
@@ -29,18 +31,17 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const skip = (page - 1) * limit;
 
-    const db = await getDb();
-    const collection = db.collection("purchases");
+    await connectMongoose();
 
     // Build query filter
     const filter: Record<string, unknown> = {};
 
     // Non-admin users can only see their own purchases
     if (!authenticatedUser.isAdmin) {
-      filter.purchasedBy = new ObjectId(authenticatedUser.id);
+      filter.purchasedBy = new Types.ObjectId(authenticatedUser.id);
     } else if (userId) {
       // Admins can filter by userId if provided
-      filter.purchasedBy = new ObjectId(userId);
+      filter.purchasedBy = new Types.ObjectId(userId);
     }
 
     if (productId) {
@@ -48,43 +49,41 @@ export async function GET(request: NextRequest) {
     }
 
     // Get total count for pagination
-    const total = await collection.countDocuments(filter);
+    const total = await Purchase.countDocuments(filter);
 
     // Fetch purchases with population
-    const purchases = await collection
-      .aggregate([
-        { $match: filter },
-        { $sort: { purchaseDate: -1 } },
-        { $skip: skip },
-        { $limit: limit },
-        // Populate product details
-        {
-          $lookup: {
-            from: "products",
-            localField: "productId",
-            foreignField: "id",
-            as: "product",
-          },
+    const purchases = await Purchase.aggregate([
+      { $match: filter },
+      { $sort: { purchaseDate: -1 } },
+      { $skip: skip },
+      { $limit: limit },
+      // Populate product details
+      {
+        $lookup: {
+          from: "products",
+          localField: "productId",
+          foreignField: "id",
+          as: "product",
         },
-        { $unwind: { path: "$product", preserveNullAndEmptyArrays: true } },
-        // Populate user details
-        {
-          $lookup: {
-            from: "users",
-            localField: "purchasedBy",
-            foreignField: "_id",
-            as: "user",
-          },
+      },
+      { $unwind: { path: "$product", preserveNullAndEmptyArrays: true } },
+      // Populate user details
+      {
+        $lookup: {
+          from: "users",
+          localField: "purchasedBy",
+          foreignField: "_id",
+          as: "user",
         },
-        { $unwind: { path: "$user", preserveNullAndEmptyArrays: true } },
-        // Remove sensitive user data
-        {
-          $project: {
-            "user.password": 0,
-          },
+      },
+      { $unwind: { path: "$user", preserveNullAndEmptyArrays: true } },
+      // Remove sensitive user data
+      {
+        $project: {
+          "user.password": 0,
         },
-      ])
-      .toArray();
+      },
+    ]);
 
     return NextResponse.json({
       purchases,
@@ -134,33 +133,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const db = await getDb();
-    const collection = db.collection("purchases");
+    await connectMongoose();
 
     // Get next ID
-    const lastPurchase = await collection
-      .find({})
-      .sort({ id: -1 })
-      .limit(1)
-      .toArray();
-    const nextId = lastPurchase.length > 0 ? lastPurchase[0].id + 1 : 1;
+    const lastPurchase = await Purchase.findOne({}).sort({ id: -1 }).lean();
+    const nextId = lastPurchase?.id ? lastPurchase.id + 1 : 1;
 
     const newPurchase = {
       id: nextId,
       productId: parseInt(productId),
-      purchasedBy: new ObjectId(authenticatedUser.id), // Use authenticated user's ID
+      purchasedBy: new Types.ObjectId(authenticatedUser.id), // Use authenticated user's ID
       discountApplied: discountApplied || null,
       originalPrice,
       finalPrice,
       purchaseDate: new Date(),
     };
 
-    const result = await collection.insertOne(newPurchase);
+    const result = await Purchase.create(newPurchase);
 
     return NextResponse.json(
       {
         message: "Purchase created successfully",
-        purchase: { ...newPurchase, _id: result.insertedId },
+        purchase: { ...newPurchase, _id: result._id },
       },
       { status: 201 },
     );

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { Contact } from "@/models";
 import { requireAuth } from "@/lib/auth";
 
 interface TurnstileResponse {
@@ -77,15 +78,14 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await getDb();
-    const contactsCollection = db.collection("contacts");
+    await connectMongoose();
 
     const now = new Date();
 
     const contact = {
       name: String(name).trim(),
       email: authenticatedUser.email.toLowerCase(),
-      userId: new ObjectId(authenticatedUser.id),
+      userId: new Types.ObjectId(authenticatedUser.id),
       subject: String(subject).trim(),
       message: String(message).trim(),
       status: "new",
@@ -93,7 +93,7 @@ export async function POST(request: Request) {
       updatedAt: now,
     };
 
-    await contactsCollection.insertOne(contact);
+    await Contact.create(contact);
 
     return NextResponse.json(
       { message: "Thanks! Your message has been received." },

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import db, { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { Purchase } from "@/models";
 import { requireAuth } from "@/lib/auth";
 
 /**
@@ -21,40 +22,37 @@ export async function GET(
 
     const { id } = await params;
 
-    const db = await getDb();
-    const collection = db.collection("purchases");
+    await connectMongoose();
 
-    const purchase = await collection
-      .aggregate([
-        { $match: { id: parseInt(id) } },
-        // Populate product details
-        {
-          $lookup: {
-            from: "products",
-            localField: "productId",
-            foreignField: "id",
-            as: "product",
-          },
+    const purchase = await Purchase.aggregate([
+      { $match: { id: parseInt(id) } },
+      // Populate product details
+      {
+        $lookup: {
+          from: "products",
+          localField: "productId",
+          foreignField: "id",
+          as: "product",
         },
-        { $unwind: { path: "$product", preserveNullAndEmptyArrays: true } },
-        // Populate user details
-        {
-          $lookup: {
-            from: "users",
-            localField: "purchasedBy",
-            foreignField: "_id",
-            as: "user",
-          },
+      },
+      { $unwind: { path: "$product", preserveNullAndEmptyArrays: true } },
+      // Populate user details
+      {
+        $lookup: {
+          from: "users",
+          localField: "purchasedBy",
+          foreignField: "_id",
+          as: "user",
         },
-        { $unwind: { path: "$user", preserveNullAndEmptyArrays: true } },
-        // Remove sensitive user data
-        {
-          $project: {
-            "user.password": 0,
-          },
+      },
+      { $unwind: { path: "$user", preserveNullAndEmptyArrays: true } },
+      // Remove sensitive user data
+      {
+        $project: {
+          "user.password": 0,
         },
-      ])
-      .toArray();
+      },
+    ]);
 
     if (!purchase || purchase.length === 0) {
       return NextResponse.json(
@@ -106,11 +104,10 @@ export async function DELETE(
 
     const { id } = await params;
 
-    const db = await getDb();
-    const collection = db.collection("purchases");
+    await connectMongoose();
 
     // First, check if purchase exists and belongs to user
-    const purchase = await collection.findOne({ id: parseInt(id) });
+    const purchase = await Purchase.findOne({ id: parseInt(id) }).lean();
 
     if (!purchase) {
       return NextResponse.json(
@@ -130,7 +127,7 @@ export async function DELETE(
       );
     }
 
-    const result = await collection.deleteOne({ id: parseInt(id) });
+    const result = await Purchase.deleteOne({ id: parseInt(id) });
 
     if (result.deletedCount === 0) {
       return NextResponse.json(

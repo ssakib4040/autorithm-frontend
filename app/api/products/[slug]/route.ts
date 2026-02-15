@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { Product } from "@/models";
 import { requireAdmin } from "@/lib/auth";
 
 // GET /api/products/[slug]?tool=n8n|Make - Get single product with related versions
@@ -21,11 +22,9 @@ export async function GET(
       query.tool = { $regex: `^${tool}$`, $options: "i" };
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
-    const product = await db
-      .collection("products")
-      .findOne(query, { projection: { _id: 0 } });
+    const product = await Product.findOne(query).select("-__v -_id").lean();
 
     if (!product) {
       return NextResponse.json(
@@ -82,16 +81,12 @@ export async function GET(
 
     // Fetch related versions (same slug, different platform)
     let relatedVersions: unknown[] = [];
-    const otherVersions = await db
-      .collection("products")
-      .find(
-        {
-          slug: product.slug,
-          tool: { $ne: product.tool }, // Different platform
-        },
-        { projection: { _id: 0 } },
-      )
-      .toArray();
+    const otherVersions = await Product.find({
+      slug: product.slug,
+      tool: { $ne: product.tool }, // Different platform
+    })
+      .select("-__v -_id")
+      .lean();
 
     relatedVersions = otherVersions;
 
@@ -131,11 +126,12 @@ export async function PUT(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { _id, ...updateData } = body;
 
-    const db = await getDb();
+    await connectMongoose();
 
-    const result = await db
-      .collection("products")
-      .updateOne({ slug }, { $set: { ...updateData, updatedAt: new Date() } });
+    const result = await Product.updateOne(
+      { slug },
+      { $set: { ...updateData, updatedAt: new Date() } },
+    );
 
     if (result.matchedCount === 0) {
       return NextResponse.json(
@@ -144,9 +140,9 @@ export async function PUT(
       );
     }
 
-    const updatedProduct = await db
-      .collection("products")
-      .findOne({ slug }, { projection: { _id: 0 } });
+    const updatedProduct = await Product.findOne({ slug })
+      .select("-__v -_id")
+      .lean();
 
     return NextResponse.json(
       { message: "Product updated successfully", product: updatedProduct },
@@ -176,9 +172,9 @@ export async function DELETE(
 
     const { slug } = await params;
 
-    const db = await getDb();
+    await connectMongoose();
 
-    const result = await db.collection("products").deleteOne({ slug });
+    const result = await Product.deleteOne({ slug });
 
     if (result.deletedCount === 0) {
       return NextResponse.json(

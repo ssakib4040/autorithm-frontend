@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { User } from "@/models";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -41,15 +42,13 @@ export async function POST(request: Request) {
     // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Update user password
-    const result = await db
-      .collection("users")
-      .updateOne(
-        { email: decoded.email.toLowerCase() },
-        { $set: { password: hashedPassword, updatedAt: new Date() } },
-      );
+    const result = await User.updateOne(
+      { email: decoded.email.toLowerCase() },
+      { $set: { password: hashedPassword, updatedAt: new Date() } },
+    );
 
     if (result.matchedCount === 0) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });

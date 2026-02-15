@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { User } from "@/models";
 import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
@@ -29,12 +30,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Find user
-    const user = await db
-      .collection("users")
-      .findOne({ email: decoded.email.toLowerCase() });
+    const user = await User.findOne({
+      email: decoded.email.toLowerCase(),
+    }).lean();
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
     }
 
     // Update user as verified
-    await db.collection("users").updateOne(
+    await User.updateOne(
       { email: decoded.email.toLowerCase() },
       {
         $set: {

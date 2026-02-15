@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { User } from "@/models";
 import { requireAdmin } from "@/lib/auth";
 
 const DEFAULT_LIMIT = 25;
@@ -45,24 +46,23 @@ export async function GET(request: NextRequest) {
       filter.status = status;
     }
 
-    const db = await getDb();
-    const usersCollection = db.collection("users");
+    await connectMongoose();
 
-    const total = await usersCollection.countDocuments(filter);
+    const total = await User.countDocuments(filter);
 
-    const users = await usersCollection
-      .find(filter, { projection: { password: 0 } })
+    const users = await User.find(filter)
+      .select("-password -__v")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .toArray();
+      .lean();
 
     // Get total counts for stats (without filter)
-    const totalUsers = await usersCollection.countDocuments({});
-    const totalActive = await usersCollection.countDocuments({
+    const totalUsers = await User.countDocuments({});
+    const totalActive = await User.countDocuments({
       status: "active",
     });
-    const totalSuspended = await usersCollection.countDocuments({
+    const totalSuspended = await User.countDocuments({
       status: "suspended",
     });
 
@@ -107,12 +107,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const db = await getDb();
-    const usersCollection = db.collection("users");
+    await connectMongoose();
 
-    const existingUser = await usersCollection.findOne({
+    const existingUser = await User.findOne({
       email: String(email).toLowerCase(),
-    });
+    }).lean();
 
     if (existingUser) {
       return NextResponse.json(
@@ -135,7 +134,7 @@ export async function POST(request: NextRequest) {
       updatedAt: now,
     };
 
-    await usersCollection.insertOne(newUser);
+    await User.create(newUser);
 
     return NextResponse.json(
       { message: "User created successfully" },

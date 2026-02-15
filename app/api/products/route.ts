@@ -1,5 +1,13 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { Product } from "@/models";
+
+const createSlug = (value: string) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
 // GET /api/products - List all products with filters
 export async function GET(request: Request) {
@@ -49,17 +57,16 @@ export async function GET(request: Request) {
     // Only fetch active products
     query.status = "active";
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Fetch products
-    const products = await db
-      .collection("products")
-      .find(query, { projection: { _id: 0 } })
+    const products = await Product.find(query)
+      .select("-__v -_id")
       .skip(skip)
       .limit(limit)
-      .toArray();
+      .lean();
 
-    const total = await db.collection("products").countDocuments(query);
+    const total = await Product.countDocuments(query);
 
     return NextResponse.json(
       {
@@ -86,7 +93,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, description, price, category, stock } = body;
+    const { name, description, price, category, stock, tool, slug } = body;
 
     // Validate input
     if (!name || !price) {
@@ -110,12 +117,14 @@ export async function POST(request: Request) {
       price,
       category: category || "uncategorized",
       stock: stock || 0,
+      tool: tool || "n8n",
+      slug: slug || createSlug(name),
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    const db = await getDb();
+    await connectMongoose();
 
-    await db.collection("products").insertOne(newProduct);
+    await Product.create(newProduct);
 
     // Return product data (excluding _id)
     const productResponse = {

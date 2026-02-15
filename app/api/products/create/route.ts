@@ -1,4 +1,5 @@
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { Product } from "@/models";
 
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
@@ -56,12 +57,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Check if slug already exists
-    const existingProduct = await db
-      .collection("products")
-      .findOne({ slug, tool });
+    const existingProduct = await Product.findOne({ slug, tool }).lean();
     if (existingProduct) {
       return NextResponse.json(
         {
@@ -92,13 +91,8 @@ export async function POST(request: Request) {
     // to link this MongoDB product with an existing Lemon Squeezy product.
 
     // Get next ID for MongoDB
-    const lastProduct = await db
-      .collection("products")
-      .find({})
-      .sort({ id: -1 })
-      .limit(1)
-      .toArray();
-    const nextId = lastProduct.length > 0 ? lastProduct[0].id + 1 : 1;
+    const lastProduct = await Product.findOne({}).sort({ id: -1 }).lean();
+    const nextId = lastProduct?.id ? lastProduct.id + 1 : 1;
 
     // Create new product in MongoDB
     const newProduct = {
@@ -124,7 +118,7 @@ export async function POST(request: Request) {
       updatedAt: new Date(),
     };
 
-    await db.collection("products").insertOne(newProduct);
+    await Product.create(newProduct);
 
     // Return product data (excluding _id that MongoDB adds)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

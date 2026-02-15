@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
+
+import { connectMongoose } from "@/lib/mongoose";
+import { Purchase } from "@/models";
 import { requireAuth } from "@/lib/auth";
 
 /**
@@ -22,85 +24,76 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
 
-    const db = await getDb();
-    const collection = db.collection("purchases");
+    await connectMongoose();
 
     // Build match filter
     const matchFilter: Record<string, unknown> = {};
 
     // Non-admin users can only see their own stats
     if (!authenticatedUser.isAdmin) {
-      matchFilter.purchasedBy = new ObjectId(authenticatedUser.id);
+      matchFilter.purchasedBy = new Types.ObjectId(authenticatedUser.id);
     } else if (userId) {
       // Admins can filter by userId if provided
-      matchFilter.purchasedBy = new ObjectId(userId);
+      matchFilter.purchasedBy = new Types.ObjectId(userId);
     }
 
     // Aggregate statistics
-    const stats = await collection
-      .aggregate([
-        ...(Object.keys(matchFilter).length > 0
-          ? [{ $match: matchFilter }]
-          : []),
-        {
-          $group: {
-            _id: null,
-            totalPurchases: { $sum: 1 },
-            totalRevenue: { $sum: "$finalPrice" },
-            averageOrderValue: { $avg: "$finalPrice" },
-            totalDiscounts: {
-              $sum: {
-                $subtract: ["$originalPrice", "$finalPrice"],
-              },
+    const stats = await Purchase.aggregate([
+      ...(Object.keys(matchFilter).length > 0 ? [{ $match: matchFilter }] : []),
+      {
+        $group: {
+          _id: null,
+          totalPurchases: { $sum: 1 },
+          totalRevenue: { $sum: "$finalPrice" },
+          averageOrderValue: { $avg: "$finalPrice" },
+          totalDiscounts: {
+            $sum: {
+              $subtract: ["$originalPrice", "$finalPrice"],
             },
           },
         },
-        {
-          $project: {
-            _id: 0,
-            totalPurchases: 1,
-            totalRevenue: { $round: ["$totalRevenue", 2] },
-            averageOrderValue: { $round: ["$averageOrderValue", 2] },
-            totalDiscounts: { $round: ["$totalDiscounts", 2] },
-          },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalPurchases: 1,
+          totalRevenue: { $round: ["$totalRevenue", 2] },
+          averageOrderValue: { $round: ["$averageOrderValue", 2] },
+          totalDiscounts: { $round: ["$totalDiscounts", 2] },
         },
-      ])
-      .toArray();
+      },
+    ]);
 
     // Get top products
-    const topProducts = await collection
-      .aggregate([
-        ...(Object.keys(matchFilter).length > 0
-          ? [{ $match: matchFilter }]
-          : []),
-        {
-          $group: {
-            _id: "$productId",
-            count: { $sum: 1 },
-            revenue: { $sum: "$finalPrice" },
-          },
+    const topProducts = await Purchase.aggregate([
+      ...(Object.keys(matchFilter).length > 0 ? [{ $match: matchFilter }] : []),
+      {
+        $group: {
+          _id: "$productId",
+          count: { $sum: 1 },
+          revenue: { $sum: "$finalPrice" },
         },
-        {
-          $lookup: {
-            from: "products",
-            localField: "_id",
-            foreignField: "id",
-            as: "product",
-          },
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "_id",
+          foreignField: "id",
+          as: "product",
         },
-        { $unwind: "$product" },
-        {
-          $project: {
-            productId: "$_id",
-            productName: "$product.name",
-            count: 1,
-            revenue: { $round: ["$revenue", 2] },
-          },
+      },
+      { $unwind: "$product" },
+      {
+        $project: {
+          productId: "$_id",
+          productName: "$product.name",
+          count: 1,
+          revenue: { $round: ["$revenue", 2] },
         },
-        { $sort: { count: -1 } },
-        { $limit: 5 },
-      ])
-      .toArray();
+      },
+      { $sort: { count: -1 } },
+      { $limit: 5 },
+    ]);
 
     return NextResponse.json({
       stats:

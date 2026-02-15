@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { Product } from "@/models";
 import { requireAdmin } from "@/lib/auth";
 
 // GET /api/admin/products/[slug] - Get single product (any status) - Admin only
@@ -24,11 +25,9 @@ export async function GET(
       query.tool = tool;
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
-    const product = await db
-      .collection("products")
-      .findOne(query, { projection: { _id: 0 } });
+    const product = await Product.findOne(query).select("-__v -_id").lean();
 
     if (!product) {
       return NextResponse.json(
@@ -79,11 +78,9 @@ export async function PUT(
       query.tool = tool;
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
-    const result = await db
-      .collection("products")
-      .updateOne(query, { $set: updateData });
+    const result = await Product.updateOne(query, { $set: updateData });
 
     if (result.matchedCount === 0) {
       return NextResponse.json(
@@ -92,9 +89,9 @@ export async function PUT(
       );
     }
 
-    const updatedProduct = await db
-      .collection("products")
-      .findOne(query, { projection: { _id: 0 } });
+    const updatedProduct = await Product.findOne(query)
+      .select("-__v -_id")
+      .lean();
 
     return NextResponse.json(
       { message: "Product updated successfully", product: updatedProduct },
@@ -133,9 +130,9 @@ export async function DELETE(
       query.tool = tool;
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
-    const result = await db.collection("products").deleteOne(query);
+    const result = await Product.deleteOne(query);
 
     if (result.deletedCount === 0) {
       return NextResponse.json(

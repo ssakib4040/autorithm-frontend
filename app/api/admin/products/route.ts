@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { Product, Purchase } from "@/models";
 import { requireAdmin } from "@/lib/auth";
 
 // GET /api/admin/products - List all products (including inactive/draft) - Admin only
@@ -43,10 +44,10 @@ export async function GET(request: Request) {
       ];
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Fetch all purchases to calculate sales and revenue
-    const allPurchases = await db.collection("purchases").find({}).toArray();
+    const allPurchases = await Purchase.find({}).lean();
 
     console.log("Total purchases found:", allPurchases.length);
     if (allPurchases.length > 0) {
@@ -76,13 +77,12 @@ export async function GET(request: Request) {
     );
 
     // Fetch products
-    const productsRaw = await db
-      .collection("products")
-      .find(query, { projection: { _id: 0 } })
+    const productsRaw = await Product.find(query)
+      .select("-__v -_id")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .toArray();
+      .lean();
 
     // Add sales and revenue to each product
     const products = productsRaw.map((product) => {
@@ -99,10 +99,10 @@ export async function GET(request: Request) {
       };
     });
 
-    const total = await db.collection("products").countDocuments(query);
+    const total = await Product.countDocuments(query);
 
     // Calculate meta statistics
-    const allProducts = await db.collection("products").find({}).toArray();
+    const allProducts = await Product.find({}).lean();
     const totalProducts = allProducts.length;
     const activeProducts = allProducts.filter(
       (p) => p.status === "active",
@@ -194,12 +194,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Check if slug already exists
-    const existingProduct = await db
-      .collection("products")
-      .findOne({ slug, tool });
+    const existingProduct = await Product.findOne({ slug, tool }).lean();
 
     if (existingProduct) {
       return NextResponse.json(
@@ -232,7 +230,7 @@ export async function POST(request: Request) {
       updatedAt: new Date(),
     };
 
-    await db.collection("products").insertOne(newProduct);
+    await Product.create(newProduct);
 
     // Return product data (excluding _id)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

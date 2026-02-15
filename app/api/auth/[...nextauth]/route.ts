@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { ObjectId } from "mongodb";
 import NextAuth, { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { User as UserModel } from "@/models";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -21,11 +21,11 @@ export const authOptions: NextAuthOptions = {
 
         try {
           // Find user in database
-          const db = await getDb();
+          await connectMongoose();
 
-          const user = await db
-            .collection("users")
-            .findOne({ email: credentials.email.toLowerCase() });
+          const user = await UserModel.findOne({
+            email: credentials.email.toLowerCase(),
+          }).lean();
 
           if (!user) {
             throw new Error("Invalid credentials");
@@ -67,15 +67,13 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      const db = await getDb();
+      await connectMongoose();
 
       // Add user data to token on sign in
       if (user) {
         token.id = user.id;
         // Get user from DB to check admin status
-        const dbUser = await db
-          .collection("users")
-          .findOne({ _id: new ObjectId(user.id) });
+        const dbUser = await UserModel.findById(user.id).lean();
         token.isAdmin = dbUser?.isAdmin || false;
 
         // Generate JWT token for API authentication

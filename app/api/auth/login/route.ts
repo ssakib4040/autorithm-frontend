@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { Session, User } from "@/models";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -17,12 +18,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Find user in database
-    const user = await db
-      .collection("users")
-      .findOne({ email: email.toLowerCase() });
+    const user = await User.findOne({ email: email.toLowerCase() }).lean();
 
     if (!user) {
       return NextResponse.json(
@@ -54,15 +53,9 @@ export async function POST(request: Request) {
     );
 
     // Store session in database
-    const sessionsCollection = db.collection("sessions");
-
     // Get next session ID
-    const lastSession = await sessionsCollection
-      .find({})
-      .sort({ id: -1 })
-      .limit(1)
-      .toArray();
-    const nextId = lastSession.length > 0 ? lastSession[0].id + 1 : 1;
+    const lastSession = await Session.findOne({}).sort({ id: -1 }).lean();
+    const nextId = lastSession?.id ? lastSession.id + 1 : 1;
 
     // Extract request metadata
     const ipAddress =
@@ -74,7 +67,7 @@ export async function POST(request: Request) {
     const session = {
       id: nextId,
       token: crypto.createHash("sha256").update(token).digest("hex"), // Store hashed token for security
-      userId: user._id.toString(),
+      userId: user._id,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
       createdAt: new Date(),
       lastActiveAt: new Date(),
@@ -82,7 +75,7 @@ export async function POST(request: Request) {
       userAgent,
     };
 
-    await sessionsCollection.insertOne(session);
+    await Session.create(session);
 
     // Return user data (excluding password)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

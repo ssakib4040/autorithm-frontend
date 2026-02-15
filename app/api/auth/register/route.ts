@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
+import { connectMongoose } from "@/lib/mongoose";
+import { User } from "@/models";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
@@ -22,12 +23,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const db = await getDb();
+    await connectMongoose();
 
     // Check if user already exists
-    const existingUser = await db
-      .collection("users")
-      .findOne({ email: email.toLowerCase() }, { projection: { _id: 0 } });
+    const existingUser = await User.findOne({
+      email: email.toLowerCase(),
+    }).lean();
 
     if (existingUser) {
       return NextResponse.json(
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
       updatedAt: new Date(),
     };
 
-    await db.collection("users").insertOne(newUser);
+    await User.create(newUser);
 
     // Return user data (excluding password and _id)
     const userResponse = {
