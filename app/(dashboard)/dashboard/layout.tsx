@@ -7,15 +7,14 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import {
   LayoutGrid,
-  Package,
   ShoppingBag,
-  User,
   MessageSquare,
   BookOpen,
   ChevronRight,
   Menu,
   Bell,
   Search,
+  User,
   Settings,
   LogOut,
   HelpCircle,
@@ -42,23 +41,13 @@ const navItems = [
     icon: LayoutGrid,
   },
   {
-    href: "/products",
-    label: "Browse Products",
-    icon: Package,
-  },
-  {
     href: "/dashboard/purchases",
     label: "My Purchases",
     icon: ShoppingBag,
   },
   {
-    href: "/profile",
-    label: "Profile",
-    icon: User,
-  },
-  {
-    href: "/dashboard/messages",
-    label: "Messages",
+    href: "/dashboard/support",
+    label: "Support",
     icon: MessageSquare,
   },
   {
