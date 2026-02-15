@@ -3,11 +3,9 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -18,62 +16,39 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
-  ArrowUpRight,
+  ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function Overview() {
-  const statStyles = {
-    blue: {
-      iconBg: "bg-blue-100 dark:bg-blue-950/20",
-      iconText: "text-blue-600 dark:text-blue-400",
-    },
-    emerald: {
-      iconBg: "bg-emerald-100 dark:bg-emerald-950/20",
-      iconText: "text-emerald-600 dark:text-emerald-400",
-    },
-    purple: {
-      iconBg: "bg-purple-100 dark:bg-purple-950/20",
-      iconText: "text-purple-600 dark:text-purple-400",
-    },
-    orange: {
-      iconBg: "bg-orange-100 dark:bg-orange-950/20",
-      iconText: "text-orange-600 dark:text-orange-400",
-    },
-  } as const;
-
   const stats = [
     {
       title: "Active Workflows",
       value: "12",
-      change: "+2 this week",
       icon: Activity,
-      trend: "up",
-      color: "blue",
+      color: "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900",
+      iconColor: "text-blue-600 dark:text-blue-400",
     },
     {
       title: "Total Executions",
       value: "1,284",
-      change: "+18% from last month",
       icon: Zap,
-      trend: "up",
-      color: "emerald",
+      color: "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900",
+      iconColor: "text-emerald-600 dark:text-emerald-400",
     },
     {
       title: "Success Rate",
       value: "98.5%",
-      change: "+2.3% improvement",
       icon: TrendingUp,
-      trend: "up",
-      color: "purple",
+      color: "bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-900",
+      iconColor: "text-purple-600 dark:text-purple-400",
     },
     {
       title: "Products Owned",
       value: "5",
-      change: "3 active licenses",
       icon: Package,
-      trend: "neutral",
-      color: "orange",
+      color: "bg-orange-50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-900",
+      iconColor: "text-orange-600 dark:text-orange-400",
     },
   ];
 
@@ -83,232 +58,154 @@ export default function Overview() {
       name: "AI Lead Enrichment",
       status: "success",
       time: "2 minutes ago",
-      executions: 42,
     },
     {
       id: 2,
       name: "Social Media Scheduler",
       status: "success",
       time: "15 minutes ago",
-      executions: 28,
     },
     {
       id: 3,
       name: "Email Campaign Automator",
       status: "warning",
       time: "1 hour ago",
-      executions: 15,
-    },
-    {
-      id: 4,
-      name: "Customer Support Router",
-      status: "success",
-      time: "3 hours ago",
-      executions: 67,
     },
   ];
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
-          Dashboard Overview
+    <div className="space-y-6">
+      {/* Welcome Header */}
+      <div className="space-y-1">
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
+          Welcome back
         </h1>
         <p className="text-zinc-600 dark:text-zinc-400">
-          Monitor your automation workflows and system performance
+          Here&apos;s what&apos;s happening with your workflows
         </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {/* Key Metrics */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
-          const styles = statStyles[stat.color as keyof typeof statStyles];
           return (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-                  {stat.title}
-                </CardTitle>
-                <div
-                  className={cn(
-                    "h-10 w-10 rounded-lg flex items-center justify-center",
-                    styles?.iconBg,
-                  )}
-                >
-                  <Icon className={cn("h-5 w-5", styles?.iconText)} />
+            <div
+              key={index}
+              className={cn(
+                "p-4 rounded-lg border transition-colors hover:bg-opacity-75",
+                stat.color,
+              )}
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+                    {stat.title}
+                  </p>
+                  <div className="text-2xl font-bold text-zinc-900 dark:text-white">
+                    {stat.value}
+                  </div>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-zinc-900 dark:text-white mb-1">
-                  {stat.value}
-                </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
-                  {stat.trend === "up" && (
-                    <TrendingUp className="h-3 w-3 text-emerald-600" />
-                  )}
-                  {stat.change}
-                </p>
-              </CardContent>
-            </Card>
+                <Icon className={cn("h-5 w-5", stat.iconColor)} />
+              </div>
+            </div>
           );
         })}
       </div>
 
-      {/* Two Column Layout */}
-      <div className="grid gap-6 lg:grid-cols-2">
+      {/* Content Grid */}
+      <div className="grid gap-6 lg:grid-cols-3">
         {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>
-              Latest workflow executions and their status
-            </CardDescription>
+        <Card className="lg:col-span-2">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle>Recent Activity</CardTitle>
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/dashboard/usage">
+                  View all
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {recentActivity.map((activity) => (
                 <div
                   key={activity.id}
-                  className="flex items-center justify-between p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors"
+                  className="flex items-center justify-between p-3 rounded-md border border-zinc-200 dark:border-zinc-800"
                 >
                   <div className="flex items-center gap-3">
                     {activity.status === "success" ? (
-                      <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
                     ) : (
-                      <AlertCircle className="h-5 w-5 text-orange-600" />
+                      <AlertCircle className="h-4 w-4 text-orange-600 shrink-0" />
                     )}
-                    <div>
-                      <p className="text-sm font-medium text-zinc-900 dark:text-white">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-zinc-900 dark:text-white truncate">
                         {activity.name}
                       </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Clock className="h-3 w-3 text-zinc-400" />
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                          {activity.time}
-                        </p>
-                      </div>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1 mt-0.5">
+                        <Clock className="h-3 w-3" />
+                        {activity.time}
+                      </p>
                     </div>
                   </div>
-                  <Badge variant="outline" className="text-xs">
-                    {activity.executions} runs
-                  </Badge>
                 </div>
               ))}
             </div>
-            <Button asChild variant="outline" className="w-full mt-4">
-              <Link href="/dashboard/usage">
-                View All Activity
-                <ArrowUpRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
+        {/* Quick Start */}
         <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>
-              Common tasks and shortcuts for workflow management
-            </CardDescription>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">Quick Start</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2">
             <Button
               asChild
-              variant="default"
-              className="w-full justify-start"
-              size="lg"
+              variant="outline"
+              className="w-full justify-start text-sm h-9"
             >
               <Link href="/dashboard/config/demo-project">
                 <Zap className="mr-2 h-4 w-4" />
-                Configure Workflows
+                Configure
               </Link>
             </Button>
             <Button
               asChild
               variant="outline"
-              className="w-full justify-start"
-              size="lg"
+              className="w-full justify-start text-sm h-9"
             >
               <Link href="/dashboard/presets">
                 <Package className="mr-2 h-4 w-4" />
-                Manage Presets
+                Presets
               </Link>
             </Button>
             <Button
               asChild
               variant="outline"
-              className="w-full justify-start"
-              size="lg"
+              className="w-full justify-start text-sm h-9"
             >
               <Link href="/dashboard/settings">
                 <Activity className="mr-2 h-4 w-4" />
-                Backup & Restore
+                Backup
               </Link>
             </Button>
             <Button
               asChild
               variant="outline"
-              className="w-full justify-start"
-              size="lg"
+              className="w-full justify-start text-sm h-9"
             >
               <Link href="/products">
-                <ArrowUpRight className="mr-2 h-4 w-4" />
-                Browse Products
+                <ArrowRight className="mr-2 h-4 w-4" />
+                Products
               </Link>
             </Button>
           </CardContent>
         </Card>
       </div>
-
-      {/* System Status */}
-      <Card>
-        <CardHeader>
-          <CardTitle>System Status</CardTitle>
-          <CardDescription>
-            Current health and performance metrics
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900">
-              <div>
-                <p className="text-sm font-medium text-emerald-900 dark:text-emerald-100">
-                  API Status
-                </p>
-                <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
-                  All systems operational
-                </p>
-              </div>
-              <CheckCircle2 className="h-8 w-8 text-emerald-600" />
-            </div>
-            <div className="flex items-center justify-between p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900">
-              <div>
-                <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
-                  Uptime
-                </p>
-                <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                  99.98% this month
-                </p>
-              </div>
-              <TrendingUp className="h-8 w-8 text-blue-600" />
-            </div>
-            <div className="flex items-center justify-between p-4 rounded-lg bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900">
-              <div>
-                <p className="text-sm font-medium text-purple-900 dark:text-purple-100">
-                  Response Time
-                </p>
-                <p className="text-xs text-purple-600 dark:text-purple-400 mt-1">
-                  Average 120ms
-                </p>
-              </div>
-              <Zap className="h-8 w-8 text-purple-600" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }
