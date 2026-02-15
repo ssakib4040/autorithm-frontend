@@ -23,11 +23,10 @@ const UserSchema = new Schema(
       enum: ["active", "suspended"],
       default: "active",
     },
-    role: { type: String, trim: true },
+    role: { type: String, enum: ["user", "admin"], default: "user" },
     isAdmin: { type: Boolean, default: false },
-    emailVerified: { type: Boolean, default: false },
     isEmailVerified: { type: Boolean, default: false },
-    verifiedAt: { type: Date },
+    // verifiedAt: { type: Date },
   },
   {
     timestamps: true,
