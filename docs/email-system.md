@@ -5,6 +5,7 @@ This document explains how to configure and use the email system in Autorithm.
 ## Overview
 
 The email system uses **Nodemailer** with SMTP, supporting any email service provider:
+
 - Gmail (free with app password)
 - Outlook
 - SendGrid
@@ -14,7 +15,9 @@ The email system uses **Nodemailer** with SMTP, supporting any email service pro
 ## ✅ What's Already Set Up
 
 ### Email Templates
+
 Located in `/email-templates/`:
+
 - `welcome.ts` - Registration welcome email with verification link
 - `email-verification.ts` - Email verification reminder
 - `password-reset.ts` - Password reset instructions
@@ -22,9 +25,11 @@ Located in `/email-templates/`:
 - `index.ts` - Centralized exports
 
 ### Mail Service
+
 - `/lib/mail.ts` - Core email sending utility with error handling
 
 ### API Routes
+
 - `/api/auth/register` - Sends welcome email on registration
 - `/api/auth/send-reset-email` - Password reset email
 - `/api/auth/resend-verification-email` - Verification email resend
@@ -45,6 +50,7 @@ Choose your email provider and add credentials to `.env`:
    - Copy the 16-character password
 
 3. Add to `.env`:
+
 ```env
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
@@ -92,6 +98,7 @@ SMTP_FROM_EMAIL=noreply@yourapp.com
 Add all required SMTP variables to your `.env` file (already documented in `.env.example`).
 
 **Required fields:**
+
 - `SMTP_HOST` - SMTP server address
 - `SMTP_PORT` - Port number (usually 587 or 465)
 - `SMTP_SECURE` - Set to `true` for port 465, `false` for 587
@@ -104,6 +111,7 @@ Add all required SMTP variables to your `.env` file (already documented in `.env
 ### Send Welcome Email (Registration)
 
 Already integrated in `/api/auth/register`. When a user signs up:
+
 1. User account is created
 2. Verification token is generated
 3. Welcome email is sent automatically
@@ -113,10 +121,10 @@ Already integrated in `/api/auth/register`. When a user signs up:
 **Endpoint:** `POST /api/auth/resend-verification-email`
 
 ```javascript
-const response = await fetch('/api/auth/resend-verification-email', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ email: 'user@example.com' })
+const response = await fetch("/api/auth/resend-verification-email", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email: "user@example.com" }),
 });
 ```
 
@@ -125,10 +133,10 @@ const response = await fetch('/api/auth/resend-verification-email', {
 **Endpoint:** `POST /api/auth/send-reset-email`
 
 ```javascript
-const response = await fetch('/api/auth/send-reset-email', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ email: 'user@example.com' })
+const response = await fetch("/api/auth/send-reset-email", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email: "user@example.com" }),
 });
 ```
 
@@ -137,18 +145,18 @@ const response = await fetch('/api/auth/send-reset-email', {
 **Endpoint:** `POST /api/purchases/send-confirmation`
 
 ```javascript
-const response = await fetch('/api/purchases/send-confirmation', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/purchases/send-confirmation", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    email: 'user@example.com',
-    userName: 'John Doe',
-    productName: 'Email Sequence Automator',
+    email: "user@example.com",
+    userName: "John Doe",
+    productName: "Email Sequence Automator",
     price: 29.99,
-    category: 'Email Marketing',
-    downloadLink: 'https://autorithm.com/download/product-id',
-    orderId: 'ORD-12345'
-  })
+    category: "Email Marketing",
+    downloadLink: "https://autorithm.com/download/product-id",
+    orderId: "ORD-12345",
+  }),
 });
 ```
 
@@ -178,19 +186,21 @@ export const customEmailTemplate = (userName: string, customData: string) => `
 ```
 
 Then export it in `/email-templates/index.ts`:
+
 ```typescript
 export { customEmailTemplate } from "./custom";
 ```
 
 Use it in your API routes:
+
 ```typescript
 import { customEmailTemplate } from "@/email-templates";
 import { sendEmail } from "@/lib/mail";
 
 await sendEmail({
-  to: 'user@example.com',
-  subject: 'Your Subject',
-  html: customEmailTemplate('John', 'Your custom content')
+  to: "user@example.com",
+  subject: "Your Subject",
+  html: customEmailTemplate("John", "Your custom content"),
 });
 ```
 
@@ -199,6 +209,7 @@ await sendEmail({
 ### Option 1: Test with Console Logs
 
 When SMTP is misconfigured, check server logs for error messages:
+
 ```bash
 yarn dev
 # Watch terminal for email sending errors
@@ -214,9 +225,9 @@ import { sendEmail } from "@/lib/mail";
 
 export async function GET() {
   const sent = await sendEmail({
-    to: 'your-email@example.com',
-    subject: 'Test Email',
-    html: '<h1>If you see this, email is working!</h1>'
+    to: "your-email@example.com",
+    subject: "Test Email",
+    html: "<h1>If you see this, email is working!</h1>",
   });
   return Response.json({ success: sent });
 }
@@ -227,20 +238,24 @@ Visit `http://localhost:3000/api/test-email` in your browser.
 ## ⚠️ Troubleshooting
 
 ### "SMTP configuration missing" error
+
 - Ensure `.env` has all required SMTP variables
 - Restart dev server after adding variables: `yarn dev`
 
 ### "Authentication failed" error
+
 - Gmail: Verify app password is correct (not your regular password)
 - Other services: Check username/password spelling
 - Try using the full email address for SMTP_USER
 
 ### "Connection refused"
+
 - Check SMTP_HOST and SMTP_PORT are correct for your provider
 - Gmail uses smtp.gmail.com:587 (not 465)
 - Some servers require `SMTP_SECURE=true` for port 465
 
 ### "Email not received"
+
 - Check spam/junk folder
 - Verify SMTP_FROM_EMAIL is a valid sending address
 - Check email provider's sending limits (Gmail: 500/day for free accounts)
@@ -252,10 +267,10 @@ Visit `http://localhost:3000/api/test-email` in your browser.
 
 ```typescript
 interface SendEmailOptions {
-  to: string;           // Recipient email
-  subject: string;      // Email subject
-  html: string;         // HTML content
-  from?: string;        // Sender email (optional)
+  to: string; // Recipient email
+  subject: string; // Email subject
+  html: string; // HTML content
+  from?: string; // Sender email (optional)
 }
 
 // Returns: boolean (true if sent, false if failed)
@@ -291,6 +306,7 @@ const isConnected = await verifySMTPConnection();
 ## 📞 Support
 
 For email issues:
+
 - Check `.env` configuration
 - Review error logs in terminal
 - Verify SMTP credentials with your email provider

@@ -26,10 +26,7 @@ export async function POST(request: Request) {
     }).lean();
 
     if (!user) {
-      return NextResponse.json(
-        { message: "User not found" },
-        { status: 404 },
-      );
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     // Check if already verified

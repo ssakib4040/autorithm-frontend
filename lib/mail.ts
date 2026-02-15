@@ -31,7 +31,7 @@ export async function sendEmail(options: SendEmailOptions): Promise<boolean> {
       !process.env.SMTP_PASSWORD
     ) {
       console.error(
-        "SMTP configuration missing. Please set SMTP_HOST, SMTP_USER, and SMTP_PASSWORD in .env"
+        "SMTP configuration missing. Please set SMTP_HOST, SMTP_USER, and SMTP_PASSWORD in .env",
       );
       return false;
     }

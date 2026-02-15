@@ -1,4 +1,7 @@
-export const welcomeEmailTemplate = (userName: string, verificationLink: string) => `
+export const welcomeEmailTemplate = (
+  userName: string,
+  verificationLink: string,
+) => `
 <!DOCTYPE html>
 <html>
 <head>

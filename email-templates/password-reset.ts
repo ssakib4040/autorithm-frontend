@@ -1,4 +1,7 @@
-export const passwordResetEmailTemplate = (userName: string, resetLink: string) => `
+export const passwordResetEmailTemplate = (
+  userName: string,
+  resetLink: string,
+) => `
 <!DOCTYPE html>
 <html>
 <head>
