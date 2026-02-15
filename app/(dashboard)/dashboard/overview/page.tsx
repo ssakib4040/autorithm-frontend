@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -26,28 +21,32 @@ export default function Overview() {
       title: "Active Workflows",
       value: "12",
       icon: Activity,
-      color: "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900",
+      color:
+        "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900",
       iconColor: "text-blue-600 dark:text-blue-400",
     },
     {
       title: "Total Executions",
       value: "1,284",
       icon: Zap,
-      color: "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900",
+      color:
+        "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900",
       iconColor: "text-emerald-600 dark:text-emerald-400",
     },
     {
       title: "Success Rate",
       value: "98.5%",
       icon: TrendingUp,
-      color: "bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-900",
+      color:
+        "bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-900",
       iconColor: "text-purple-600 dark:text-purple-400",
     },
     {
       title: "Products Owned",
       value: "5",
       icon: Package,
-      color: "bg-orange-50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-900",
+      color:
+        "bg-orange-50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-900",
       iconColor: "text-orange-600 dark:text-orange-400",
     },
   ];
