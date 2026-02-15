@@ -3,6 +3,9 @@ import { connectMongoose } from "@/lib/mongoose";
 import { User } from "@/models";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
+import { sendEmail } from "@/lib/mail";
+import { welcomeEmailTemplate } from "@/email-templates";
 
 export async function POST(request: Request) {
   try {
@@ -59,6 +62,30 @@ export async function POST(request: Request) {
     };
 
     await User.create(newUser);
+
+    // Generate email verification token (valid for 24 hours)
+    const verificationToken = jwt.sign(
+      { email: newUser.email },
+      process.env.JWT_SECRET || "secret",
+      { expiresIn: "24h" },
+    );
+
+    const verificationLink = `${process.env.NEXT_PUBLIC_API_URL?.replace("/api", "") || "http://localhost:3000"}/auth/verify-email?token=${verificationToken}`;
+
+    // Send welcome email with verification link
+    const emailSent = await sendEmail({
+      to: newUser.email,
+      subject: "Welcome to Autorithm! Verify your email",
+      html: welcomeEmailTemplate(newUser.name || "User", verificationLink),
+    });
+
+    if (!emailSent) {
+      console.warn(
+        "Welcome email failed to send for:",
+        newUser.email,
+        "- User still created",
+      );
+    }
 
     // Return user data (excluding password and _id)
     const userResponse = {
