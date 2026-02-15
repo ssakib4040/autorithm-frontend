@@ -15,8 +15,24 @@ import {
   Code,
   Zap,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function DocsPage() {
+  const categoryStyles = {
+    blue: {
+      iconBg: "bg-blue-100 dark:bg-blue-950/20",
+      iconText: "text-blue-600 dark:text-blue-400",
+    },
+    purple: {
+      iconBg: "bg-purple-100 dark:bg-purple-950/20",
+      iconText: "text-purple-600 dark:text-purple-400",
+    },
+    emerald: {
+      iconBg: "bg-emerald-100 dark:bg-emerald-950/20",
+      iconText: "text-emerald-600 dark:text-emerald-400",
+    },
+  } as const;
+
   const categories = [
     {
       title: "Getting Started",
@@ -123,16 +139,19 @@ export default function DocsPage() {
       <div className="space-y-6">
         {categories.map((category, index) => {
           const Icon = category.icon;
+          const styles =
+            categoryStyles[category.color as keyof typeof categoryStyles];
           return (
             <Card key={index}>
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <div
-                    className={`h-10 w-10 rounded-lg bg-${category.color}-100 dark:bg-${category.color}-950/20 flex items-center justify-center`}
+                    className={cn(
+                      "h-10 w-10 rounded-lg flex items-center justify-center",
+                      styles?.iconBg,
+                    )}
                   >
-                    <Icon
-                      className={`h-5 w-5 text-${category.color}-600 dark:text-${category.color}-400`}
-                    />
+                    <Icon className={cn("h-5 w-5", styles?.iconText)} />
                   </div>
                   <div>
                     <CardTitle>{category.title}</CardTitle>

@@ -17,6 +17,8 @@ import {
   DocumentDuplicateIcon,
   ArchiveBoxIcon,
 } from "@heroicons/react/24/outline";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface Project {
   id: string;
@@ -134,20 +136,19 @@ export default function ControlsProjectList() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
             Project Controls
           </h1>
-          <p className="text-zinc-400 text-sm">
+          <p className="text-zinc-600 dark:text-zinc-400 text-sm">
             Manage configuration structures for your projects
           </p>
         </div>
-        <Link
-          href="/dashboard/controls/new"
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-linear-to-r from-blue-600 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-400 transition-all shadow-xl shadow-blue-600/25"
-        >
-          <PlusIcon className="h-5 w-5" />
-          New Project
-        </Link>
+        <Button asChild size="lg">
+          <Link href="/dashboard/controls/new">
+            <PlusIcon className="h-5 w-5" />
+            New Project
+          </Link>
+        </Button>
       </div>
 
       {/* Stats Cards */}
@@ -202,31 +203,28 @@ export default function ControlsProjectList() {
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-zinc-900/30 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
+      <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1 relative">
             <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
-            <input
+            <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search projects..."
-              className="w-full pl-12 pr-4 py-3 bg-zinc-950/50 border border-zinc-800 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+              className="pl-12"
             />
           </div>
           <div className="flex gap-2">
             {["all", "active", "inactive", "archived"].map((status) => (
-              <button
+              <Button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                  filterStatus === status
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-600/25"
-                    : "bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800 hover:text-white border border-zinc-700/50"
-                }`}
+                variant={filterStatus === status ? "default" : "outline"}
+                size="sm"
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
-              </button>
+              </Button>
             ))}
           </div>
         </div>

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Activity,
   TrendingUp,
@@ -22,6 +23,25 @@ import {
 import Link from "next/link";
 
 export default function Overview() {
+  const statStyles = {
+    blue: {
+      iconBg: "bg-blue-100 dark:bg-blue-950/20",
+      iconText: "text-blue-600 dark:text-blue-400",
+    },
+    emerald: {
+      iconBg: "bg-emerald-100 dark:bg-emerald-950/20",
+      iconText: "text-emerald-600 dark:text-emerald-400",
+    },
+    purple: {
+      iconBg: "bg-purple-100 dark:bg-purple-950/20",
+      iconText: "text-purple-600 dark:text-purple-400",
+    },
+    orange: {
+      iconBg: "bg-orange-100 dark:bg-orange-950/20",
+      iconText: "text-orange-600 dark:text-orange-400",
+    },
+  } as const;
+
   const stats = [
     {
       title: "Active Workflows",
@@ -104,6 +124,7 @@ export default function Overview() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
+          const styles = statStyles[stat.color as keyof typeof statStyles];
           return (
             <Card key={index} className="hover:shadow-lg transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -111,11 +132,12 @@ export default function Overview() {
                   {stat.title}
                 </CardTitle>
                 <div
-                  className={`h-10 w-10 rounded-lg bg-${stat.color}-100 dark:bg-${stat.color}-950/20 flex items-center justify-center`}
+                  className={cn(
+                    "h-10 w-10 rounded-lg flex items-center justify-center",
+                    styles?.iconBg,
+                  )}
                 >
-                  <Icon
-                    className={`h-5 w-5 text-${stat.color}-600 dark:text-${stat.color}-400`}
-                  />
+                  <Icon className={cn("h-5 w-5", styles?.iconText)} />
                 </div>
               </CardHeader>
               <CardContent>

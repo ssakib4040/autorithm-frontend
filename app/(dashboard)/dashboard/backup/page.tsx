@@ -15,6 +15,7 @@ import {
   ServerStackIcon,
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
+import { Button } from "@/components/ui/button";
 
 interface Backup {
   id: string;
@@ -134,10 +135,10 @@ export default function BackupRestorePage() {
             Protect your data with automated backups and restore previous states
           </p>
         </div>
-        <button
+        <Button
           onClick={handleCreateBackup}
           disabled={isCreatingBackup}
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-linear-to-r from-blue-600 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-400 transition-all shadow-xl shadow-blue-600/25 disabled:opacity-50 disabled:cursor-not-allowed"
+          size="lg"
         >
           {isCreatingBackup ? (
             <>
@@ -150,7 +151,7 @@ export default function BackupRestorePage() {
               Create Backup
             </>
           )}
-        </button>
+        </Button>
       </div>
 
       {/* Stats Cards */}
@@ -222,10 +223,11 @@ export default function BackupRestorePage() {
             Create an immediate backup of your current configuration, workflows,
             and data. Perfect before making major changes.
           </p>
-          <button
+          <Button
             onClick={handleCreateBackup}
             disabled={isCreatingBackup}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 hover:border-blue-500/40 rounded-xl text-blue-400 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="outline"
+            className="w-full justify-center"
           >
             {isCreatingBackup ? (
               <>
@@ -238,7 +240,7 @@ export default function BackupRestorePage() {
                 Create Now
               </>
             )}
-          </button>
+          </Button>
         </div>
 
         {/* Scheduled Backups Card */}

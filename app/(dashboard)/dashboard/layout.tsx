@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -39,37 +40,31 @@ const navItems = [
     href: "/dashboard/overview",
     label: "Overview",
     icon: LayoutGrid,
-    description: "Dashboard home",
   },
   {
     href: "/dashboard/controls",
     label: "Controls",
     icon: Sliders,
-    description: "Project settings",
   },
   {
     href: "/dashboard/presets",
     label: "Presets",
     icon: Layers,
-    description: "Saved configurations",
   },
   {
     href: "/dashboard/usage",
     label: "Usage",
     icon: BarChart3,
-    description: "Analytics & stats",
   },
   {
     href: "/dashboard/backup",
     label: "Backup & Restore",
     icon: Shield,
-    description: "Data protection",
   },
   {
     href: "/dashboard/docs",
     label: "Documentation",
     icon: BookOpen,
-    description: "Guides & help",
   },
 ];
 
@@ -103,11 +98,11 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
           return (
             <Link key={item.href} href={item.href} onClick={onLinkClick}>
               <Button
-                variant={isActive ? "default" : "ghost"}
+                variant="ghost"
                 className={cn(
                   "w-full justify-start gap-3 h-auto py-3 px-4",
                   isActive
-                    ? "bg-blue-500 hover:bg-blue-600 text-white shadow-md"
+                    ? "bg-zinc-900 text-white hover:bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-100"
                     : "hover:bg-zinc-100 dark:hover:bg-zinc-800",
                 )}
               >
@@ -115,7 +110,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
                   className={cn(
                     "h-5 w-5 shrink-0",
                     isActive
-                      ? "text-white"
+                      ? "text-white dark:text-zinc-900"
                       : "text-zinc-600 dark:text-zinc-400",
                   )}
                 />
@@ -124,21 +119,11 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
                     className={cn(
                       "text-sm font-medium",
                       isActive
-                        ? "text-white"
+                        ? "text-white dark:text-zinc-900"
                         : "text-zinc-900 dark:text-zinc-100",
                     )}
                   >
                     {item.label}
-                  </div>
-                  <div
-                    className={cn(
-                      "text-xs",
-                      isActive
-                        ? "text-blue-100"
-                        : "text-zinc-500 dark:text-zinc-400",
-                    )}
-                  >
-                    {item.description}
                   </div>
                 </div>
                 {isActive && <ChevronRight className="h-4 w-4" />}
@@ -175,10 +160,10 @@ function DashboardHeader() {
   // Get page title based on route
   const getPageTitle = () => {
     if (pathname?.includes("/overview")) return "Overview";
-    if (pathname?.includes("/config")) return "Controls";
+    if (pathname?.includes("/controls")) return "Controls";
     if (pathname?.includes("/presets")) return "Presets";
     if (pathname?.includes("/usage")) return "Usage";
-    if (pathname?.includes("/settings")) return "Backup & Restore";
+    if (pathname?.includes("/backup")) return "Backup & Restore";
     if (pathname?.includes("/docs")) return "Documentation";
     return "Dashboard";
   };
@@ -194,7 +179,7 @@ function DashboardHeader() {
   };
 
   return (
-    <header className="h-16 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6">
+    <header className="h-16 bg-white/90 dark:bg-zinc-900/70 backdrop-blur border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6">
       {/* Page Title */}
       <div>
         <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
@@ -208,13 +193,13 @@ function DashboardHeader() {
       {/* Actions */}
       <div className="flex items-center gap-3">
         {/* Search */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="hidden sm:flex text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
-        >
-          <Search className="h-5 w-5" />
-        </Button>
+        <div className="relative hidden md:block">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
+          <Input
+            placeholder="Search workflows"
+            className="w-64 pl-9 bg-white/70 dark:bg-zinc-900"
+          />
+        </div>
 
         {/* Notifications */}
         <Button
@@ -306,7 +291,7 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-zinc-50 dark:bg-zinc-950">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex-col overflow-hidden">
         <SidebarContent />
@@ -406,7 +391,7 @@ export default function DashboardLayout({
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden bg-zinc-50 dark:bg-zinc-950 pt-16 lg:pt-0">
+      <main className="flex-1 flex flex-col overflow-hidden bg-transparent pt-16 lg:pt-0">
         {/* Desktop Header */}
         <div className="hidden lg:block">
           <DashboardHeader />
