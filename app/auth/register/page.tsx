@@ -3,7 +3,15 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Loader2, Mail, Lock, ArrowRight, User } from "lucide-react";
+import {
+  Loader2,
+  Mail,
+  Lock,
+  ArrowRight,
+  User,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import { Turnstile } from "@marsidev/react-turnstile";
 
 import { Button } from "@/components/ui/button";
@@ -25,6 +33,7 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -136,15 +145,30 @@ export default function Register() {
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     minLength={6}
-                    className="pl-10"
+                    className="pl-10 pr-10"
                     disabled={isLoading}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-2 top-2.5 rounded p-1 text-muted-foreground hover:text-foreground"
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                    disabled={isLoading}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Must be at least 6 characters
