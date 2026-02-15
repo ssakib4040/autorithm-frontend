@@ -15,6 +15,7 @@ import {
   Menu,
   Bell,
   Search,
+  Sparkles,
   User,
   Settings,
   LogOut,
@@ -76,15 +77,15 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
       {/* Header */}
       <div className="p-6 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-lg bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-            <LayoutGrid className="h-5 w-5 text-white" />
+          <div className="h-10 w-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center">
+            <Sparkles className="h-5 w-5" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-zinc-900 dark:text-white">
               Autorithm
             </h1>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Automation Studio
+              Premium Automation
             </p>
           </div>
         </div>
@@ -316,8 +317,8 @@ export default function DashboardLayout({
               </SheetContent>
             </Sheet>
 
-            <div className="h-8 w-8 rounded-lg bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-              <LayoutGrid className="h-4 w-4 text-white" />
+            <div className="h-8 w-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center">
+              <Sparkles className="h-4 w-4" />
             </div>
             <h1 className="text-sm font-bold text-zinc-900 dark:text-white">
               Autorithm
