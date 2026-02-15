@@ -133,7 +133,8 @@ export default function Referral() {
                         {referral.name}
                       </p>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                        Referred on {new Date(referral.date).toLocaleDateString()}
+                        Referred on{" "}
+                        {new Date(referral.date).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
@@ -144,7 +145,9 @@ export default function Referral() {
                       </p>
                       <Badge
                         variant={
-                          referral.status === "converted" ? "default" : "outline"
+                          referral.status === "converted"
+                            ? "default"
+                            : "outline"
                         }
                         className="text-xs mt-1"
                       >

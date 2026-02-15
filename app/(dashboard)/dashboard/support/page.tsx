@@ -82,7 +82,8 @@ export default function Messages() {
                         {message.subject}
                       </p>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
-                        {message.sender} — {new Date(message.date).toLocaleDateString()}
+                        {message.sender} —{" "}
+                        {new Date(message.date).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
