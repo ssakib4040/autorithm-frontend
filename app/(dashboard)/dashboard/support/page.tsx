@@ -74,7 +74,7 @@ export default function Messages() {
               <Card key={message.id}>
                 <CardContent className="flex items-center justify-between p-5">
                   <div className="flex items-start gap-4 flex-1">
-                    <div className="h-10 w-10 rounded-lg bg-purple-50 dark:bg-purple-950/20 flex items-center justify-center flex-shrink-0">
+                    <div className="h-10 w-10 rounded-lg bg-purple-50 dark:bg-purple-950/20 flex items-center justify-center shrink-0">
                       <Mail className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div className="flex-1 min-w-0">
