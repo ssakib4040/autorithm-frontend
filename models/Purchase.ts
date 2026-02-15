@@ -16,12 +16,7 @@ const PurchaseSchema = new Schema(
     discountApplied: { type: DiscountAppliedSchema },
     originalPrice: { type: Number, required: true, min: 0 },
     finalPrice: { type: Number, required: true, min: 0 },
-    purchasedBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-      index: true,
-    },
+    purchasedBy: { type: String, required: true, index: true },
     purchaseDate: { type: Date, default: Date.now },
   },
   { timestamps: false },

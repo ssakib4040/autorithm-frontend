@@ -1,13 +1,38 @@
-import { Purchase } from "@/types/purchase";
-import { getUsers } from "./users";
-import { getAllProducts } from "./products";
 import { faker } from "@faker-js/faker";
 
+type SeedUserRef = {
+  userId?: string;
+};
+
+type SeedProductRef = {
+  id: number;
+  price: number;
+  discounts?: Array<{
+    percentage: number;
+    reason: string;
+  }>;
+};
+
+type SeedPurchase = {
+  id: number;
+  productId: number;
+  discountApplied?: {
+    percentage: number;
+    reason: string;
+    discountedPrice: number;
+  };
+  originalPrice: number;
+  finalPrice: number;
+  purchasedBy: SeedUserRef["userId"];
+  purchaseDate: Date;
+};
+
 // Generate purchases with proper userId references and actual product data
-export async function getAllPurchases(): Promise<Purchase[]> {
-  const users = await getUsers();
-  const products = await getAllProducts();
-  const purchases: Purchase[] = [];
+export async function getAllPurchases(
+  users: SeedUserRef[],
+  products: SeedProductRef[],
+): Promise<SeedPurchase[]> {
+  const purchases: SeedPurchase[] = [];
   let purchaseId = 1;
 
   // Track user-product combinations to ensure one user can only purchase one product once
@@ -85,27 +110,36 @@ export async function getAllPurchases(): Promise<Purchase[]> {
 // Helper functions
 export const getPurchasesByUser = async (
   userId: string,
-): Promise<Purchase[]> => {
-  const purchases = await getAllPurchases();
+  users: SeedUserRef[],
+  products: SeedProductRef[],
+): Promise<SeedPurchase[]> => {
+  const purchases = await getAllPurchases(users, products);
   return purchases.filter((purchase) => purchase.purchasedBy === userId);
 };
 
 export const getPurchasesByProduct = async (
   productId: number,
-): Promise<Purchase[]> => {
-  const purchases = await getAllPurchases();
+  users: SeedUserRef[],
+  products: SeedProductRef[],
+): Promise<SeedPurchase[]> => {
+  const purchases = await getAllPurchases(users, products);
   return purchases.filter((purchase) => purchase.productId === productId);
 };
 
-export const getTotalRevenue = async (): Promise<number> => {
-  const purchases = await getAllPurchases();
+export const getTotalRevenue = async (
+  users: SeedUserRef[],
+  products: SeedProductRef[],
+): Promise<number> => {
+  const purchases = await getAllPurchases(users, products);
   return purchases.reduce((total, purchase) => total + purchase.finalPrice, 0);
 };
 
 export const getTotalRevenueByUser = async (
   userId: string,
+  users: SeedUserRef[],
+  products: SeedProductRef[],
 ): Promise<number> => {
-  const purchases = await getAllPurchases();
+  const purchases = await getAllPurchases(users, products);
   return purchases
     .filter((purchase) => purchase.purchasedBy === userId)
     .reduce((total, purchase) => total + purchase.finalPrice, 0);

@@ -4,7 +4,7 @@ const SessionSchema = new Schema(
   {
     id: { type: Number, unique: true, sparse: true },
     token: { type: String, required: true, index: true },
-    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    userId: { type: String, required: true },
     expiresAt: { type: Date, required: true },
     createdAt: { type: Date, default: Date.now },
     lastActiveAt: { type: Date, default: Date.now },

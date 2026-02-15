@@ -1114,12 +1114,22 @@ const productData: Omit<Product, "createdBy">[] = [
 ];
 
 // Export async function that assigns creators from users
-export async function getAllProducts(): Promise<Product[]> {
-  const users = await getUsers();
-  return productData.map((product, index) => ({
-    ...product,
-    createdBy: users[index % users.length].userId, // Distribute products among users
-  }));
+type SeedUserRef = {
+  userId?: string;
+};
+
+export async function getAllProducts(
+  users?: SeedUserRef[],
+): Promise<Product[]> {
+  const seedUsers = users && users.length > 0 ? users : await getUsers();
+  return productData.map((product, index) => {
+    const user = seedUsers[index % seedUsers.length];
+    const createdBy = user.userId;
+    return {
+      ...product,
+      ...(createdBy ? { createdBy } : {}),
+    };
+  });
 }
 
 // For backward compatibility, export product data

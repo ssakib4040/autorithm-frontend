@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Types } from "mongoose";
-
 import { connectMongoose } from "@/lib/mongoose";
 import { Purchase } from "@/models";
 import { requireAuth } from "@/lib/auth";
@@ -38,10 +36,10 @@ export async function GET(request: NextRequest) {
 
     // Non-admin users can only see their own purchases
     if (!authenticatedUser.isAdmin) {
-      filter.purchasedBy = new Types.ObjectId(authenticatedUser.id);
+      filter.purchasedBy = authenticatedUser.id;
     } else if (userId) {
       // Admins can filter by userId if provided
-      filter.purchasedBy = new Types.ObjectId(userId);
+      filter.purchasedBy = userId;
     }
 
     if (productId) {
@@ -72,7 +70,7 @@ export async function GET(request: NextRequest) {
         $lookup: {
           from: "users",
           localField: "purchasedBy",
-          foreignField: "_id",
+          foreignField: "userId",
           as: "user",
         },
       },
@@ -142,7 +140,7 @@ export async function POST(request: NextRequest) {
     const newPurchase = {
       id: nextId,
       productId: parseInt(productId),
-      purchasedBy: new Types.ObjectId(authenticatedUser.id), // Use authenticated user's ID
+      purchasedBy: authenticatedUser.id, // Use authenticated user's ID
       discountApplied: discountApplied || null,
       originalPrice,
       finalPrice,

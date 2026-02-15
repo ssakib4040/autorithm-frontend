@@ -41,7 +41,7 @@ export async function GET(
         $lookup: {
           from: "users",
           localField: "purchasedBy",
-          foreignField: "_id",
+          foreignField: "userId",
           as: "user",
         },
       },
@@ -64,7 +64,7 @@ export async function GET(
     // Check if user owns this purchase (unless admin)
     if (
       !authenticatedUser.isAdmin &&
-      purchase[0].purchasedBy.toString() !== authenticatedUser.id
+      purchase[0].purchasedBy !== authenticatedUser.id
     ) {
       return NextResponse.json(
         { error: "Forbidden: You can only view your own purchases" },
@@ -119,7 +119,7 @@ export async function DELETE(
     // Check ownership (unless admin)
     if (
       !authenticatedUser.isAdmin &&
-      purchase.purchasedBy.toString() !== authenticatedUser.id
+      purchase.purchasedBy !== authenticatedUser.id
     ) {
       return NextResponse.json(
         { error: "Forbidden: You can only delete your own purchases" },

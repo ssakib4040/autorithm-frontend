@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
 
 import { connectMongoose } from "@/lib/mongoose";
 import { User } from "@/models";
@@ -124,6 +125,7 @@ export async function POST(request: NextRequest) {
     const now = new Date();
 
     const newUser = {
+      userId: uuidv4(),
       name: String(name).trim(),
       email: String(email).toLowerCase().trim(),
       password: hashedPassword,

@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       {
         email: user.email,
         name: user.name,
-        id: user._id.toString(),
+        id: user.userId,
         isAdmin: user.isAdmin || false,
       },
       process.env.JWT_SECRET || "fallback-secret",
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
     const session = {
       id: nextId,
       token: crypto.createHash("sha256").update(token).digest("hex"), // Store hashed token for security
-      userId: user._id,
+      userId: user.userId,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
       createdAt: new Date(),
       lastActiveAt: new Date(),

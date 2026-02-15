@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
 
           // Return user object (this will be stored in session)
           return {
-            id: user._id.toString(),
+            id: user.userId,
             email: user.email,
             name: user.name,
           } as User;
@@ -73,7 +73,9 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         // Get user from DB to check admin status
-        const dbUser = await UserModel.findById(user.id).lean();
+        const dbUser = await UserModel.findOne({
+          userId: user.id,
+        }).lean();
         token.isAdmin = dbUser?.isAdmin || false;
 
         // Generate JWT token for API authentication

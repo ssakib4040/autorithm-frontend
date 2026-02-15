@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectMongoose } from "@/lib/mongoose";
 import { User } from "@/models";
 import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
 
 export async function POST(request: Request) {
   try {
@@ -46,6 +47,7 @@ export async function POST(request: Request) {
 
     // Create new user
     const newUser = {
+      userId: uuidv4(),
       email: email.toLowerCase(),
       password: hashedPassword,
       name: name || "",

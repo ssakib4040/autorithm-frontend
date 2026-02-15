@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Types } from "mongoose";
-
 import { connectMongoose } from "@/lib/mongoose";
 import { Purchase } from "@/models";
 import { requireAuth } from "@/lib/auth";
@@ -31,10 +29,10 @@ export async function GET(request: NextRequest) {
 
     // Non-admin users can only see their own stats
     if (!authenticatedUser.isAdmin) {
-      matchFilter.purchasedBy = new Types.ObjectId(authenticatedUser.id);
+      matchFilter.purchasedBy = authenticatedUser.id;
     } else if (userId) {
       // Admins can filter by userId if provided
-      matchFilter.purchasedBy = new Types.ObjectId(userId);
+      matchFilter.purchasedBy = userId;
     }
 
     // Aggregate statistics

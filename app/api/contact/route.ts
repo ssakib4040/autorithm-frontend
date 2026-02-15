@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { Types } from "mongoose";
-
 import { connectMongoose } from "@/lib/mongoose";
 import { Contact } from "@/models";
 import { requireAuth } from "@/lib/auth";
@@ -85,7 +83,7 @@ export async function POST(request: Request) {
     const contact = {
       name: String(name).trim(),
       email: authenticatedUser.email.toLowerCase(),
-      userId: new Types.ObjectId(authenticatedUser.id),
+      userId: authenticatedUser.id,
       subject: String(subject).trim(),
       message: String(message).trim(),
       status: "new",

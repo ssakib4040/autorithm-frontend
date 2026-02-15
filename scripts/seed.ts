@@ -1,6 +1,7 @@
 import chalk from "chalk";
 
-import { getDb } from "../lib/mongodb";
+import { connectMongoose } from "../lib/mongoose";
+import { Activity, Contact, Product, Purchase, User } from "../models";
 import { getUsers } from "./data/users";
 import { getAllProducts } from "./data/products";
 import { getAllPurchases } from "./data/purchases";
@@ -20,73 +21,69 @@ import { getAllActivities } from "./data/activities";
  */
 
 async function seedUsers() {
-  const db = await getDb();
-
   console.log(chalk.yellow("\n📝 Seeding Users..."));
-  const collection = db.collection("users");
 
-  await collection.deleteMany({});
+  await User.deleteMany({});
   console.log(chalk.gray("  ✓ Cleared existing users"));
 
   const users = await getUsers();
-  const result = await collection.insertMany(users);
-  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} users`));
+  const createdUsers = await User.insertMany(users);
+  console.log(chalk.green(`  ✓ Inserted ${createdUsers.length} users`));
+
+  return createdUsers;
 }
 
-async function seedProducts() {
-  const db = await getDb();
-
+async function seedProducts(users: Array<{ userId?: string }>) {
   console.log(chalk.yellow("\n📦 Seeding Products..."));
-  const collection = db.collection("products");
 
-  await collection.deleteMany({});
+  await Product.deleteMany({});
   console.log(chalk.gray("  ✓ Cleared existing products"));
 
-  const products = await getAllProducts();
-  const result = await collection.insertMany(products);
-  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} products`));
+  const products = await getAllProducts(users);
+  const createdProducts = await Product.insertMany(products);
+  console.log(chalk.green(`  ✓ Inserted ${createdProducts.length} products`));
+
+  return createdProducts;
 }
 
-async function seedPurchases() {
-  const db = await getDb();
-
+async function seedPurchases(
+  users: Array<{ userId?: string }>,
+  products: Array<{ id: number; price: number }>,
+) {
   console.log(chalk.yellow("\n💰 Seeding Purchases..."));
-  const collection = db.collection("purchases");
 
-  await collection.deleteMany({});
+  await Purchase.deleteMany({});
   console.log(chalk.gray("  ✓ Cleared existing purchases"));
 
-  const purchases = await getAllPurchases();
-  const result = await collection.insertMany(purchases);
-  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} purchases`));
+  const purchases = await getAllPurchases(users, products);
+  const createdPurchases = await Purchase.insertMany(purchases);
+  console.log(chalk.green(`  ✓ Inserted ${createdPurchases.length} purchases`));
 }
 
-async function seedContacts() {
-  const db = await getDb();
-
+async function seedContacts(
+  users: Array<{ userId?: string; name: string; email: string }>,
+) {
   console.log(chalk.yellow("\n📧 Seeding Contacts..."));
-  const collection = db.collection("contacts");
 
-  await collection.deleteMany({});
+  await Contact.deleteMany({});
   console.log(chalk.gray("  ✓ Cleared existing contacts"));
 
-  const contacts = await getAllContacts();
-  const result = await collection.insertMany(contacts);
-  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} contacts`));
+  const contacts = await getAllContacts(users);
+  const createdContacts = await Contact.insertMany(contacts);
+  console.log(chalk.green(`  ✓ Inserted ${createdContacts.length} contacts`));
 }
 
-async function seedActivities() {
-  const db = await getDb();
-
+async function seedActivities(users: Array<{ userId?: string }>) {
   console.log(chalk.yellow("\n📊 Seeding Activities..."));
-  const collection = db.collection("activities");
 
-  await collection.deleteMany({});
+  await Activity.deleteMany({});
   console.log(chalk.gray("  ✓ Cleared existing activities"));
 
-  const activities = await getAllActivities();
-  const result = await collection.insertMany(activities);
-  console.log(chalk.green(`  ✓ Inserted ${result.insertedCount} activities`));
+  const activities = await getAllActivities(users);
+  const createdActivities = await Activity.insertMany(activities);
+  console.log(
+    chalk.green(`  ✓ Inserted ${createdActivities.length} activities`),
+  );
 }
 
 async function seed() {
@@ -102,12 +99,14 @@ async function seed() {
     console.log(chalk.cyan.bold("\n🌱 Starting Database Seed"));
     console.log(chalk.gray("━".repeat(50)));
 
+    await connectMongoose();
+
     // Seed in correct order (users first for foreign key references)
-    await seedUsers();
-    await seedProducts();
-    await seedPurchases();
-    await seedContacts();
-    await seedActivities();
+    const users = await seedUsers();
+    const products = await seedProducts(users);
+    await seedPurchases(users, products);
+    await seedContacts(users);
+    await seedActivities(users);
 
     console.log(chalk.gray("\n" + "━".repeat(50)));
     console.log(chalk.green.bold("✅ Seed completed successfully!\n"));

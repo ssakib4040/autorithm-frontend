@@ -1,14 +1,22 @@
-import { Activity } from "@/types/activity";
-import { getUsers } from "./users";
 import { v4 as uuidv4 } from "uuid";
+import { Activity } from "@/types/activity";
+
+type SeedUserRef = {
+  userId?: string;
+};
 
 // Generate activity logs from users and their actions
-export async function getAllActivities(): Promise<Activity[]> {
-  const users = await getUsers();
+export async function getAllActivities(
+  users: SeedUserRef[],
+): Promise<Activity[]> {
+  if (!users[0]?.userId || !users[1]?.userId) {
+    throw new Error("Seed activities requires at least two users with userId");
+  }
+
   const user1 = users[0].userId; // Sadman (admin)
   const user2 = users[1].userId; // John
 
-  return [
+  const activities: Activity[] = [
     {
       id: uuidv4(),
       userId: user1,
@@ -363,13 +371,16 @@ export async function getAllActivities(): Promise<Activity[]> {
       createdAt: new Date("2026-02-08T10:00:00"),
     },
   ];
+
+  return activities;
 }
 
 // Helper functions
 export const getActivitiesByUser = async (
   userId: string,
+  users: SeedUserRef[],
 ): Promise<Activity[]> => {
-  const activities = await getAllActivities();
+  const activities = await getAllActivities(users);
   return activities
     .filter((activity) => activity.userId === userId)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
@@ -377,17 +388,19 @@ export const getActivitiesByUser = async (
 
 export const getActivitiesByAction = async (
   action: string,
+  users: SeedUserRef[],
 ): Promise<Activity[]> => {
-  const activities = await getAllActivities();
+  const activities = await getAllActivities(users);
   return activities
     .filter((activity) => activity.action === action)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 };
 
 export const getRecentActivities = async (
+  users: SeedUserRef[],
   limit: number = 20,
 ): Promise<Activity[]> => {
-  const activities = await getAllActivities();
+  const activities = await getAllActivities(users);
   return activities
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
     .slice(0, limit);
@@ -396,8 +409,9 @@ export const getRecentActivities = async (
 export const getActivitiesByDateRange = async (
   startDate: Date,
   endDate: Date,
+  users: SeedUserRef[],
 ): Promise<Activity[]> => {
-  const activities = await getAllActivities();
+  const activities = await getAllActivities(users);
   return activities
     .filter(
       (activity) =>

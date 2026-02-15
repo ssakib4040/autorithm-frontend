@@ -4,8 +4,8 @@ const UserSchema = new Schema(
   {
     userId: {
       type: String,
+      required: true,
       unique: true,
-      sparse: true,
       index: true,
       trim: true,
     },

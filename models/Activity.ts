@@ -3,12 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const ActivitySchema = new Schema(
   {
     id: { type: String, required: true, unique: true, index: true },
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-      index: true,
-    },
+    userId: { type: String, required: true, index: true },
     action: {
       type: String,
       enum: [

@@ -1,9 +1,12 @@
-import { Contact } from "@/types/contact";
-import { getUsers } from "./users";
+type SeedUserRef = {
+  userId?: string;
+  name: string;
+  email: string;
+  isAdmin?: boolean;
+};
 
 // Generate contacts from users
-export async function getAllContacts(): Promise<Contact[]> {
-  const users = await getUsers();
+export async function getAllContacts(users: SeedUserRef[]) {
   return users.map((user, index) => ({
     name: user.name,
     email: user.email,
