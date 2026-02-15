@@ -2,88 +2,86 @@ import chalk from "chalk";
 
 import { connectMongoose } from "../lib/mongoose";
 import { Activity, Contact, Product, Purchase, User } from "../models";
+
 import { getUsers } from "./data/users";
 import { getAllProducts } from "./data/products";
 import { getAllPurchases } from "./data/purchases";
 import { getAllContacts } from "./data/contacts";
 import { getAllActivities } from "./data/activities";
 
-/**
- * Database seeding script
- * Run with: yarn seed or npm run seed
- *
- * Order matters:
- * 1. Users (needed for purchase and activity references)
- * 2. Products
- * 3. Purchases (references users and products)
- * 4. Contacts (references users)
- * 5. Activities (references users and resources)
- */
+type SeedUserRef = { userId?: string };
+type SeedUserContactRef = { userId?: string; name: string; email: string };
+type SeedProductRef = {
+  id: number;
+  price: number;
+  discounts?: Array<{ percentage: number; reason: string }>;
+};
 
-async function seedUsers() {
-  console.log(chalk.yellow("\n📝 Seeding Users..."));
+async function seedUsers(): Promise<SeedUserContactRef[]> {
+  logSection("📝 Seeding Users...");
 
   await User.deleteMany({});
-  console.log(chalk.gray("  ✓ Cleared existing users"));
+  logCleared("users");
 
   const users = await getUsers();
   const createdUsers = await User.insertMany(users);
-  console.log(chalk.green(`  ✓ Inserted ${createdUsers.length} users`));
+  logInserted("users", createdUsers.length);
 
-  return createdUsers;
+  return createdUsers.map(({ userId, name, email }) => ({
+    userId,
+    name,
+    email,
+  }));
 }
 
-async function seedProducts(users: Array<{ userId?: string }>) {
-  console.log(chalk.yellow("\n📦 Seeding Products..."));
+async function seedProducts(users: SeedUserRef[]): Promise<SeedProductRef[]> {
+  logSection("📦 Seeding Products...");
 
   await Product.deleteMany({});
-  console.log(chalk.gray("  ✓ Cleared existing products"));
+  logCleared("products");
 
   const products = await getAllProducts(users);
   const createdProducts = await Product.insertMany(products);
-  console.log(chalk.green(`  ✓ Inserted ${createdProducts.length} products`));
+  logInserted("products", createdProducts.length);
 
-  return createdProducts;
+  return createdProducts.map(({ id, price, discounts }) => ({
+    id,
+    price,
+    discounts,
+  }));
 }
 
-async function seedPurchases(
-  users: Array<{ userId?: string }>,
-  products: Array<{ id: number; price: number }>,
-) {
-  console.log(chalk.yellow("\n💰 Seeding Purchases..."));
+async function seedPurchases(users: SeedUserRef[], products: SeedProductRef[]) {
+  logSection("💰 Seeding Purchases...");
 
   await Purchase.deleteMany({});
-  console.log(chalk.gray("  ✓ Cleared existing purchases"));
+  logCleared("purchases");
 
   const purchases = await getAllPurchases(users, products);
   const createdPurchases = await Purchase.insertMany(purchases);
-  console.log(chalk.green(`  ✓ Inserted ${createdPurchases.length} purchases`));
+  logInserted("purchases", createdPurchases.length);
 }
 
-async function seedContacts(
-  users: Array<{ userId?: string; name: string; email: string }>,
-) {
-  console.log(chalk.yellow("\n📧 Seeding Contacts..."));
+async function seedContacts(users: SeedUserContactRef[]) {
+  logSection("📧 Seeding Contacts...");
 
   await Contact.deleteMany({});
-  console.log(chalk.gray("  ✓ Cleared existing contacts"));
+  logCleared("contacts");
 
   const contacts = await getAllContacts(users);
   const createdContacts = await Contact.insertMany(contacts);
-  console.log(chalk.green(`  ✓ Inserted ${createdContacts.length} contacts`));
+  logInserted("contacts", createdContacts.length);
 }
 
-async function seedActivities(users: Array<{ userId?: string }>) {
-  console.log(chalk.yellow("\n📊 Seeding Activities..."));
+async function seedActivities(users: SeedUserRef[]) {
+  logSection("📊 Seeding Activities...");
 
   await Activity.deleteMany({});
-  console.log(chalk.gray("  ✓ Cleared existing activities"));
+  logCleared("activities");
 
   const activities = await getAllActivities(users);
   const createdActivities = await Activity.insertMany(activities);
-  console.log(
-    chalk.green(`  ✓ Inserted ${createdActivities.length} activities`),
-  );
+  logInserted("activities", createdActivities.length);
 }
 
 async function seed() {
@@ -108,14 +106,24 @@ async function seed() {
     await seedContacts(users);
     await seedActivities(users);
 
-    console.log(chalk.gray("\n" + "━".repeat(50)));
     console.log(chalk.green.bold("✅ Seed completed successfully!\n"));
     process.exit(0);
   } catch (error) {
-    console.log(chalk.gray("\n" + "━".repeat(50)));
     console.error(chalk.red("❌ Seed failed:"), error);
     process.exit(1);
   }
 }
 
 seed();
+
+const logSection = (title: string) => {
+  console.log(chalk.yellow(`\n${title}`));
+};
+
+const logCleared = (label: string) => {
+  console.log(chalk.gray(`  ✓ Cleared existing ${label}`));
+};
+
+const logInserted = (label: string, count: number) => {
+  console.log(chalk.green(`  ✓ Inserted ${count} ${label}`));
+};
