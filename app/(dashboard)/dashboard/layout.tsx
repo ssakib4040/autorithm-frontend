@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -15,7 +16,6 @@ import {
   Menu,
   Bell,
   Search,
-  Sparkles,
   User,
   Settings,
   LogOut,
@@ -77,8 +77,14 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
       {/* Header */}
       <div className="p-6 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-lg bg-primary text-primary-foreground flex items-center justify-center">
-            <Sparkles className="h-5 w-5" />
+          <div className="h-10 w-10 rounded-lg overflow-hidden flex items-center justify-center">
+            <Image
+              src="/brand-2.svg"
+              alt="Autorithm"
+              width={40}
+              height={40}
+              className="h-10 w-10"
+            />
           </div>
           <div>
             <h1 className="text-lg font-bold text-zinc-900 dark:text-white">
@@ -317,8 +323,14 @@ export default function DashboardLayout({
               </SheetContent>
             </Sheet>
 
-            <div className="h-8 w-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center">
-              <Sparkles className="h-4 w-4" />
+            <div className="h-8 w-8 rounded-lg overflow-hidden flex items-center justify-center">
+              <Image
+                src="/brand-2.svg"
+                alt="Autorithm"
+                width={32}
+                height={32}
+                className="h-8 w-8"
+              />
             </div>
             <h1 className="text-sm font-bold text-zinc-900 dark:text-white">
               Autorithm

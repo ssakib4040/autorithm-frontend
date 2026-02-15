@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, Github, Twitter, Linkedin } from "lucide-react";
+import { Github, Twitter, Linkedin } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export default function Footer() {
@@ -37,8 +38,14 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Sparkles className="h-5 w-5" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg overflow-hidden">
+                <Image
+                  src="/brand-2.svg"
+                  alt="Autorithm"
+                  width={36}
+                  height={36}
+                  className="h-9 w-9"
+                />
               </div>
               <span className="text-xl font-bold">Autorithm</span>
             </div>
