@@ -53,6 +53,40 @@ const getTechLogo = (techName: string): string | null => {
 
 type Platform = "n8n" | "make";
 
+type DiscountInfo = {
+  type?: "percentage" | "fixed";
+  value?: number;
+  percentage?: number;
+  reason?: string;
+  timeLeft?: string;
+};
+
+const getDiscountType = (discount?: DiscountInfo) =>
+  discount?.type || "percentage";
+
+const getDiscountValue = (discount?: DiscountInfo) => {
+  if (!discount) return 0;
+  if (typeof discount.value === "number") return discount.value;
+  if (typeof discount.percentage === "number") return discount.percentage;
+  return 0;
+};
+
+const getDiscountedPrice = (price: number, discount?: DiscountInfo) => {
+  if (!discount) return price;
+  const value = getDiscountValue(discount);
+  return getDiscountType(discount) === "fixed"
+    ? Math.max(price - value, 0)
+    : Math.round(price * (1 - value / 100));
+};
+
+const getDiscountLabel = (discount?: DiscountInfo) => {
+  if (!discount) return "";
+  const value = getDiscountValue(discount);
+  return getDiscountType(discount) === "fixed"
+    ? `$${value} OFF`
+    : `${value}% OFF`;
+};
+
 export default async function ProductDetails({
   params,
   searchParams,
@@ -68,6 +102,12 @@ export default async function ProductDetails({
   const productDetails = (await productsApi.getBySlug(
     `${slug}?tool=${tool}`,
   )) as Product & { message?: string };
+
+  const discountedPrice = getDiscountedPrice(
+    productDetails.price,
+    productDetails.discount,
+  );
+  const discountLabel = getDiscountLabel(productDetails.discount);
 
   // Handle 404 response from API
   if (
@@ -88,11 +128,7 @@ export default async function ProductDetails({
                 <>
                   <div className="flex items-center gap-2 mb-1">
                     <div className="text-2xl font-bold text-zinc-900 dark:text-white">
-                      $
-                      {Math.round(
-                        productDetails.price *
-                          (1 - productDetails.discount.percentage / 100),
-                      )}
+                      ${discountedPrice}
                     </div>
                     <div className="text-sm font-semibold text-zinc-400 dark:text-zinc-600 line-through">
                       ${productDetails.price}
@@ -100,7 +136,7 @@ export default async function ProductDetails({
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                      {productDetails.discount.percentage}% OFF
+                      {discountLabel}
                     </span>
                     {productDetails.discount.timeLeft && (
                       <>
@@ -358,19 +394,14 @@ export default async function ProductDetails({
                       <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
                         <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                         <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-                          {productDetails.discount.percentage}% OFF •{" "}
-                          {productDetails.discount.reason}
+                          {discountLabel} • {productDetails.discount.reason}
                         </span>
                       </div>
 
                       {/* Pricing with Discount */}
                       <div className="flex items-end gap-3 mb-2">
                         <div className="text-5xl font-bold text-zinc-900 dark:text-white">
-                          $
-                          {Math.round(
-                            productDetails.price *
-                              (1 - productDetails.discount.percentage / 100),
-                          )}
+                          ${discountedPrice}
                         </div>
                         <div className="text-2xl font-semibold text-zinc-400 dark:text-zinc-600 line-through mb-1.5">
                           ${productDetails.price}

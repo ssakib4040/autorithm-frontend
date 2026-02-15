@@ -2,6 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 const DiscountAppliedSchema = new Schema(
   {
+    type: { type: String, enum: ["percentage", "fixed"] },
+    value: { type: Number, min: 0 },
     percentage: { type: Number, min: 0, max: 100 },
     reason: { type: String, trim: true },
     discountedPrice: { type: Number, min: 0 },

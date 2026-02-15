@@ -8,13 +8,17 @@ export interface Product {
   slug: string;
   createdBy?: string;
   discounts?: {
-    percentage: number;
+    type?: "percentage" | "fixed";
+    value?: number;
+    percentage?: number;
     reason: string;
     startDate: Date;
     expiresAt: Date;
   }[];
   discount?: {
-    percentage: number;
+    type?: "percentage" | "fixed";
+    value?: number;
+    percentage?: number;
     reason: string;
     timeLeft?: string;
   };

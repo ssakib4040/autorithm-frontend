@@ -2,7 +2,13 @@ import mongoose, { Schema } from "mongoose";
 
 const DiscountSchema = new Schema(
   {
-    percentage: { type: Number, required: true, min: 0, max: 100 },
+    type: {
+      type: String,
+      enum: ["percentage", "fixed"],
+      default: "percentage",
+    },
+    value: { type: Number, min: 0 },
+    percentage: { type: Number, min: 0, max: 100 },
     reason: { type: String, required: true, trim: true },
     startDate: { type: Date, required: true },
     expiresAt: { type: Date, required: true },
@@ -39,11 +45,6 @@ const ProductSchema = new Schema(
     slug: { type: String, required: true, trim: true },
     createdBy: { type: String, trim: true },
     discounts: { type: [DiscountSchema], default: [] },
-    discount: {
-      percentage: { type: Number, min: 0, max: 100 },
-      reason: { type: String, trim: true },
-      timeLeft: { type: String, trim: true },
-    },
     keyFeatures: { type: [String], default: [] },
     howItWorks: { type: [HowItWorksSchema], default: [] },
     technicalDetails: {

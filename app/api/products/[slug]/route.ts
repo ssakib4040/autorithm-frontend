@@ -39,7 +39,9 @@ export async function GET(
     if (product.discounts && Array.isArray(product.discounts)) {
       const validDiscount = product.discounts.find(
         (d: {
-          percentage: number;
+          type?: "percentage" | "fixed";
+          value?: number;
+          percentage?: number;
           reason: string;
           startDate: Date;
           expiresAt: Date;
@@ -53,6 +55,12 @@ export async function GET(
       if (validDiscount) {
         const expiresAt = new Date(validDiscount.expiresAt);
         const timeLeftMs = expiresAt.getTime() - now.getTime();
+
+        const discountType = validDiscount.type || "percentage";
+        const discountValue =
+          typeof validDiscount.value === "number"
+            ? validDiscount.value
+            : validDiscount.percentage || 0;
 
         // Calculate time left
         const daysLeft = Math.floor(timeLeftMs / (1000 * 60 * 60 * 24));
@@ -69,7 +77,9 @@ export async function GET(
         }
 
         discount = {
-          ...validDiscount,
+          type: discountType,
+          value: discountValue,
+          reason: validDiscount.reason,
           timeLeft,
         };
       }
