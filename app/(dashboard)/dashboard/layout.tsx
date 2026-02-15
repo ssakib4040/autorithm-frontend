@@ -298,7 +298,7 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
+    <div className="flex h-screen overflow-hidden bg-linear-to-br from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex-col overflow-hidden">
         <SidebarContent />
