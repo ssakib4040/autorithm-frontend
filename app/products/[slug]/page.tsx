@@ -8,6 +8,11 @@ import {
   Sparkles,
   Clock,
   Package,
+  Zap,
+  Download,
+  Shield,
+  Headphones,
+  FileText,
 } from "lucide-react";
 
 import { productsApi } from "@/features/api";
@@ -186,38 +191,79 @@ export default async function ProductDetails({
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* LEFT GRID - All Product Details */}
             <div>
-              {/* Category */}
-              <Badge variant="secondary" className="mb-4">
-                {productDetails.category}
-              </Badge>
+              {/* Hero Section */}
+              <div className="mb-10 p-8 rounded-2xl bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                {/* Badges Row */}
+                <div className="flex flex-wrap items-center gap-2 mb-4">
+                  <Badge
+                    variant="secondary"
+                    className="bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white"
+                  >
+                    {productDetails.category}
+                  </Badge>
+                  <Badge
+                    className={`${
+                      productDetails.tool === "n8n"
+                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                        : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
+                    }`}
+                  >
+                    <Zap className="h-3 w-3 mr-1" />
+                    {productDetails.tool === "n8n" ? "n8n" : "Make"}
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="bg-white dark:bg-zinc-900"
+                  >
+                    {productDetails.technicalDetails.complexity}
+                  </Badge>
+                </div>
 
-              {/* Product Name with Platform Badge */}
-              <div className="flex flex-wrap items-center gap-3 mb-4">
-                <h1 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white">
+                {/* Product Name */}
+                <h1 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white mb-4">
                   {productDetails.name}
                 </h1>
-                <Badge
-                  className={`text-base px-4 py-2 ${
-                    productDetails.tool === "n8n"
-                      ? "bg-blue-600 hover:bg-blue-700 text-white"
-                      : "bg-purple-600 hover:bg-purple-700 text-white"
-                  }`}
-                >
-                  {productDetails.tool === "n8n" ? "n8n" : "Make"}
-                </Badge>
+
+                {/* Description */}
+                <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  {productDetails.description}
+                </p>
               </div>
 
-              {/* Description */}
-              <p className="text-base text-zinc-600 dark:text-zinc-400 mb-10">
-                {productDetails.description}
-              </p>
+              {/* Workflow Preview */}
+              <div className="mb-10">
+                <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
+                  Workflow Preview
+                </h2>
+                <div className="relative rounded-2xl overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 aspect-video">
+                  {/* Placeholder - Replace with actual workflow image */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 dark:from-zinc-800 dark:via-zinc-850 dark:to-zinc-900">
+                    <div className="text-center p-8">
+                      <Package className="h-16 w-16 text-zinc-400 dark:text-zinc-600 mx-auto mb-4" />
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                        Workflow visualization coming soon
+                      </p>
+                    </div>
+                  </div>
+                  {/* Uncomment when you have actual images
+                  <Image
+                    src={productDetails.previewImage || "/placeholder-workflow.jpg"}
+                    alt={`${productDetails.name} workflow preview`}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  */}
+                </div>
+              </div>
 
               {/* How It Works */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6">
+                <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
+                  <Zap className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   How It Works
                 </h2>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {productDetails.howItWorks.map(
                     (
                       step: { title: string; description: string },
@@ -225,16 +271,16 @@ export default async function ProductDetails({
                     ) => (
                       <div
                         key={index}
-                        className="flex gap-4 p-5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800"
+                        className="flex gap-4 p-6 rounded-xl bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:shadow-md transition-shadow"
                       >
-                        <div className="shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm">
+                        <div className="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold flex items-center justify-center shadow-lg">
                           {index + 1}
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-1">
+                          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-2">
                             {step.title}
                           </h3>
-                          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                          <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                             {step.description}
                           </p>
                         </div>
@@ -246,21 +292,25 @@ export default async function ProductDetails({
 
               {/* Key Features */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
+                <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
+                  <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   Key Features
                 </h2>
-                <ul className="space-y-2">
+                <div className="grid md:grid-cols-2 gap-3">
                   {productDetails.keyFeatures.map(
                     (feature: string, index: number) => (
-                      <li key={index} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                        <span className="text-zinc-700 dark:text-zinc-300">
+                      <div
+                        key={index}
+                        className="flex items-start gap-3 p-4 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900"
+                      >
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                        <span className="text-sm text-zinc-700 dark:text-zinc-300">
                           {feature}
                         </span>
-                      </li>
+                      </div>
                     ),
                   )}
-                </ul>
+                </div>
               </div>
 
               {/* Technical Details */}
@@ -341,8 +391,9 @@ export default async function ProductDetails({
 
               {/* FAQs */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
-                  FAQs
+                <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
+                  <FileText className="h-6 w-6 text-zinc-600 dark:text-zinc-400" />
+                  Frequently Asked Questions
                 </h2>
                 <div className="space-y-3">
                   {[
@@ -386,7 +437,7 @@ export default async function ProductDetails({
             {/* RIGHT GRID - CTA Card (Sticky) */}
             <div className="lg:sticky lg:top-4 h-fit space-y-6">
               {/* CTA CARD */}
-              <div className="p-8 rounded-2xl bg-white dark:bg-zinc-950 border-2 border-zinc-200 dark:border-zinc-800">
+              <div className="p-8 rounded-2xl bg-white dark:bg-zinc-950 border-2 border-zinc-200 dark:border-zinc-800 shadow-xl">
                 <div className="mb-6">
                   {productDetails.discount ? (
                     <>
@@ -471,20 +522,43 @@ export default async function ProductDetails({
               </div>
 
               {/* What's Included */}
-              <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800">
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4">
+              <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 dark:from-zinc-900 dark:to-zinc-950 border border-blue-200 dark:border-zinc-800">
+                <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
+                  <Package className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   What&apos;s Included
                 </h3>
                 <ul className="space-y-3">
                   {productDetails.whatsIncluded.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2 text-sm">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                    <li key={index} className="flex items-start gap-3 text-sm">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span className="text-zinc-700 dark:text-zinc-300">
                         {item}
                       </span>
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              {/* Trust Badges */}
+              <div className="grid grid-cols-3 gap-3">
+                <div className="text-center p-4 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                  <Download className="h-6 w-6 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
+                  <p className="text-xs font-semibold text-zinc-900 dark:text-white">
+                    Instant Access
+                  </p>
+                </div>
+                <div className="text-center p-4 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                  <Shield className="h-6 w-6 text-emerald-600 dark:text-emerald-400 mx-auto mb-2" />
+                  <p className="text-xs font-semibold text-zinc-900 dark:text-white">
+                    Secure Payment
+                  </p>
+                </div>
+                <div className="text-center p-4 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                  <Headphones className="h-6 w-6 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
+                  <p className="text-xs font-semibold text-zinc-900 dark:text-white">
+                    30d Support
+                  </p>
+                </div>
               </div>
             </div>
           </div>
