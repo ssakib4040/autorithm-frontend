@@ -34,6 +34,35 @@ const TechnicalDetailsSchema = new Schema(
   { _id: false },
 );
 
+const FAQSchema = new Schema(
+  {
+    question: { type: String, required: true, trim: true },
+    answer: { type: String, required: true, trim: true },
+  },
+  { _id: false },
+);
+
+const DownloadSchema = new Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    description: { type: String, required: true, trim: true },
+    fileType: { type: String, required: true, trim: true },
+    size: { type: String, required: true, trim: true },
+    url: { type: String, required: true, trim: true },
+  },
+  { _id: false },
+);
+
+const StatsSchema = new Schema(
+  {
+    totalSales: { type: Number, default: 0, min: 0 },
+    totalRevenue: { type: Number, default: 0, min: 0 },
+    averageRating: { type: Number, default: 0, min: 0, max: 5 },
+    totalReviews: { type: Number, default: 0, min: 0 },
+  },
+  { _id: false },
+);
+
 const ProductSchema = new Schema(
   {
     id: { type: Number, unique: true, sparse: true },
@@ -43,6 +72,7 @@ const ProductSchema = new Schema(
     category: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
     slug: { type: String, required: true, trim: true },
+    previewImage: { type: String, trim: true },
     createdBy: { type: String, trim: true },
     discounts: { type: [DiscountSchema], default: [] },
     keyFeatures: { type: [String], default: [] },
@@ -57,6 +87,17 @@ const ProductSchema = new Schema(
       }),
     },
     whatsIncluded: { type: [String], default: [] },
+    faqs: { type: [FAQSchema], default: [] },
+    downloads: { type: [DownloadSchema], default: [] },
+    stats: {
+      type: StatsSchema,
+      default: () => ({
+        totalSales: 0,
+        totalRevenue: 0,
+        averageRating: 0,
+        totalReviews: 0,
+      }),
+    },
     status: {
       type: String,
       enum: ["active", "inactive", "draft"],

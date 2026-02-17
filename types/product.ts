@@ -6,6 +6,7 @@ export interface Product {
   category: string;
   price: number;
   slug: string;
+  previewImage?: string; // Workflow preview image URL
   createdBy?: string;
   discounts?: {
     type?: "percentage" | "fixed";
@@ -34,6 +35,23 @@ export interface Product {
     requirements: string[];
   };
   whatsIncluded: string[];
+  faqs?: {
+    question: string;
+    answer: string;
+  }[]; // Custom FAQs per product
+  downloads?: {
+    name: string;
+    description: string;
+    fileType: string;
+    size: string;
+    url: string;
+  }[]; // Available download files
+  stats?: {
+    totalSales?: number;
+    totalRevenue?: number;
+    averageRating?: number;
+    totalReviews?: number;
+  }; // Product statistics
   status: "active" | "inactive" | "draft";
 }
 
