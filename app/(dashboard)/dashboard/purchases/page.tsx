@@ -237,7 +237,9 @@ export default function Purchases() {
 
                     <div className="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
                       <div className="flex items-center justify-between text-sm text-blue-600 dark:text-blue-400">
-                        <span className="font-medium">View downloads & details</span>
+                        <span className="font-medium">
+                          View downloads & details
+                        </span>
                         <Download className="h-4 w-4" />
                       </div>
                     </div>
