@@ -26,10 +26,10 @@ export default function Overview() {
       iconColor: "text-blue-600 dark:text-blue-400",
     },
     {
-      title: "Total Spent",
-      value: "$249.99",
-      subtitle: "Lifetime purchases",
-      icon: DollarSign,
+      title: "Hours Saved",
+      value: "47",
+      subtitle: "This month",
+      icon: Clock,
       color:
         "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900",
       iconColor: "text-emerald-600 dark:text-emerald-400",
