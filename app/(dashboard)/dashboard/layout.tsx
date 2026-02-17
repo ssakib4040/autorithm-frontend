@@ -53,11 +53,11 @@ const navItems = [
     label: "My Purchases",
     icon: ShoppingBag,
   },
-  {
-    href: "/dashboard/automations",
-    label: "My Automations",
-    icon: Zap,
-  },
+  // {
+  //   href: "/dashboard/automations",
+  //   label: "My Automations",
+  //   icon: Zap,
+  // },
   {
     href: "/dashboard/wishlist",
     label: "Wishlist",
@@ -78,11 +78,11 @@ const navItems = [
     label: "Settings",
     icon: Settings,
   },
-  {
-    href: "/dashboard/api-keys",
-    label: "API Keys",
-    icon: Key,
-  },
+  // {
+  //   href: "/dashboard/api-keys",
+  //   label: "API Keys",
+  //   icon: Key,
+  // },
   {
     href: "/dashboard/referral",
     label: "Referral Program",
@@ -103,11 +103,11 @@ const navItems = [
     label: "Support",
     icon: MessageSquare,
   },
-  {
-    href: "/dashboard/docs",
-    label: "Documentation",
-    icon: BookOpen,
-  },
+  // {
+  //   href: "/dashboard/docs",
+  //   label: "Documentation",
+  //   icon: BookOpen,
+  // },
 ];
 
 function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
