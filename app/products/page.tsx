@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { Metadata } from "next";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Zap,
+  Star,
+  Download,
+  TrendingUp,
+} from "lucide-react";
 
 import {
   Card,
@@ -91,24 +99,70 @@ export default async function Products({ searchParams }: ProductsPageProps) {
   return (
     <>
       {/* Page Hero */}
-      <section className="relative overflow-hidden bg-linear-to-br from-zinc-50 via-white to-zinc-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 py-20">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 py-24">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Badge variant="secondary" className="mb-4">
-            Premium Workflows
-          </Badge>
-          <h1 className="text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-white mb-4">
-            Automation Kits
-          </h1>
-          <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl">
-            Production-ready n8n & Make workflows engineered for reliability.
-            Deploy professional automation systems in minutes, not weeks.
-          </p>
+          <div className="flex flex-col items-center text-center">
+            <Badge
+              variant="secondary"
+              className="mb-4 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+            >
+              <Zap className="h-3 w-3 mr-1" />
+              Premium Automation Templates
+            </Badge>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white mb-6 max-w-4xl">
+              Build Faster with{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Ready-Made
+              </span>{" "}
+              Workflows
+            </h1>
+            <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mb-8">
+              Production-ready automation templates for n8n & Make.com. Skip the
+              setup, deploy professional workflows in minutes.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-zinc-600 dark:text-zinc-400">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                  <Star className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <span>
+                  <strong className="text-zinc-900 dark:text-white">
+                    {products.length}+
+                  </strong>{" "}
+                  Templates
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  <Download className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                </div>
+                <span>
+                  <strong className="text-zinc-900 dark:text-white">
+                    Instant
+                  </strong>{" "}
+                  Access
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                  <TrendingUp className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                </div>
+                <span>
+                  <strong className="text-zinc-900 dark:text-white">
+                    Production
+                  </strong>{" "}
+                  Ready
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Filters */}
-      <section className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-16 z-10 backdrop-blur-sm">
+      <section className="bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 sticky top-16 z-10 backdrop-blur-sm bg-white/90 dark:bg-zinc-900/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Tool Filter */}
@@ -161,50 +215,93 @@ export default async function Products({ searchParams }: ProductsPageProps) {
               </Card>
             ) : (
               <>
+                {/* Results Header */}
+                <div className="flex items-center justify-between mb-6">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                    Showing{" "}
+                    <strong className="text-zinc-900 dark:text-white">
+                      {products.length}
+                    </strong>{" "}
+                    {products.length === 1 ? "template" : "templates"}
+                    {(selectedTool !== "All" ||
+                      selectedCategory !== "All" ||
+                      priceRange !== "All") && (
+                      <span>
+                        {" "}
+                        with active filters
+                        <Button
+                          asChild
+                          variant="link"
+                          size="sm"
+                          className="ml-2 h-auto p-0"
+                        >
+                          <Link href="/products">Clear all</Link>
+                        </Button>
+                      </span>
+                    )}
+                  </p>
+                </div>
+
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                   {products.map((product) => (
                     <Card
                       key={product.id}
-                      className="group hover:shadow-xl transition-all duration-300"
+                      className="group h-full hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 flex flex-col cursor-pointer"
                     >
-                      <CardHeader>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Badge
-                            variant="secondary"
-                            className={
-                              product.tool === "n8n"
-                                ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-                                : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
-                            }
-                          >
-                            {product.tool}
-                          </Badge>
-                          <Badge variant="outline" className="text-xs">
-                            {product.category}
-                          </Badge>
-                        </div>
-                        <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                          {product.name}
-                        </CardTitle>
-                        <CardDescription className="text-sm line-clamp-2">
-                          {product.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-2xl font-bold text-zinc-900 dark:text-white">
-                            ${product.price}
-                          </span>
-                        </div>
-                        <Button asChild className="w-full" variant="outline">
-                          <Link
-                            href={`/products/${product.slug}?tool=${product.tool}`}
-                          >
-                            View Details
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Link>
-                        </Button>
-                      </CardContent>
+                      <Link
+                        href={`/products/${product.slug}?tool=${product.tool}`}
+                        className="flex flex-col h-full"
+                      >
+                        <CardHeader className="flex-1">
+                          <div className="flex items-center gap-2 mb-3">
+                            <Badge
+                              variant="secondary"
+                              className={
+                                product.tool === "n8n"
+                                  ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                                  : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
+                              }
+                            >
+                              <Zap className="h-3 w-3 mr-1" />
+                              {product.tool}
+                            </Badge>
+                            <Badge
+                              variant="outline"
+                              className="text-xs bg-white dark:bg-zinc-900"
+                            >
+                              {product.category}
+                            </Badge>
+                          </div>
+                          <CardTitle className="text-xl group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-2">
+                            {product.name}
+                          </CardTitle>
+                          <CardDescription className="text-sm line-clamp-3 leading-relaxed">
+                            {product.description}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">
+                                  One-time payment
+                                </p>
+                                <span className="text-2xl font-bold text-zinc-900 dark:text-white">
+                                  ${product.price}
+                                </span>
+                              </div>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all"
+                              >
+                                View
+                                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Link>
                     </Card>
                   ))}
                 </div>
