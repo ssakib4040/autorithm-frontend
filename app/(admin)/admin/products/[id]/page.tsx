@@ -42,6 +42,33 @@ export default function EditProductPage() {
     "AI prompt templates for lead enrichment",
     "30 days of implementation support",
   ]);
+  const [faqs, setFaqs] = useState([
+    {
+      question: "What is the refund policy?",
+      answer:
+        "Due to the digital nature of our products, we cannot offer refunds once purchased.",
+    },
+    {
+      question: "What CRMs does this integrate with?",
+      answer: "Out of the box: Salesforce, HubSpot, and Pipedrive.",
+    },
+  ]);
+  const [downloads, setDownloads] = useState([
+    {
+      name: "n8n Workflow Template",
+      description: "Main workflow file ready to import",
+      fileType: "JSON",
+      size: "12.5 KB",
+      url: "#",
+    },
+    {
+      name: "Setup Documentation",
+      description: "Step-by-step installation guide",
+      fileType: "PDF",
+      size: "2.3 MB",
+      url: "#",
+    },
+  ]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -132,6 +159,21 @@ export default function EditProductPage() {
                   <option value="Analytics">Analytics</option>
                 </select>
               </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-zinc-300 mb-2">
+                Preview Image URL
+              </label>
+              <input
+                type="text"
+                defaultValue="/workflows/ai-lead-enrichment.png"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                placeholder="/workflows/workflow-preview.png"
+              />
+              <p className="text-xs text-zinc-500 mt-1">
+                Workflow screenshot or preview image
+              </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -402,6 +444,178 @@ export default function EditProductPage() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* FAQs */}
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-white">FAQs</h2>
+            <button
+              type="button"
+              onClick={() => setFaqs([...faqs, { question: "", answer: "" }])}
+              className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              <PlusIcon className="h-4 w-4" />
+              Add FAQ
+            </button>
+          </div>
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 space-y-3"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-zinc-400">
+                    FAQ {index + 1}
+                  </span>
+                  {faqs.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFaqs(faqs.filter((_, i) => i !== index))
+                      }
+                      className="text-zinc-400 hover:text-red-400 transition-colors"
+                    >
+                      <TrashIcon className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  value={faq.question}
+                  onChange={(e) => {
+                    const updated = [...faqs];
+                    updated[index].question = e.target.value;
+                    setFaqs(updated);
+                  }}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="What is the refund policy?"
+                />
+                <textarea
+                  rows={2}
+                  value={faq.answer}
+                  onChange={(e) => {
+                    const updated = [...faqs];
+                    updated[index].answer = e.target.value;
+                    setFaqs(updated);
+                  }}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="Answer..."
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Downloads */}
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-white">
+              Downloadable Files
+            </h2>
+            <button
+              type="button"
+              onClick={() =>
+                setDownloads([
+                  ...downloads,
+                  {
+                    name: "",
+                    description: "",
+                    fileType: "",
+                    size: "",
+                    url: "",
+                  },
+                ])
+              }
+              className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              <PlusIcon className="h-4 w-4" />
+              Add Download
+            </button>
+          </div>
+          <div className="space-y-4">
+            {downloads.map((download, index) => (
+              <div
+                key={index}
+                className="p-4 rounded-lg bg-zinc-800/50 border border-zinc-700/50 space-y-3"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-zinc-400">
+                    Download {index + 1}
+                  </span>
+                  {downloads.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDownloads(downloads.filter((_, i) => i !== index))
+                      }
+                      className="text-zinc-400 hover:text-red-400 transition-colors"
+                    >
+                      <TrashIcon className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  value={download.name}
+                  onChange={(e) => {
+                    const updated = [...downloads];
+                    updated[index].name = e.target.value;
+                    setDownloads(updated);
+                  }}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="n8n Workflow Template"
+                />
+                <input
+                  type="text"
+                  value={download.description}
+                  onChange={(e) => {
+                    const updated = [...downloads];
+                    updated[index].description = e.target.value;
+                    setDownloads(updated);
+                  }}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="Main workflow file ready to import"
+                />
+                <div className="grid grid-cols-3 gap-3">
+                  <input
+                    type="text"
+                    value={download.fileType}
+                    onChange={(e) => {
+                      const updated = [...downloads];
+                      updated[index].fileType = e.target.value;
+                      setDownloads(updated);
+                    }}
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                    placeholder="JSON"
+                  />
+                  <input
+                    type="text"
+                    value={download.size}
+                    onChange={(e) => {
+                      const updated = [...downloads];
+                      updated[index].size = e.target.value;
+                      setDownloads(updated);
+                    }}
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                    placeholder="12.5 KB"
+                  />
+                  <input
+                    type="text"
+                    value={download.url}
+                    onChange={(e) => {
+                      const updated = [...downloads];
+                      updated[index].url = e.target.value;
+                      setDownloads(updated);
+                    }}
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+                    placeholder="#"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
