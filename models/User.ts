@@ -26,6 +26,7 @@ const UserSchema = new Schema(
     role: { type: String, enum: ["user", "admin"], default: "user" },
     isAdmin: { type: Boolean, default: false },
     isEmailVerified: { type: Boolean, default: false },
+    wishlist: [{ type: Schema.Types.Mixed }],
     // verifiedAt: { type: Date },
   },
   {

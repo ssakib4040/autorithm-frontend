@@ -40,7 +40,6 @@ async function apiRequest<T>(
     });
 
     const data = await res.json();
-    console.log(`[API] Success:`, data);
     return data;
   } catch (error) {
     console.error(`[API] Error for ${endpoint}:`, error);

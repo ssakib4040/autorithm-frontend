@@ -19,6 +19,7 @@ import { productsApi } from "@/features/api";
 import { Product } from "@/types/product";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { WishlistButton } from "./WishlistButton";
 
 // Technology logo mapping
 const getTechLogo = (techName: string): string | null => {
@@ -192,7 +193,12 @@ export default async function ProductDetails({
             {/* LEFT GRID - All Product Details */}
             <div>
               {/* Hero Section */}
-              <div className="mb-10 p-8 rounded-2xl bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-800">
+              <div className="mb-10 p-8 rounded-2xl bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-800 relative">
+                {/* Wishlist Button */}
+                <div className="absolute top-4 right-4">
+                  <WishlistButton productId={productDetails.id} />
+                </div>
+
                 {/* Badges Row */}
                 <div className="flex flex-wrap items-center gap-2 mb-4">
                   <Badge

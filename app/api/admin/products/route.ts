@@ -49,14 +49,6 @@ export async function GET(request: Request) {
     // Fetch all purchases to calculate sales and revenue
     const allPurchases = await Purchase.find({}).lean();
 
-    console.log("Total purchases found:", allPurchases.length);
-    if (allPurchases.length > 0) {
-      console.log(
-        "First purchase sample:",
-        JSON.stringify(allPurchases[0], null, 2),
-      );
-    }
-
     // Calculate sales and revenue per product
     const productStats = allPurchases.reduce(
       (acc, purchase) => {
