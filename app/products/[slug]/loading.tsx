@@ -22,22 +22,28 @@ export default function ProductDetailsLoading() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* LEFT COLUMN - Product Details */}
           <div className="space-y-10 animate-pulse">
-            {/* Category Badge */}
-            <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-full w-24"></div>
+            {/* Hero Section with Wishlist Button */}
+            <div className="p-8 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 relative">
+              {/* Wishlist Button Skeleton */}
+              <div className="absolute top-4 right-4">
+                <div className="w-11 h-11 rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
+              </div>
 
-            {/* Product Name + Platform Badge */}
-            <div>
+              {/* Category Badge */}
+              <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-full w-24 mb-4"></div>
+
+              {/* Product Name + Platform Badge */}
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-lg w-64"></div>
                 <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-full w-20"></div>
               </div>
-            </div>
 
-            {/* Description */}
-            <div className="space-y-2">
-              <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
-              <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
-              <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4"></div>
+              {/* Description */}
+              <div className="space-y-2">
+                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4"></div>
+              </div>
             </div>
 
             {/* How It Works Section */}
