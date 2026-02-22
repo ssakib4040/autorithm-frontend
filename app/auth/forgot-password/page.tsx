@@ -16,6 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import AuthShell from "@/components/auth/AuthShell";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -58,21 +59,16 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo/Brand */}
-        <div className="flex flex-col items-center space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Forgot Password</h1>
-          <p className="text-muted-foreground">
-            Enter your email to receive a password reset link
-          </p>
-        </div>
-
-        {/* Forgot Password Card */}
-        <Card className="border-2">
+    <AuthShell
+      title="Forgot password"
+      description="Enter your email and we will send you secure reset instructions."
+    >
+      <Card className="border-zinc-800/90 bg-zinc-900/85 shadow-2xl shadow-black/30 backdrop-blur">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-2xl font-bold text-zinc-100">
+              Reset Password
+            </CardTitle>
+            <CardDescription className="text-zinc-400">
               We&apos;ll send you instructions to reset your password
             </CardDescription>
           </CardHeader>
@@ -89,12 +85,12 @@ export default function ForgotPassword() {
 
                 {resetToken && (
                   <Alert>
-                    <AlertDescription className="text-xs">
+                    <AlertDescription className="text-xs text-zinc-300">
                       <strong>Development Mode:</strong>
                       <br />
                       <Link
                         href={`/auth/reset-password?token=${resetToken}`}
-                        className="text-primary hover:underline break-all"
+                        className="break-all text-teal-300 hover:text-teal-200"
                       >
                         Click here to reset your password
                       </Link>
@@ -117,9 +113,11 @@ export default function ForgotPassword() {
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-zinc-200">
+                    Email
+                  </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
                     <Input
                       id="email"
                       type="email"
@@ -127,7 +125,7 @@ export default function ForgotPassword() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="pl-10"
+                      className="border-zinc-700 bg-zinc-950/80 pl-10 text-zinc-100 placeholder:text-zinc-500"
                       disabled={isLoading}
                     />
                   </div>
@@ -135,7 +133,7 @@ export default function ForgotPassword() {
 
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full bg-teal-500 font-semibold text-zinc-950 hover:bg-teal-400"
                   size="lg"
                   disabled={isLoading}
                 >
@@ -156,11 +154,11 @@ export default function ForgotPassword() {
           </CardContent>
           {!success && (
             <CardFooter className="flex flex-col space-y-4">
-              <div className="text-sm text-muted-foreground text-center">
+              <div className="text-center text-sm text-zinc-400">
                 Remember your password?{" "}
                 <Link
                   href="/auth/login"
-                  className="font-semibold text-primary hover:underline"
+                  className="font-semibold text-teal-300 hover:text-teal-200"
                 >
                   Sign in
                 </Link>
@@ -168,14 +166,6 @@ export default function ForgotPassword() {
             </CardFooter>
           )}
         </Card>
-
-        {/* Additional Links */}
-        <div className="text-center text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-primary transition-colors">
-            ← Back to home
-          </Link>
-        </div>
-      </div>
-    </div>
+    </AuthShell>
   );
 }

@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import AuthShell from "@/components/auth/AuthShell";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -84,8 +85,10 @@ function ResetPasswordForm() {
   // Show error if no token
   if (!token && !success) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8">
+      <AuthShell
+        title="Invalid reset link"
+        description="This reset token is missing or expired. Request a fresh link to continue."
+      >
           <Card className="border-2">
             <CardHeader>
               <CardTitle className="text-2xl font-bold">Invalid Link</CardTitle>
@@ -106,25 +109,21 @@ function ResetPasswordForm() {
               </Button>
             </CardFooter>
           </Card>
-        </div>
-      </div>
+      </AuthShell>
     );
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo/Brand */}
-        <div className="flex flex-col items-center space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Reset Password</h1>
-          <p className="text-muted-foreground">Enter your new password below</p>
-        </div>
-
-        {/* Reset Password Card */}
-        <Card className="border-2">
+    <AuthShell
+      title="Reset password"
+      description="Set a new password and secure your account access."
+    >
+      <Card className="border-zinc-800/90 bg-zinc-900/85 shadow-2xl shadow-black/30 backdrop-blur">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">New Password</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-2xl font-bold text-zinc-100">
+              New Password
+            </CardTitle>
+            <CardDescription className="text-zinc-400">
               Choose a strong password for your account
             </CardDescription>
           </CardHeader>
@@ -151,9 +150,11 @@ function ResetPasswordForm() {
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">New Password</Label>
+                  <Label htmlFor="password" className="text-zinc-200">
+                    New Password
+                  </Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
                     <Input
                       id="password"
                       type="password"
@@ -162,19 +163,21 @@ function ResetPasswordForm() {
                       onChange={(e) => setNewPassword(e.target.value)}
                       required
                       minLength={6}
-                      className="pl-10"
+                      className="border-zinc-700 bg-zinc-950/80 pl-10 text-zinc-100 placeholder:text-zinc-500"
                       disabled={isLoading}
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-zinc-500">
                     Must be at least 6 characters
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Label htmlFor="confirmPassword" className="text-zinc-200">
+                    Confirm Password
+                  </Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
                     <Input
                       id="confirmPassword"
                       type="password"
@@ -183,7 +186,7 @@ function ResetPasswordForm() {
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       required
                       minLength={6}
-                      className="pl-10"
+                      className="border-zinc-700 bg-zinc-950/80 pl-10 text-zinc-100 placeholder:text-zinc-500"
                       disabled={isLoading}
                     />
                   </div>
@@ -191,7 +194,7 @@ function ResetPasswordForm() {
 
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full bg-teal-500 font-semibold text-zinc-950 hover:bg-teal-400"
                   size="lg"
                   disabled={isLoading}
                 >
@@ -212,11 +215,11 @@ function ResetPasswordForm() {
           </CardContent>
           {!success && (
             <CardFooter className="flex flex-col space-y-4">
-              <div className="text-sm text-muted-foreground text-center">
+              <div className="text-center text-sm text-zinc-400">
                 Remember your password?{" "}
                 <Link
                   href="/auth/login"
-                  className="font-semibold text-primary hover:underline"
+                  className="font-semibold text-teal-300 hover:text-teal-200"
                 >
                   Sign in
                 </Link>
@@ -224,15 +227,7 @@ function ResetPasswordForm() {
             </CardFooter>
           )}
         </Card>
-
-        {/* Additional Links */}
-        <div className="text-center text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-primary transition-colors">
-            ← Back to home
-          </Link>
-        </div>
-      </div>
-    </div>
+    </AuthShell>
   );
 }
 

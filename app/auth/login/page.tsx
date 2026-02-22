@@ -20,6 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import AuthShell from "@/components/auth/AuthShell";
 
 function LoginForm() {
   const router = useRouter();
@@ -80,29 +81,24 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo/Brand */}
-        <div className="flex flex-col items-center space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
-          <p className="text-muted-foreground">
-            Enter your credentials to access your account
-          </p>
-        </div>
-
-        {/* Login Card */}
-        <Card className="border-2">
+    <AuthShell
+      title="Welcome back"
+      description="Sign in to access your automations, purchases, and account settings."
+    >
+      <Card className="border-zinc-800/90 bg-zinc-900/85 shadow-2xl shadow-black/30 backdrop-blur">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-2xl font-bold text-zinc-100">
+              Sign in
+            </CardTitle>
+            <CardDescription className="text-zinc-400">
               Enter your email and password to continue
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               {successMessage && (
-                <Alert className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
-                  <AlertDescription className="text-green-800 dark:text-green-200">
+                <Alert className="border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
+                  <AlertDescription>
                     {successMessage}
                   </AlertDescription>
                 </Alert>
@@ -115,9 +111,11 @@ function LoginForm() {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-zinc-200">
+                  Email
+                </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
                   <Input
                     id="email"
                     type="email"
@@ -125,7 +123,7 @@ function LoginForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="pl-10"
+                    className="border-zinc-700 bg-zinc-950/80 pl-10 text-zinc-100 placeholder:text-zinc-500"
                     disabled={isLoading}
                   />
                 </div>
@@ -133,16 +131,18 @@ function LoginForm() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-zinc-200">
+                    Password
+                  </Label>
                   <Link
                     href="/auth/forgot-password"
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
                   >
                     Forgot password?
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
@@ -150,13 +150,13 @@ function LoginForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="pl-10 pr-10"
+                    className="border-zinc-700 bg-zinc-950/80 pl-10 pr-10 text-zinc-100 placeholder:text-zinc-500"
                     disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-2 top-2.5 rounded p-1 text-muted-foreground hover:text-foreground"
+                    className="absolute right-2 top-2.5 rounded p-1 text-zinc-400 hover:text-zinc-100"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
@@ -192,7 +192,7 @@ function LoginForm() {
 
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full bg-teal-500 font-semibold text-zinc-950 hover:bg-teal-400"
                 size="lg"
                 disabled={isLoading || !turnstileToken}
               >
@@ -211,26 +211,18 @@ function LoginForm() {
             </form>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <div className="text-sm text-muted-foreground text-center">
+            <div className="text-center text-sm text-zinc-400">
               Don&apos;t have an account?{" "}
               <Link
                 href="/auth/register"
-                className="font-semibold text-primary hover:underline"
+                className="font-semibold text-teal-300 hover:text-teal-200"
               >
                 Sign up
               </Link>
             </div>
           </CardFooter>
         </Card>
-
-        {/* Additional Links */}
-        <div className="text-center text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-primary transition-colors">
-            ← Back to home
-          </Link>
-        </div>
-      </div>
-    </div>
+    </AuthShell>
   );
 }
 
