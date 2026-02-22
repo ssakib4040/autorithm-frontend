@@ -38,14 +38,14 @@ const makeProducts = getProductsByTool("Make").slice(0, 6);
 
 export default function MakePage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-zinc-900">
+    <div className="min-h-screen bg-linear-to-b from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="mb-6 bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-100 border-purple-200 dark:border-purple-800">
+            <Badge className="mb-6 bg-amber-100 dark:bg-amber-900/30 text-amber-900 dark:text-amber-100 border-amber-200 dark:border-amber-800">
               <Zap className="w-4 h-4 mr-2" />
               Cloud-Powered Speed
             </Badge>
@@ -92,7 +92,7 @@ export default function MakePage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4">
                   <Zap className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -107,7 +107,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
                   <Cloud className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -122,7 +122,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4">
                   <Palette className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
@@ -137,7 +137,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-4">
                   <Clock className="w-6 h-6 text-orange-600 dark:text-orange-400" />
@@ -168,7 +168,7 @@ export default function MakePage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
@@ -187,7 +187,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
@@ -206,7 +206,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
@@ -225,7 +225,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center shrink-0">
@@ -267,7 +267,7 @@ export default function MakePage() {
             </div>
 
             <div className="space-y-4">
-              <Card>
+              <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-3">
                     <XCircle className="w-6 h-6 text-red-500 shrink-0 mt-0.5" />
@@ -284,7 +284,7 @@ export default function MakePage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-3">
                     <XCircle className="w-6 h-6 text-red-500 shrink-0 mt-0.5" />
@@ -301,7 +301,7 @@ export default function MakePage() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-3">
                     <XCircle className="w-6 h-6 text-red-500 shrink-0 mt-0.5" />
@@ -340,7 +340,7 @@ export default function MakePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4">
                   <Layers className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
@@ -357,7 +357,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
                   <Server className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -372,7 +372,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4">
                   <CheckCircle2 className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -411,7 +411,7 @@ export default function MakePage() {
                 className="hover:border-zinc-900 dark:hover:border-white transition-colors"
               >
                 <CardHeader>
-                  <Badge className="w-fit mb-4 bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-100 border-purple-200 dark:border-purple-800">
+                  <Badge className="w-fit mb-4 bg-amber-100 dark:bg-amber-900/30 text-amber-900 dark:text-amber-100 border-amber-200 dark:border-amber-800">
                     Make
                   </Badge>
                   <CardTitle className="text-2xl">{product.name}</CardTitle>
@@ -447,7 +447,7 @@ export default function MakePage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4">
                   <Briefcase className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -462,7 +462,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
                   <TrendingUp className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -477,7 +477,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4">
                   <Users className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
@@ -491,7 +491,7 @@ export default function MakePage() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-zinc-200/80 bg-white/90 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/70">
               <CardHeader>
                 <div className="w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-4">
                   <Zap className="w-6 h-6 text-orange-600 dark:text-orange-400" />

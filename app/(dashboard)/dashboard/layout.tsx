@@ -341,7 +341,7 @@ export default function DashboardLayout({
   });
 
   return (
-    <div className="flex h-screen overflow-hidden bg-linear-to-br from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
+    <div className="dashboard-theme flex h-screen overflow-hidden bg-linear-to-br from-zinc-50 via-cyan-50/40 to-white dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
       <aside className="hidden lg:flex w-72 flex-col overflow-hidden border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
         <SidebarContent />
       </aside>
@@ -383,7 +383,7 @@ export default function DashboardLayout({
               className="relative rounded-xl text-zinc-600 dark:text-zinc-300"
             >
               <Bell className="h-5 w-5" />
-              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-blue-500" />
+              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-teal-400" />
             </Button>
             <UserMenu name={session?.user?.name} email={session?.user?.email} compact />
           </div>
@@ -412,7 +412,7 @@ export default function DashboardLayout({
               </div>
 
               <div className="hidden md:flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
-                <Sparkles className="h-3.5 w-3.5 text-blue-500" />
+                <Sparkles className="h-3.5 w-3.5 text-teal-300" />
                 <span>{todayLabel}</span>
               </div>
 
@@ -422,7 +422,7 @@ export default function DashboardLayout({
                 className="relative rounded-xl text-zinc-600 dark:text-zinc-300"
               >
                 <Bell className="h-5 w-5" />
-                <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-blue-500" />
+                <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-teal-400" />
               </Button>
 
               <UserMenu name={session?.user?.name} email={session?.user?.email} />
@@ -432,7 +432,7 @@ export default function DashboardLayout({
 
         <div className="min-h-0 flex-1 overflow-y-auto">
           <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
-            <section className="rounded-2xl border border-zinc-200 bg-white/70 p-3 sm:p-4 lg:p-5 shadow-[0_1px_0_0_rgba(0,0,0,0.02)] dark:border-zinc-800 dark:bg-zinc-900/45">
+            <section className="dashboard-surface p-3 sm:p-4 lg:p-5">
               {children}
             </section>
           </div>

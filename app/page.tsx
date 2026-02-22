@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle2, XCircle } from "lucide-react";
 
 // Get featured products
@@ -53,7 +52,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
+      <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 via-cyan-50/40 to-white dark:from-zinc-950 dark:to-zinc-900">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
@@ -197,7 +196,7 @@ export default function Home() {
       </section>
 
       {/* What We Do */}
-      <section className="py-24 bg-white dark:bg-zinc-900" id="services">
+      <section className="py-24 bg-linear-to-b from-white to-zinc-50 dark:from-zinc-900 dark:to-zinc-950" id="services">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-zinc-900 dark:text-white mb-4">
@@ -509,7 +508,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-24 bg-white dark:bg-zinc-900" id="products">
+      <section className="py-24 bg-linear-to-b from-white to-zinc-50 dark:from-zinc-900 dark:to-zinc-950" id="products">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-zinc-900 dark:text-white mb-4">
@@ -698,7 +697,7 @@ export default function Home() {
       </section>
 
       {/* Use Cases */}
-      <section className="py-24 bg-white dark:bg-zinc-900">
+      <section className="py-24 bg-linear-to-b from-white to-zinc-50 dark:from-zinc-900 dark:to-zinc-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-zinc-900 dark:text-white mb-4">
