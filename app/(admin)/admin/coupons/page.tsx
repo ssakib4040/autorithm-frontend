@@ -262,7 +262,7 @@ export default function CouponsPage() {
                         type="checkbox"
                         checked={selectedCoupons.length === coupons.length}
                         onChange={toggleAllCoupons}
-                        className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                        className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
                       />
                     </th>
                     <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
@@ -308,7 +308,7 @@ export default function CouponsPage() {
                           type="checkbox"
                           checked={selectedCoupons.includes(coupon.id)}
                           onChange={() => toggleCouponSelection(coupon.id)}
-                          className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                          className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
                         />
                       </td>
                       <td
@@ -356,7 +356,7 @@ export default function CouponsPage() {
                         <span
                           className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
                             coupon.type === "Percentage"
-                              ? "bg-blue-500/10 text-teal-300 border border-blue-500/20"
+                              ? "bg-teal-500/10 text-teal-300 border border-teal-500/20"
                               : "bg-purple-500/10 text-purple-400 border border-purple-500/20"
                           }`}
                         >
@@ -530,7 +530,7 @@ export default function CouponsPage() {
               <button className="p-2 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 <ChevronLeftIcon className="h-4 w-4" />
               </button>
-              <button className="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm font-medium">
+              <button className="px-3 py-1.5 rounded-lg bg-teal-400 text-zinc-950 text-sm font-medium">
                 1
               </button>
               <button className="px-3 py-1.5 rounded-lg border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white text-sm transition-colors">

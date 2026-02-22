@@ -130,7 +130,7 @@ export default function ProductsClient({
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 flex-1">
-                  <div className="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                  <div className="h-12 w-12 rounded-lg bg-teal-500/10 flex items-center justify-center shrink-0">
                     <ShoppingBagIcon className="h-6 w-6 text-teal-300" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -176,7 +176,7 @@ export default function ProductsClient({
               <div className="flex items-center gap-2 pt-2 border-t border-zinc-800">
                 <Link
                   href={`/admin/products/${product.slug}`}
-                  className="flex-1 inline-flex items-center justify-center gap-2 bg-blue-600/10 hover:bg-blue-600/20 text-teal-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  className="flex-1 inline-flex items-center justify-center gap-2 bg-teal-500/10 hover:bg-teal-500/20 text-teal-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                 >
                   <PencilSquareIcon className="h-4 w-4" />
                   Edit
@@ -241,7 +241,7 @@ export default function ProductsClient({
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                        <div className="h-10 w-10 rounded-lg bg-teal-500/10 flex items-center justify-center">
                           <ShoppingBagIcon className="h-5 w-5 text-teal-300" />
                         </div>
                         <div>

@@ -228,7 +228,7 @@ export default function EditProductPage() {
             <button
               type="button"
               onClick={() => setKeyFeatures([...keyFeatures, ""])}
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-teal-200 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add Feature
@@ -273,7 +273,7 @@ export default function EditProductPage() {
               onClick={() =>
                 setHowItWorks([...howItWorks, { title: "", description: "" }])
               }
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-teal-200 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add Step
@@ -395,7 +395,7 @@ export default function EditProductPage() {
                 <button
                   type="button"
                   onClick={() => setApis([...apis, ""])}
-                  className="text-sm text-teal-300 hover:text-blue-300 transition-colors"
+                  className="text-sm text-teal-300 hover:text-teal-200 transition-colors"
                 >
                   + Add API
                 </button>
@@ -438,7 +438,7 @@ export default function EditProductPage() {
                 <button
                   type="button"
                   onClick={() => setRequirements([...requirements, ""])}
-                  className="text-sm text-teal-300 hover:text-blue-300 transition-colors"
+                  className="text-sm text-teal-300 hover:text-teal-200 transition-colors"
                 >
                   + Add Requirement
                 </button>
@@ -454,7 +454,7 @@ export default function EditProductPage() {
             <button
               type="button"
               onClick={() => setFaqs([...faqs, { question: "", answer: "" }])}
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-teal-200 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add FAQ
@@ -529,7 +529,7 @@ export default function EditProductPage() {
                   },
                 ])
               }
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-teal-200 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add Download
@@ -628,7 +628,7 @@ export default function EditProductPage() {
             <button
               type="button"
               onClick={() => setWhatsIncluded([...whatsIncluded, ""])}
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-teal-200 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add Item
@@ -667,11 +667,11 @@ export default function EditProductPage() {
         </div>
 
         {/* Info Banner */}
-        <div className="rounded-lg border border-blue-500/20 bg-blue-500/5 p-4">
+        <div className="rounded-lg border border-teal-500/20 bg-teal-500/5 p-4">
           <div className="flex gap-3">
             <InformationCircleIcon className="h-5 w-5 text-teal-300 shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="text-sm text-blue-300">
+              <p className="text-sm text-teal-200">
                 Changes will be saved immediately. Make sure to review all
                 fields before saving.
               </p>
@@ -689,7 +689,7 @@ export default function EditProductPage() {
           </Link>
           <button
             type="submit"
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium"
+            className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg bg-teal-400 text-zinc-950 hover:bg-teal-300 transition-colors font-medium"
           >
             Save Changes
           </button>

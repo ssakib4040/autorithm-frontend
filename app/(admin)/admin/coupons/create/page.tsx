@@ -314,7 +314,7 @@ export default function CreateCouponPage() {
               <input
                 type="checkbox"
                 defaultChecked
-                className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
               />
               <div className="flex-1">
                 <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
@@ -329,7 +329,7 @@ export default function CreateCouponPage() {
             <label className="flex items-start gap-3 cursor-pointer group">
               <input
                 type="checkbox"
-                className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
               />
               <div className="flex-1">
                 <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
@@ -345,7 +345,7 @@ export default function CreateCouponPage() {
             <label className="flex items-start gap-3 cursor-pointer group">
               <input
                 type="checkbox"
-                className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
               />
               <div className="flex-1">
                 <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
@@ -360,7 +360,7 @@ export default function CreateCouponPage() {
             <label className="flex items-start gap-3 cursor-pointer group">
               <input
                 type="checkbox"
-                className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
               />
               <div className="flex-1">
                 <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
@@ -389,7 +389,7 @@ export default function CreateCouponPage() {
             </Link>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-teal-500/20"
+              className="px-6 py-2.5 rounded-lg bg-teal-400 text-zinc-950 hover:bg-teal-300 transition-colors font-medium shadow-lg shadow-teal-500/20"
             >
               Create Coupon
             </button>

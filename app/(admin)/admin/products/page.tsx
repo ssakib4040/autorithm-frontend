@@ -150,7 +150,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
               <div
                 className={`p-3 rounded-lg ${
                   stat.color === "blue"
-                    ? "bg-blue-500/10"
+                    ? "bg-teal-500/10"
                     : stat.color === "emerald"
                       ? "bg-emerald-500/10"
                       : stat.color === "purple"
