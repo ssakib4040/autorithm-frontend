@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bars3Icon } from "@heroicons/react/24/outline";
-import { ShieldCheckIcon } from "@heroicons/react/24/solid";
+import {
+  Bars3Icon,
+  BellIcon,
+  MagnifyingGlassIcon,
+  PlusIcon,
+} from "@heroicons/react/24/outline";
 
 import Sidebar from "@/components/admin/Sidebar";
 
@@ -12,104 +17,85 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-
-  const getHeaderMeta = () => {
-    if (pathname.startsWith("/admin/overview")) {
-      return {
-        title: "Admin Overview",
-        subtitle: "Track platform performance and operational health.",
-      };
-    }
-    if (pathname.startsWith("/admin/products")) {
-      return {
-        title: "Product Management",
-        subtitle: "Create, refine, and publish automation products.",
-      };
-    }
-    if (pathname.startsWith("/admin/purchases")) {
-      return {
-        title: "Purchases",
-        subtitle: "Monitor transactions and customer purchase activity.",
-      };
-    }
-    if (pathname.startsWith("/admin/users")) {
-      return {
-        title: "User Management",
-        subtitle: "Review accounts, permissions, and user lifecycle data.",
-      };
-    }
-    if (pathname.startsWith("/admin/coupons")) {
-      return {
-        title: "Coupons",
-        subtitle: "Configure discounts and campaign-level incentives.",
-      };
-    }
-    return {
-      title: "Admin Console",
-      subtitle: "Manage the Autorithm platform from one place.",
-    };
-  };
-
-  const headerMeta = getHeaderMeta();
-  const todayLabel = new Date().toLocaleDateString(undefined, {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pageTitle =
+    pathname === "/admin/overview"
+      ? "Overview"
+      : pathname
+          .split("/")
+          .filter(Boolean)
+          .at(-1)
+          ?.replace(/-/g, " ")
+          ?.replace(/\b\w/g, (char) => char.toUpperCase()) || "Dashboard";
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="admin-theme relative flex min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(45,212,191,0.18),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(59,130,246,0.18),transparent_35%),radial-gradient(circle_at_20%_100%,rgba(249,115,22,0.12),transparent_35%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-size-[26px_26px]" />
+
       <Sidebar
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
       />
 
+      {/* Mobile Overlay */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/65 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-30 bg-black/70 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
-      <main className="lg:ml-64">
-        <header className="sticky top-0 z-20 border-b border-zinc-800/70 bg-zinc-950/90 backdrop-blur">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+      <main className="relative flex-1 lg:ml-72">
+        <div className="sticky top-0 z-20 border-b border-white/10 bg-zinc-950/70 backdrop-blur-xl">
+          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex items-center gap-3 sm:gap-4">
                 <button
                   onClick={() => setMobileMenuOpen(true)}
-                  className="mt-0.5 lg:hidden rounded-lg border border-zinc-800 bg-zinc-900/70 p-2 hover:bg-zinc-800 transition-colors"
+                  className="rounded-lg border border-white/10 bg-zinc-900/70 p-2 text-zinc-300 transition hover:border-teal-400/40 hover:text-zinc-100 lg:hidden"
                 >
-                  <Bars3Icon className="h-6 w-6 text-zinc-300" />
+                  <Bars3Icon className="h-6 w-6" />
                 </button>
-
-                <div className="min-w-0">
-                  <p className="text-lg sm:text-xl font-semibold text-zinc-50 truncate">
-                    {headerMeta.title}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-zinc-400">
+                    Admin Console
                   </p>
-                  <p className="text-xs sm:text-sm text-zinc-400 truncate">
-                    {headerMeta.subtitle}
-                  </p>
+                  <h1 className="text-lg font-semibold tracking-tight text-white sm:text-2xl">
+                    {pageTitle}
+                  </h1>
                 </div>
               </div>
 
-              <div className="hidden sm:flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/80 px-3 py-1.5 text-xs text-zinc-300">
-                <ShieldCheckIcon className="h-4 w-4 text-emerald-400" />
-                <span>Admin Mode</span>
-                <span className="text-zinc-600">•</span>
-                <span>{todayLabel}</span>
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <div className="relative min-w-[220px] flex-1 sm:flex-none">
+                  <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+                  <input
+                    type="text"
+                    placeholder="Search products, users, purchases..."
+                    className="h-10 w-full rounded-xl border border-white/10 bg-zinc-900/70 pl-9 pr-3 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none transition focus:border-teal-400/50"
+                  />
+                </div>
+
+                <Link
+                  href="/admin/products/create"
+                  className="inline-flex h-10 items-center gap-2 rounded-xl bg-teal-400 px-3.5 text-sm font-semibold text-zinc-950 transition hover:bg-teal-300"
+                >
+                  <PlusIcon className="h-4 w-4" />
+                  New Product
+                </Link>
+
+                <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-zinc-900/70 text-zinc-300 transition hover:border-teal-400/40 hover:text-zinc-100">
+                  <BellIcon className="h-5 w-5" />
+                </button>
               </div>
             </div>
           </div>
-        </header>
+        </div>
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 sm:py-7">
-          <div className="rounded-2xl border border-zinc-800/70 bg-zinc-900/45 p-3 sm:p-4 lg:p-5">
-            {children}
-          </div>
+        <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+          {children}
         </div>
       </main>
     </div>

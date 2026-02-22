@@ -129,6 +129,34 @@
   }
 }
 
+@layer components {
+  .admin-theme .admin-surface {
+    @apply rounded-2xl border border-white/10 bg-zinc-900/75 shadow-xl shadow-black/20 backdrop-blur;
+  }
+
+  .admin-theme input,
+  .admin-theme select,
+  .admin-theme textarea {
+    @apply rounded-xl border-white/10 bg-zinc-900/70 text-zinc-100 placeholder:text-zinc-500;
+  }
+
+  .admin-theme table {
+    @apply rounded-2xl overflow-hidden;
+  }
+
+  .admin-theme thead th {
+    @apply border-b border-white/10 text-zinc-400;
+  }
+
+  .admin-theme tbody tr {
+    @apply border-b border-white/10 transition-colors;
+  }
+
+  .admin-theme tbody tr:hover {
+    @apply bg-zinc-800/30;
+  }
+}
+
 /* Grid background pattern */
 /* .bg-grid-white\/10 {
   background-image: 

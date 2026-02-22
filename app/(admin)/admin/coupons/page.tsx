@@ -160,7 +160,7 @@ export default function CouponsPage() {
           </button>
           <Link
             href="/admin/coupons/create"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors shadow-lg shadow-blue-600/20"
+            className="bg-teal-400 hover:bg-teal-300 text-zinc-950 px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-colors shadow-lg shadow-teal-500/20"
           >
             <PlusIcon className="h-4 w-4" />
             Create Coupon
@@ -173,7 +173,7 @@ export default function CouponsPage() {
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 transition-colors"
+            className="admin-surface p-6 hover:border-zinc-700 transition-colors"
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
@@ -196,20 +196,20 @@ export default function CouponsPage() {
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+      <div className="admin-surface p-4">
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="flex-1 relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
             <input
               type="text"
               placeholder="Search by coupon code..."
-              className="w-full bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700"
+              className="w-full rounded-xl border border-white/10 bg-zinc-950/70 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700"
             />
           </div>
           <div className="flex gap-3 flex-wrap">
             <div className="relative">
               <FunnelIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 pointer-events-none" />
-              <select className="appearance-none bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-none focus:border-zinc-700 cursor-pointer">
+              <select className="appearance-none rounded-xl border border-white/10 bg-zinc-950/70 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-none focus:border-zinc-700 cursor-pointer">
                 <option>All Types</option>
                 <option>Percentage</option>
                 <option>Fixed Amount</option>
@@ -217,7 +217,7 @@ export default function CouponsPage() {
             </div>
             <div className="relative">
               <FunnelIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 pointer-events-none" />
-              <select className="appearance-none bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-none focus:border-zinc-700 cursor-pointer">
+              <select className="appearance-none rounded-xl border border-white/10 bg-zinc-950/70 text-zinc-300 text-sm rounded-lg pl-10 pr-8 py-2.5 focus:outline-none focus:border-zinc-700 cursor-pointer">
                 <option>All Status</option>
                 <option>Active</option>
                 <option>Expired</option>
@@ -250,7 +250,7 @@ export default function CouponsPage() {
       </div>
 
       {/* Coupons Table */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+      <div className="admin-surface overflow-hidden">
         <div className="overflow-x-auto -mx-4 sm:mx-0">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden">
@@ -356,7 +356,7 @@ export default function CouponsPage() {
                         <span
                           className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
                             coupon.type === "Percentage"
-                              ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                              ? "bg-blue-500/10 text-teal-300 border border-blue-500/20"
                               : "bg-purple-500/10 text-purple-400 border border-purple-500/20"
                           }`}
                         >

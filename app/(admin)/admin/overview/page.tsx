@@ -131,7 +131,7 @@ export default function DashboardOverview() {
               </div>
               <Link
                 href="/admin/purchases"
-                className="text-sm text-blue-500 hover:text-blue-400"
+                className="text-sm text-teal-300 hover:text-teal-300"
               >
                 View All
               </Link>
@@ -145,7 +145,7 @@ export default function DashboardOverview() {
                   className="flex items-center justify-between p-4 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 transition-colors"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="h-10 w-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
+                    <div className="h-10 w-10 rounded-full bg-linear-to-br from-teal-400 to-blue-500 flex items-center justify-center text-white font-semibold text-sm">
                       {order.customer
                         .split(" ")
                         .map((n) => n[0])
@@ -164,7 +164,7 @@ export default function DashboardOverview() {
                         order.status === "Completed"
                           ? "bg-emerald-500/10 text-emerald-500"
                           : order.status === "Processing"
-                            ? "bg-blue-500/10 text-blue-500"
+                            ? "bg-blue-500/10 text-teal-300"
                             : "bg-yellow-500/10 text-yellow-500"
                       }`}
                     >
@@ -230,7 +230,7 @@ export default function DashboardOverview() {
                 href="/admin/products/create"
                 className="flex flex-col items-center justify-center p-4 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-500/30 transition-all group"
               >
-                <PlusIcon className="h-6 w-6 text-blue-500 mb-2 group-hover:scale-110 transition-transform" />
+                <PlusIcon className="h-6 w-6 text-teal-300 mb-2 group-hover:scale-110 transition-transform" />
                 <span className="text-sm font-medium text-white">
                   Add Product
                 </span>

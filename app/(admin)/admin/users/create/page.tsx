@@ -45,7 +45,7 @@ export default function CreateUserPage() {
 
       <form className="space-y-6">
         {/* Profile Photo Section */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <div className="admin-surface p-6">
           <div className="flex items-start gap-6">
             <div className="shrink-0">
               <div className="w-24 h-24 rounded-full bg-zinc-800 border-2 border-zinc-700 flex items-center justify-center text-zinc-500">
@@ -82,9 +82,9 @@ export default function CreateUserPage() {
         </div>
 
         {/* Personal Information */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <div className="admin-surface p-6">
           <div className="flex items-center gap-2 mb-6">
-            <UserCircleIcon className="h-5 w-5 text-blue-400" />
+            <UserCircleIcon className="h-5 w-5 text-teal-300" />
             <h3 className="text-lg font-semibold text-white">
               Personal Information
             </h3>
@@ -98,7 +98,7 @@ export default function CreateUserPage() {
               <input
                 type="text"
                 required
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
+                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
                 placeholder="John"
               />
             </div>
@@ -110,7 +110,7 @@ export default function CreateUserPage() {
               <input
                 type="text"
                 required
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
+                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
                 placeholder="Doe"
               />
             </div>
@@ -125,7 +125,7 @@ export default function CreateUserPage() {
               <input
                 type="email"
                 required
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
+                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
                 placeholder="john.doe@example.com"
               />
               <p className="text-xs text-zinc-500 mt-1.5">
@@ -142,7 +142,7 @@ export default function CreateUserPage() {
               </label>
               <input
                 type="tel"
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
+                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
                 placeholder="+1 (555) 000-0000"
               />
             </div>
@@ -156,7 +156,7 @@ export default function CreateUserPage() {
               </label>
               <input
                 type="text"
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
+                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
                 placeholder="Acme Inc."
               />
             </div>
@@ -164,9 +164,9 @@ export default function CreateUserPage() {
         </div>
 
         {/* Account Security */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <div className="admin-surface p-6">
           <div className="flex items-center gap-2 mb-6">
-            <LockClosedIcon className="h-5 w-5 text-blue-400" />
+            <LockClosedIcon className="h-5 w-5 text-teal-300" />
             <h3 className="text-lg font-semibold text-white">
               Account Security
             </h3>
@@ -181,7 +181,7 @@ export default function CreateUserPage() {
                 <input
                   type={showPassword ? "text" : "password"}
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 pr-10 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
+                  className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 pr-10 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
                   placeholder="••••••••"
                 />
                 <button
@@ -209,7 +209,7 @@ export default function CreateUserPage() {
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 pr-10 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
+                  className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 pr-10 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
                   placeholder="••••••••"
                 />
                 <button
@@ -228,9 +228,9 @@ export default function CreateUserPage() {
           </div>
 
           {/* Password Strength Indicator */}
-          <div className="mt-4 p-4 bg-zinc-950 border border-zinc-800 rounded-lg">
+          <div className="mt-4 p-4 rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg">
             <div className="flex items-start gap-2">
-              <InformationCircleIcon className="h-5 w-5 text-blue-400 shrink-0 mt-0.5" />
+              <InformationCircleIcon className="h-5 w-5 text-teal-300 shrink-0 mt-0.5" />
               <div className="text-xs text-zinc-400">
                 <p className="font-medium text-zinc-300 mb-1">
                   Password Requirements:
@@ -247,9 +247,9 @@ export default function CreateUserPage() {
         </div>
 
         {/* Role & Permissions */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <div className="admin-surface p-6">
           <div className="flex items-center gap-2 mb-6">
-            <ShieldCheckIcon className="h-5 w-5 text-blue-400" />
+            <ShieldCheckIcon className="h-5 w-5 text-teal-300" />
             <h3 className="text-lg font-semibold text-white">
               Role & Permissions
             </h3>
@@ -263,7 +263,7 @@ export default function CreateUserPage() {
               <select
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors appearance-none cursor-pointer"
+                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors appearance-none cursor-pointer"
               >
                 <option value="User">User</option>
                 <option value="Editor">Editor</option>
@@ -278,7 +278,7 @@ export default function CreateUserPage() {
               <label className="block text-sm font-medium text-zinc-300 mb-2">
                 Account Status <span className="text-red-400">*</span>
               </label>
-              <select className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors appearance-none cursor-pointer">
+              <select className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors appearance-none cursor-pointer">
                 <option>Active</option>
                 <option>Inactive</option>
                 <option>Suspended</option>
@@ -287,7 +287,7 @@ export default function CreateUserPage() {
           </div>
 
           {/* Role Description */}
-          <div className="mt-4 p-4 bg-zinc-950 border border-zinc-800 rounded-lg">
+          <div className="mt-4 p-4 rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg">
             <div className="flex items-start gap-3">
               <div
                 className={`p-2 rounded-lg ${
@@ -303,7 +303,7 @@ export default function CreateUserPage() {
                     selectedRole === "Admin"
                       ? "text-purple-400"
                       : selectedRole === "Editor"
-                        ? "text-blue-400"
+                        ? "text-teal-300"
                         : "text-zinc-400"
                   }`}
                 />
@@ -328,9 +328,9 @@ export default function CreateUserPage() {
         </div>
 
         {/* Additional Options */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <div className="admin-surface p-6">
           <div className="flex items-center gap-2 mb-6">
-            <CheckCircleIcon className="h-5 w-5 text-blue-400" />
+            <CheckCircleIcon className="h-5 w-5 text-teal-300" />
             <h3 className="text-lg font-semibold text-white">
               Additional Options
             </h3>
@@ -344,7 +344,7 @@ export default function CreateUserPage() {
                 className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
               />
               <div className="flex-1">
-                <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
+                <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
                   Send welcome email
                 </span>
                 <p className="text-xs text-zinc-500 mt-0.5">
@@ -360,7 +360,7 @@ export default function CreateUserPage() {
                 className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
               />
               <div className="flex-1">
-                <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
+                <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
                   Require password change on first login
                 </span>
                 <p className="text-xs text-zinc-500 mt-0.5">
@@ -377,7 +377,7 @@ export default function CreateUserPage() {
                 className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
               />
               <div className="flex-1">
-                <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
+                <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
                   Enable two-factor authentication
                 </span>
                 <p className="text-xs text-zinc-500 mt-0.5">
@@ -389,7 +389,7 @@ export default function CreateUserPage() {
         </div>
 
         {/* Form Actions */}
-        <div className="flex items-center justify-between gap-4 bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+        <div className="flex items-center justify-between gap-4 admin-surface p-6">
           <p className="text-sm text-zinc-400">
             <span className="text-red-400">*</span> Required fields
           </p>
@@ -402,7 +402,7 @@ export default function CreateUserPage() {
             </Link>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-blue-600/20"
+              className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-teal-500/20"
             >
               Create User
             </button>
