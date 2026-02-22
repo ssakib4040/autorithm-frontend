@@ -1,30 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-
 import {
-  User,
+  AlertCircle,
+  CheckCircle2,
   Lock,
+  LogOut,
   Save,
   Settings,
-  LogOut,
-  AlertCircle,
   ShieldCheck,
-  CheckCircle2,
   ShoppingBag,
+  Sparkles,
+  User,
 } from "lucide-react";
 
 import {
   Card,
-  CardTitle,
-  CardHeader,
   CardContent,
   CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
-
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -33,28 +32,45 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+type Message = {
+  type: "success" | "error";
+  text: string;
+};
+
 export default function Profile() {
   const router = useRouter();
   const { data: session, status } = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
-
-  // Form states
-  const [name, setName] = useState(session?.user?.name || "");
+  const [message, setMessage] = useState<Message | null>(null);
+  const [name, setName] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/auth/login");
+    }
+  }, [status, router]);
+
+  useEffect(() => {
+    if (session?.user?.name) {
+      setName(session.user.name);
+    }
+  }, [session?.user?.name]);
+
+  const purchasedCount = useMemo(
+    () => session?.user?.purchasedProducts?.length || 0,
+    [session?.user?.purchasedProducts],
+  );
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/" });
   };
 
-  const getUserInitials = (name: string) => {
-    return name
+  const getUserInitials = (fullName: string) => {
+    return fullName
       .split(" ")
       .map((n) => n[0])
       .join("")
@@ -78,7 +94,6 @@ export default function Profile() {
 
       if (response.ok) {
         setMessage({ type: "success", text: "Profile updated successfully!" });
-        // Trigger session reload
         window.location.reload();
       } else {
         setMessage({
@@ -151,381 +166,309 @@ export default function Profile() {
   }
 
   if (!session) {
-    router.push("/auth/login");
     return null;
   }
 
   const user = session.user;
 
   return (
-    <>
-      <div className=" bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Profile Header */}
-          <Card className="mb-8">
-            <CardContent className="pt-6">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                <Avatar className="h-24 w-24">
-                  <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
-                    {getUserInitials(user.name)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 text-center sm:text-left">
-                  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3">
-                    <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
-                      {user.name}
-                    </h1>
-                    {user.isAdmin && (
-                      <Badge className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-100 border-purple-200 dark:border-purple-800">
-                        <ShieldCheck className="w-3 h-3 mr-1" />
-                        Admin
-                      </Badge>
-                    )}
-                  </div>
-                  <p className="text-zinc-600 dark:text-zinc-400 mt-1">
-                    {user.email}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-4 justify-center sm:justify-start">
-                    <Badge variant="outline">
-                      <ShoppingBag className="w-3 h-3 mr-1" />
-                      {user.purchasedProducts?.length || 0} Products
-                    </Badge>
-                  </div>
-                </div>
+    <div className="bg-linear-to-b from-zinc-50 via-white to-zinc-100 py-12 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-6">
+        <section className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-linear-to-br from-white via-blue-50/60 to-violet-50/60 p-6 sm:p-8 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950">
+          <div className="absolute -right-16 -top-12 h-48 w-48 rounded-full bg-blue-400/15 blur-3xl" />
+
+          <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center">
+            <Avatar className="h-20 w-20 border border-zinc-200 dark:border-zinc-800">
+              <AvatarFallback className="bg-blue-600 text-white text-xl font-semibold">
+                {getUserInitials(user.name)}
+              </AvatarFallback>
+            </Avatar>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  {user.name}
+                </h1>
+                {user.isAdmin && (
+                  <Badge className="border-purple-200 bg-purple-100 text-purple-700 dark:border-purple-900 dark:bg-purple-950/30 dark:text-purple-300">
+                    <ShieldCheck className="mr-1.5 h-3.5 w-3.5" />
+                    Admin
+                  </Badge>
+                )}
               </div>
-            </CardContent>
-          </Card>
 
-          {/* Settings Tabs */}
-          <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
-              <TabsTrigger value="profile">
-                <User className="w-4 h-4 mr-2" />
-                Profile
-              </TabsTrigger>
-              <TabsTrigger value="security">
-                <Lock className="w-4 h-4 mr-2" />
-                Security
-              </TabsTrigger>
-              <TabsTrigger value="purchases">
-                <ShoppingBag className="w-4 h-4 mr-2" />
-                Purchases
-              </TabsTrigger>
-              <TabsTrigger value="settings">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </TabsTrigger>
-            </TabsList>
+              <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{user.email}</p>
 
-            {/* Profile Tab */}
-            <TabsContent value="profile">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Personal Information</CardTitle>
-                  <CardDescription>
-                    Update your personal details and information
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleUpdateProfile} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
-                      <Input
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter your full name"
-                        required
-                      />
-                    </div>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className="text-xs">
+                  <ShoppingBag className="mr-1.5 h-3.5 w-3.5" />
+                  {purchasedCount} Purchases
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+                  Workspace Active
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </section>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={user.email}
-                        disabled
-                        className="bg-zinc-50 dark:bg-zinc-900"
-                      />
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                        Email cannot be changed. Contact support if needed.
-                      </p>
-                    </div>
+        <Tabs defaultValue="profile" className="space-y-5">
+          <TabsList className="grid w-full grid-cols-2 gap-1 rounded-xl p-1 md:grid-cols-4">
+            <TabsTrigger value="profile" className="rounded-lg">
+              <User className="mr-2 h-4 w-4" />
+              Profile
+            </TabsTrigger>
+            <TabsTrigger value="security" className="rounded-lg">
+              <Lock className="mr-2 h-4 w-4" />
+              Security
+            </TabsTrigger>
+            <TabsTrigger value="purchases" className="rounded-lg">
+              <ShoppingBag className="mr-2 h-4 w-4" />
+              Purchases
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="rounded-lg">
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </TabsTrigger>
+          </TabsList>
 
-                    {message && (
-                      <Alert
-                        variant={
-                          message.type === "error" ? "destructive" : "default"
-                        }
-                      >
-                        {message.type === "success" ? (
-                          <CheckCircle2 className="h-4 w-4" />
-                        ) : (
-                          <AlertCircle className="h-4 w-4" />
-                        )}
-                        <AlertDescription>{message.text}</AlertDescription>
-                      </Alert>
-                    )}
+          <TabsContent value="profile">
+            <Card>
+              <CardHeader>
+                <CardTitle>Personal Information</CardTitle>
+                <CardDescription>
+                  Update your public profile details.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleUpdateProfile} className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input
+                      id="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Enter your full name"
+                      className="h-11 rounded-xl"
+                      required
+                    />
+                  </div>
 
-                    <Button type="submit" disabled={isLoading}>
-                      <Save className="w-4 h-4 mr-2" />
-                      {isLoading ? "Saving..." : "Save Changes"}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={user.email}
+                      disabled
+                      className="h-11 rounded-xl bg-zinc-50 dark:bg-zinc-900"
+                    />
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      Email cannot be changed from profile settings.
+                    </p>
+                  </div>
 
-            {/* Security Tab */}
-            <TabsContent value="security">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Change Password</CardTitle>
-                  <CardDescription>
-                    Update your password to keep your account secure
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleChangePassword} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="current-password">Current Password</Label>
-                      <Input
-                        id="current-password"
-                        type="password"
-                        value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
-                        placeholder="Enter current password"
-                        required
-                      />
-                    </div>
+                  {message && <MessageAlert message={message} />}
 
-                    <div className="space-y-2">
-                      <Label htmlFor="new-password">New Password</Label>
-                      <Input
-                        id="new-password"
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="Enter new password"
-                        required
-                      />
-                    </div>
+                  <Button type="submit" disabled={isLoading} className="rounded-xl">
+                    <Save className="mr-2 h-4 w-4" />
+                    {isLoading ? "Saving..." : "Save Changes"}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="confirm-password">
-                        Confirm New Password
-                      </Label>
-                      <Input
-                        id="confirm-password"
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm new password"
-                        required
-                      />
-                    </div>
+          <TabsContent value="security">
+            <Card>
+              <CardHeader>
+                <CardTitle>Change Password</CardTitle>
+                <CardDescription>
+                  Keep your account secure with a strong password.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleChangePassword} className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="current-password">Current Password</Label>
+                    <Input
+                      id="current-password"
+                      type="password"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      placeholder="Enter current password"
+                      className="h-11 rounded-xl"
+                      required
+                    />
+                  </div>
 
-                    {message && (
-                      <Alert
-                        variant={
-                          message.type === "error" ? "destructive" : "default"
-                        }
-                      >
-                        {message.type === "success" ? (
-                          <CheckCircle2 className="h-4 w-4" />
-                        ) : (
-                          <AlertCircle className="h-4 w-4" />
-                        )}
-                        <AlertDescription>{message.text}</AlertDescription>
-                      </Alert>
-                    )}
+                  <div className="space-y-2">
+                    <Label htmlFor="new-password">New Password</Label>
+                    <Input
+                      id="new-password"
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Enter new password"
+                      className="h-11 rounded-xl"
+                      required
+                    />
+                  </div>
 
-                    <Button type="submit" disabled={isLoading}>
-                      <Lock className="w-4 h-4 mr-2" />
-                      {isLoading ? "Updating..." : "Update Password"}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-password">Confirm New Password</Label>
+                    <Input
+                      id="confirm-password"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Confirm new password"
+                      className="h-11 rounded-xl"
+                      required
+                    />
+                  </div>
 
-            {/* Purchases Tab */}
-            <TabsContent value="purchases">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Your Purchases</CardTitle>
-                  <CardDescription>
-                    View and manage your purchased products
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {user.purchasedProducts &&
-                  user.purchasedProducts.length > 0 ? (
-                    <div className="space-y-4">
-                      <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                        You have purchased {user.purchasedProducts.length}{" "}
-                        product(s).
-                      </p>
-                      <Button asChild variant="outline">
-                        <Link href="/dashboard/overview">
-                          View in Dashboard
-                        </Link>
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <ShoppingBag className="mx-auto h-12 w-12 text-zinc-400" />
-                      <h3 className="mt-4 text-lg font-semibold text-zinc-900 dark:text-white">
-                        No purchases yet
-                      </h3>
-                      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                        Start exploring our automation products!
-                      </p>
-                      <Button asChild className="mt-6">
-                        <Link href="/products">Browse Products</Link>
-                      </Button>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  {message && <MessageAlert message={message} />}
 
-            {/* Settings Tab */}
-            <TabsContent value="settings">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Account Settings</CardTitle>
-                  <CardDescription>
-                    Manage your account preferences and settings
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
+                  <Button type="submit" disabled={isLoading} className="rounded-xl">
+                    <Lock className="mr-2 h-4 w-4" />
+                    {isLoading ? "Updating..." : "Update Password"}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="purchases">
+            <Card>
+              <CardHeader>
+                <CardTitle>Your Purchases</CardTitle>
+                <CardDescription>
+                  Access purchased templates and downloads.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {purchasedCount > 0 ? (
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
-                      <div>
-                        <h3 className="font-medium text-zinc-900 dark:text-white">
-                          Account ID
-                        </h3>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                          {user.id}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg">
-                      <div>
-                        <h3 className="font-medium text-zinc-900 dark:text-white">
-                          Email Notifications
-                        </h3>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                          Receive updates about your purchases and account
-                        </p>
-                      </div>
-                      <Badge variant="outline">Enabled</Badge>
-                    </div>
-
-                    {user.isAdmin && (
-                      <div className="flex items-center justify-between p-4 border border-purple-200 dark:border-purple-800 rounded-lg bg-purple-50 dark:bg-purple-900/10">
-                        <div>
-                          <h3 className="font-medium text-zinc-900 dark:text-white flex items-center">
-                            <ShieldCheck className="w-4 h-4 mr-2" />
-                            Admin Access
-                          </h3>
-                          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-                            You have administrator privileges
-                          </p>
-                        </div>
-                        <Button asChild variant="outline" size="sm">
-                          <Link href="/admin">Admin Panel</Link>
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800">
-                    <h3 className="font-medium text-zinc-900 dark:text-white mb-4">
-                      Danger Zone
-                    </h3>
-                    <Button
-                      onClick={handleLogout}
-                      variant="destructive"
-                      className="w-full sm:w-auto"
-                    >
-                      <LogOut className="w-4 h-4 mr-2" />
-                      Sign Out
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                      You currently own {purchasedCount} product(s).
+                    </p>
+                    <Button asChild variant="outline" className="rounded-xl">
+                      <Link href="/dashboard/purchases">Open Purchases</Link>
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </div>
+                ) : (
+                  <div className="py-10 text-center">
+                    <ShoppingBag className="mx-auto h-10 w-10 text-zinc-400" />
+                    <h3 className="mt-3 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                      No purchases yet
+                    </h3>
+                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                      Start exploring automation products.
+                    </p>
+                    <Button asChild className="mt-5 rounded-xl">
+                      <Link href="/products">Browse Products</Link>
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <Card>
+              <CardHeader>
+                <CardTitle>Account Settings</CardTitle>
+                <CardDescription>
+                  Review account metadata and access settings.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
+                  <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">Account ID</p>
+                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{user.id}</p>
+                </div>
+
+                <div className="rounded-xl border border-zinc-200 p-4 dark:border-zinc-800 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">Email Notifications</p>
+                    <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Receive purchase and account updates.</p>
+                  </div>
+                  <Badge variant="outline">Enabled</Badge>
+                </div>
+
+                {user.isAdmin && (
+                  <div className="rounded-xl border border-purple-200 bg-purple-50/60 p-4 dark:border-purple-800 dark:bg-purple-900/10 flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 inline-flex items-center">
+                        <ShieldCheck className="mr-2 h-4 w-4" />
+                        Admin Access
+                      </p>
+                      <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">You have administrator privileges.</p>
+                    </div>
+                    <Button asChild variant="outline" size="sm" className="rounded-lg">
+                      <Link href="/admin">Admin Panel</Link>
+                    </Button>
+                  </div>
+                )}
+
+                <div className="border-t border-zinc-200 pt-4 dark:border-zinc-800">
+                  <p className="mb-3 text-sm font-medium text-zinc-900 dark:text-zinc-100">Danger Zone</p>
+                  <Button
+                    onClick={handleLogout}
+                    variant="destructive"
+                    className="rounded-xl"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
-    </>
+    </div>
+  );
+}
+
+function MessageAlert({ message }: { message: Message }) {
+  return (
+    <Alert variant={message.type === "error" ? "destructive" : "default"}>
+      {message.type === "success" ? (
+        <CheckCircle2 className="h-4 w-4" />
+      ) : (
+        <AlertCircle className="h-4 w-4" />
+      )}
+      <AlertDescription>{message.text}</AlertDescription>
+    </Alert>
   );
 }
 
 function ProfileSettingsSkeleton() {
   return (
-    <div className="min-h-screen bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900 py-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Profile Header Skeleton */}
-        <Card className="mb-8">
+    <div className="min-h-screen bg-linear-to-b from-zinc-50 to-white py-12 dark:from-zinc-950 dark:to-zinc-900">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-6">
+        <Card className="animate-pulse">
           <CardContent className="pt-6">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 animate-pulse">
-              {/* Avatar Skeleton */}
-              <div className="h-24 w-24 rounded-full bg-zinc-200 dark:bg-zinc-800" />
-
-              <div className="flex-1 text-center sm:text-left w-full">
-                {/* Name Skeleton */}
-                <div className="h-9 bg-zinc-200 dark:bg-zinc-800 rounded-md w-48 mx-auto sm:mx-0 mb-3" />
-
-                {/* Email Skeleton */}
-                <div className="h-5 bg-zinc-200 dark:bg-zinc-800 rounded-md w-64 mx-auto sm:mx-0 mb-4" />
-
-                {/* Badge Skeleton */}
-                <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                  <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-full w-32" />
-                </div>
+            <div className="flex items-center gap-4">
+              <div className="h-20 w-20 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+              <div className="space-y-2 w-full">
+                <div className="h-8 w-56 rounded bg-zinc-200 dark:bg-zinc-800" />
+                <div className="h-4 w-72 rounded bg-zinc-200 dark:bg-zinc-800" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Tabs Skeleton */}
-        <div className="space-y-6">
-          {/* Tabs List Skeleton */}
-          <div className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 p-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg animate-pulse">
-            <div className="h-10 bg-zinc-200 dark:bg-zinc-700 rounded-md" />
-            <div className="h-10 bg-zinc-200 dark:bg-zinc-700 rounded-md" />
-            <div className="h-10 bg-zinc-200 dark:bg-zinc-700 rounded-md" />
-            <div className="h-10 bg-zinc-200 dark:bg-zinc-700 rounded-md" />
-          </div>
-
-          {/* Card Content Skeleton */}
-          <Card>
-            <CardHeader className="animate-pulse">
-              <div className="h-6 bg-zinc-200 dark:bg-zinc-800 rounded-md w-48 mb-2" />
-              <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded-md w-full max-w-md" />
-            </CardHeader>
-            <CardContent className="space-y-6 animate-pulse">
-              {/* Form Fields Skeleton */}
-              <div className="space-y-2">
-                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded-md w-24 mb-2" />
-                <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md w-full" />
-              </div>
-
-              <div className="space-y-2">
-                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded-md w-32 mb-2" />
-                <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md w-full" />
-              </div>
-
-              {/* Button Skeleton */}
-              <div className="h-10 bg-zinc-200 dark:bg-zinc-800 rounded-md w-32" />
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="animate-pulse">
+          <CardContent className="space-y-4 p-6">
+            <div className="h-10 w-full rounded bg-zinc-200 dark:bg-zinc-800" />
+            <div className="h-10 w-full rounded bg-zinc-200 dark:bg-zinc-800" />
+            <div className="h-10 w-40 rounded bg-zinc-200 dark:bg-zinc-800" />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
