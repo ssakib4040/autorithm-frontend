@@ -45,7 +45,7 @@ export default function CreateProductPage() {
 
       <form className="space-y-6">
         {/* Basic Information */}
-        <div className="admin-surface p-6">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
           <h2 className="text-lg font-semibold text-white mb-4">
             Basic Information
           </h2>
@@ -57,7 +57,7 @@ export default function CreateProductPage() {
               <input
                 type="text"
                 required
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="AI Lead Enrichment System"
               />
             </div>
@@ -69,7 +69,7 @@ export default function CreateProductPage() {
               <textarea
                 rows={4}
                 required
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="Transform raw leads into actionable prospects with AI-powered research..."
               />
               <p className="text-xs text-zinc-500 mt-1">
@@ -84,7 +84,7 @@ export default function CreateProductPage() {
                 </label>
                 <select
                   required
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors"
                 >
                   <option value="">Select tool</option>
                   <option value="n8n">n8n</option>
@@ -98,7 +98,7 @@ export default function CreateProductPage() {
                 </label>
                 <select
                   required
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors"
                 >
                   <option value="">Select category</option>
                   <option value="CRM">CRM</option>
@@ -117,7 +117,7 @@ export default function CreateProductPage() {
               </label>
               <input
                 type="text"
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                 placeholder="/workflows/workflow-preview.png"
               />
               <p className="text-xs text-zinc-500 mt-1">
@@ -135,7 +135,7 @@ export default function CreateProductPage() {
                   required
                   step="0.01"
                   min="0"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="149.00"
                 />
               </div>
@@ -147,7 +147,7 @@ export default function CreateProductPage() {
                 <input
                   type="text"
                   required
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="ai-lead-enrichment"
                 />
               </div>
@@ -158,7 +158,7 @@ export default function CreateProductPage() {
                 </label>
                 <select
                   required
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors"
                 >
                   <option value="draft">Draft</option>
                   <option value="active">Active</option>
@@ -170,13 +170,13 @@ export default function CreateProductPage() {
         </div>
 
         {/* Key Features */}
-        <div className="admin-surface p-6">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">Key Features</h2>
             <button
               type="button"
               onClick={() => setKeyFeatures([...keyFeatures, ""])}
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add Feature
@@ -193,7 +193,7 @@ export default function CreateProductPage() {
                     updated[index] = e.target.value;
                     setKeyFeatures(updated);
                   }}
-                  className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="Automated company research via public APIs..."
                 />
                 {keyFeatures.length > 1 && (
@@ -213,7 +213,7 @@ export default function CreateProductPage() {
         </div>
 
         {/* How It Works */}
-        <div className="admin-surface p-6">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">How It Works</h2>
             <button
@@ -221,7 +221,7 @@ export default function CreateProductPage() {
               onClick={() =>
                 setHowItWorks([...howItWorks, { title: "", description: "" }])
               }
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add Step
@@ -257,7 +257,7 @@ export default function CreateProductPage() {
                     updated[index].title = e.target.value;
                     setHowItWorks(updated);
                   }}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="Step title (e.g., Lead Capture)"
                 />
                 <textarea
@@ -268,7 +268,7 @@ export default function CreateProductPage() {
                     updated[index].description = e.target.value;
                     setHowItWorks(updated);
                   }}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="Step description..."
                 />
               </div>
@@ -277,7 +277,7 @@ export default function CreateProductPage() {
         </div>
 
         {/* Technical Details */}
-        <div className="admin-surface p-6">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
           <h2 className="text-lg font-semibold text-white mb-4">
             Technical Details
           </h2>
@@ -287,7 +287,7 @@ export default function CreateProductPage() {
                 <label className="block text-sm font-medium text-zinc-300 mb-2">
                   Complexity
                 </label>
-                <select className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 transition-colors">
+                <select className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 transition-colors">
                   <option value="Beginner">Beginner</option>
                   <option value="Intermediate">Intermediate</option>
                   <option value="Advanced">Advanced</option>
@@ -300,7 +300,7 @@ export default function CreateProductPage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="2-4 hours"
                 />
               </div>
@@ -321,7 +321,7 @@ export default function CreateProductPage() {
                         updated[index] = e.target.value;
                         setApis(updated);
                       }}
-                      className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                      className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                       placeholder="OpenAI GPT-4"
                     />
                     {apis.length > 1 && (
@@ -340,7 +340,7 @@ export default function CreateProductPage() {
                 <button
                   type="button"
                   onClick={() => setApis([...apis, ""])}
-                  className="text-sm text-teal-300 hover:text-blue-300 transition-colors"
+                  className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
                 >
                   + Add API
                 </button>
@@ -362,7 +362,7 @@ export default function CreateProductPage() {
                         updated[index] = e.target.value;
                         setRequirements(updated);
                       }}
-                      className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                      className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                       placeholder="You have API access to your CRM"
                     />
                     {requirements.length > 1 && (
@@ -383,7 +383,7 @@ export default function CreateProductPage() {
                 <button
                   type="button"
                   onClick={() => setRequirements([...requirements, ""])}
-                  className="text-sm text-teal-300 hover:text-blue-300 transition-colors"
+                  className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
                 >
                   + Add Requirement
                 </button>
@@ -393,13 +393,13 @@ export default function CreateProductPage() {
         </div>
 
         {/* FAQs */}
-        <div className="admin-surface p-6">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">FAQs</h2>
             <button
               type="button"
               onClick={() => setFaqs([...faqs, { question: "", answer: "" }])}
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add FAQ
@@ -435,7 +435,7 @@ export default function CreateProductPage() {
                     updated[index].question = e.target.value;
                     setFaqs(updated);
                   }}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="What is the refund policy?"
                 />
                 <textarea
@@ -446,7 +446,7 @@ export default function CreateProductPage() {
                     updated[index].answer = e.target.value;
                     setFaqs(updated);
                   }}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="Answer..."
                 />
               </div>
@@ -455,7 +455,7 @@ export default function CreateProductPage() {
         </div>
 
         {/* Downloads */}
-        <div className="admin-surface p-6">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">
               Downloadable Files
@@ -474,7 +474,7 @@ export default function CreateProductPage() {
                   },
                 ])
               }
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add Download
@@ -510,7 +510,7 @@ export default function CreateProductPage() {
                     updated[index].name = e.target.value;
                     setDownloads(updated);
                   }}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="n8n Workflow Template"
                 />
                 <input
@@ -521,7 +521,7 @@ export default function CreateProductPage() {
                     updated[index].description = e.target.value;
                     setDownloads(updated);
                   }}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="Main workflow file ready to import"
                 />
                 <div className="grid grid-cols-3 gap-3">
@@ -533,7 +533,7 @@ export default function CreateProductPage() {
                       updated[index].fileType = e.target.value;
                       setDownloads(updated);
                     }}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="JSON"
                   />
                   <input
@@ -544,7 +544,7 @@ export default function CreateProductPage() {
                       updated[index].size = e.target.value;
                       setDownloads(updated);
                     }}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="12.5 KB"
                   />
                   <input
@@ -555,7 +555,7 @@ export default function CreateProductPage() {
                       updated[index].url = e.target.value;
                       setDownloads(updated);
                     }}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                     placeholder="#"
                   />
                 </div>
@@ -565,7 +565,7 @@ export default function CreateProductPage() {
         </div>
 
         {/* What's Included */}
-        <div className="admin-surface p-6">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-white">
               What&apos;s Included
@@ -573,7 +573,7 @@ export default function CreateProductPage() {
             <button
               type="button"
               onClick={() => setWhatsIncluded([...whatsIncluded, ""])}
-              className="inline-flex items-center gap-2 text-sm text-teal-300 hover:text-blue-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors"
             >
               <PlusIcon className="h-4 w-4" />
               Add Item
@@ -590,7 +590,7 @@ export default function CreateProductPage() {
                     updated[index] = e.target.value;
                     setWhatsIncluded(updated);
                   }}
-                  className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-teal-400/70 transition-colors"
+                  className="flex-1 bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
                   placeholder="Complete n8n workflow (JSON export)"
                 />
                 {whatsIncluded.length > 1 && (
@@ -614,7 +614,7 @@ export default function CreateProductPage() {
         {/* Info Banner */}
         <div className="rounded-lg border border-blue-500/20 bg-blue-500/5 p-4">
           <div className="flex gap-3">
-            <InformationCircleIcon className="h-5 w-5 text-teal-300 shrink-0 mt-0.5" />
+            <InformationCircleIcon className="h-5 w-5 text-blue-400 shrink-0 mt-0.5" />
             <div className="flex-1">
               <p className="text-sm text-blue-300">
                 Make sure all required fields are filled before creating the

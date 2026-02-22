@@ -94,7 +94,7 @@ export default function PurchasesPage() {
         </div>
         <Link
           href="/admin/purchases/create"
-          className="inline-flex items-center justify-center gap-2 bg-teal-400 hover:bg-teal-300 text-zinc-950 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
+          className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
         >
           <PlusIcon className="h-4 w-4" />
           Log Purchase
@@ -106,7 +106,7 @@ export default function PurchasesPage() {
         {stats.map((stat) => (
           <div
             key={stat.name}
-            className="admin-surface p-5"
+            className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-5"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -129,7 +129,7 @@ export default function PurchasesPage() {
                 <stat.icon
                   className={`h-5 w-5 ${
                     stat.color === "blue"
-                      ? "text-teal-300"
+                      ? "text-blue-500"
                       : stat.color === "emerald"
                         ? "text-emerald-500"
                         : stat.color === "purple"
@@ -144,24 +144,24 @@ export default function PurchasesPage() {
       </div>
 
       {/* Filters & Search */}
-      <div className="admin-surface p-4">
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-4">
         <div className="flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
             <input
               type="text"
               placeholder="Search by order ID, user, or product..."
-              className="w-full bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-teal-400/70 transition-colors"
+              className="w-full bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
-          <select className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-teal-400/70 transition-colors">
+          <select className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors">
             <option>All Status</option>
             <option>Completed</option>
             <option>Pending</option>
             <option>Refunded</option>
             <option>Failed</option>
           </select>
-          <select className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-teal-400/70 transition-colors">
+          <select className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors">
             <option>Last 30 Days</option>
             <option>Last 7 Days</option>
             <option>This Month</option>
@@ -176,7 +176,7 @@ export default function PurchasesPage() {
         {purchases.map((purchase) => (
           <div
             key={purchase.id}
-            className="admin-surface p-4 space-y-4"
+            className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-4 space-y-4"
           >
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1">
@@ -218,7 +218,7 @@ export default function PurchasesPage() {
             <div className="pt-2 border-t border-zinc-800">
               <Link
                 href={`/admin/purchases/${purchase.id}`}
-                className="w-full inline-flex items-center justify-center gap-2 bg-blue-600/10 hover:bg-blue-600/20 text-teal-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 <EyeIcon className="h-4 w-4" />
                 View Details
@@ -229,7 +229,7 @@ export default function PurchasesPage() {
       </div>
 
       {/* Desktop Table View */}
-      <div className="hidden lg:block admin-surface overflow-hidden">
+      <div className="hidden lg:block rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -270,7 +270,7 @@ export default function PurchasesPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-linear-to-br from-teal-400 to-blue-500 flex items-center justify-center text-white font-semibold text-sm">
+                      <div className="h-10 w-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
                         {purchase.user
                           .split(" ")
                           .map((n) => n[0])
@@ -320,7 +320,7 @@ export default function PurchasesPage() {
                         href={`/admin/purchases/${purchase.id}`}
                         className="p-2 hover:bg-zinc-800 rounded-lg transition-colors group"
                       >
-                        <EyeIcon className="h-4 w-4 text-zinc-400 group-hover:text-teal-300" />
+                        <EyeIcon className="h-4 w-4 text-zinc-400 group-hover:text-blue-400" />
                       </Link>
                     </div>
                   </td>

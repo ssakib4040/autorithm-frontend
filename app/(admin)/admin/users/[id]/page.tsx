@@ -98,7 +98,7 @@ export default function EditUserPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="admin-surface p-5">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-zinc-400 text-sm font-medium">
@@ -109,12 +109,12 @@ export default function EditUserPage() {
               </p>
             </div>
             <div className="p-3 rounded-xl bg-blue-500/10">
-              <ShoppingBagIcon className="h-6 w-6 text-teal-300" />
+              <ShoppingBagIcon className="h-6 w-6 text-blue-400" />
             </div>
           </div>
         </div>
 
-        <div className="admin-surface p-5">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-zinc-400 text-sm font-medium">Total Revenue</p>
@@ -128,7 +128,7 @@ export default function EditUserPage() {
           </div>
         </div>
 
-        <div className="admin-surface p-5">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-zinc-400 text-sm font-medium">
@@ -144,7 +144,7 @@ export default function EditUserPage() {
           </div>
         </div>
 
-        <div className="admin-surface p-5">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-zinc-400 text-sm font-medium">Last Active</p>
@@ -160,7 +160,7 @@ export default function EditUserPage() {
       </div>
 
       {/* Tabs */}
-      <div className="admin-surface overflow-hidden">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
         <div className="border-b border-zinc-800">
           <nav className="flex">
             <button
@@ -250,7 +250,7 @@ export default function EditUserPage() {
                     <input
                       type="text"
                       defaultValue={userData.firstName}
-                      className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                     />
                   </div>
 
@@ -261,7 +261,7 @@ export default function EditUserPage() {
                     <input
                       type="text"
                       defaultValue={userData.lastName}
-                      className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                     />
                   </div>
 
@@ -275,7 +275,7 @@ export default function EditUserPage() {
                     <input
                       type="email"
                       defaultValue={userData.email}
-                      className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                     />
                   </div>
 
@@ -289,7 +289,7 @@ export default function EditUserPage() {
                     <input
                       type="tel"
                       defaultValue={userData.phone}
-                      className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                     />
                   </div>
 
@@ -303,7 +303,7 @@ export default function EditUserPage() {
                     <input
                       type="text"
                       defaultValue={userData.company}
-                      className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                     />
                   </div>
                 </div>
@@ -319,7 +319,7 @@ export default function EditUserPage() {
                 </Link>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-teal-500/20"
+                  className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-blue-600/20"
                 >
                   Save Changes
                 </button>
@@ -343,7 +343,7 @@ export default function EditUserPage() {
                     <select
                       value={selectedRole}
                       onChange={(e) => setSelectedRole(e.target.value)}
-                      className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors cursor-pointer"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors cursor-pointer"
                     >
                       <option value="User">User</option>
                       <option value="Editor">Editor</option>
@@ -357,7 +357,7 @@ export default function EditUserPage() {
                     </label>
                     <select
                       defaultValue={userData.status}
-                      className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors cursor-pointer"
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors cursor-pointer"
                     >
                       <option>Active</option>
                       <option>Inactive</option>
@@ -367,7 +367,7 @@ export default function EditUserPage() {
                 </div>
 
                 {/* Role Description */}
-                <div className="mt-4 p-4 rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg">
+                <div className="mt-4 p-4 bg-zinc-950 border border-zinc-800 rounded-lg">
                   <div className="flex items-start gap-3">
                     <div
                       className={`p-2 rounded-lg ${
@@ -383,7 +383,7 @@ export default function EditUserPage() {
                           selectedRole === "Admin"
                             ? "text-purple-400"
                             : selectedRole === "Editor"
-                              ? "text-teal-300"
+                              ? "text-blue-400"
                               : "text-zinc-400"
                         }`}
                       />
@@ -412,7 +412,7 @@ export default function EditUserPage() {
                 <h3 className="text-base font-semibold text-white mb-4">
                   Password Management
                 </h3>
-                <div className="rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg p-4">
+                <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="p-2 rounded-lg bg-amber-500/10">
@@ -510,7 +510,7 @@ export default function EditUserPage() {
                 </Link>
                 <button
                   type="button"
-                  className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-teal-500/20"
+                  className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-blue-600/20"
                 >
                   Save Changes
                 </button>
@@ -529,7 +529,7 @@ export default function EditUserPage() {
                   {activityLog.map((activity, index) => (
                     <div
                       key={index}
-                      className="flex items-start gap-4 p-4 rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg hover:border-zinc-700 transition-colors"
+                      className="flex items-start gap-4 p-4 bg-zinc-950 border border-zinc-800 rounded-lg hover:border-zinc-700 transition-colors"
                     >
                       <div
                         className={`p-2 rounded-lg shrink-0 ${
@@ -549,7 +549,7 @@ export default function EditUserPage() {
                           <LockClosedIcon className="h-5 w-5 text-amber-400" />
                         )}
                         {activity.type === "login" && (
-                          <GlobeAltIcon className="h-5 w-5 text-teal-300" />
+                          <GlobeAltIcon className="h-5 w-5 text-blue-400" />
                         )}
                         {activity.type === "profile" && (
                           <UserCircleIcon className="h-5 w-5 text-purple-400" />
@@ -571,7 +571,7 @@ export default function EditUserPage() {
 
               {/* View More */}
               <div className="text-center pt-4">
-                <button className="text-sm text-teal-300 hover:text-blue-300 font-medium transition-colors">
+                <button className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors">
                   Load More Activity
                 </button>
               </div>

@@ -74,7 +74,7 @@ export default function ProductsClient({
   return (
     <>
       {/* Filters & Search */}
-      <div className="admin-surface p-4">
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-4">
         <div className="flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
@@ -83,7 +83,7 @@ export default function ProductsClient({
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-teal-400/70 transition-colors"
+              className="w-full bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
           <select
@@ -92,7 +92,7 @@ export default function ProductsClient({
               setSelectedCategory(e.target.value);
               handleFilterChange();
             }}
-            className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-teal-400/70 transition-colors"
+            className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
           >
             <option value="">All Categories</option>
             <option>Marketing</option>
@@ -106,7 +106,7 @@ export default function ProductsClient({
               setSelectedStatus(e.target.value);
               handleFilterChange();
             }}
-            className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-teal-400/70 transition-colors"
+            className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
           >
             <option value="">All Status</option>
             <option value="active">Active</option>
@@ -126,12 +126,12 @@ export default function ProductsClient({
           filteredProducts.map((product) => (
             <div
               key={`${product.slug}-${product.tool}`}
-              className="admin-surface p-4 space-y-4"
+              className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-4 space-y-4"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 flex-1">
                   <div className="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
-                    <ShoppingBagIcon className="h-6 w-6 text-teal-300" />
+                    <ShoppingBagIcon className="h-6 w-6 text-blue-400" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-semibold text-white">
@@ -176,7 +176,7 @@ export default function ProductsClient({
               <div className="flex items-center gap-2 pt-2 border-t border-zinc-800">
                 <Link
                   href={`/admin/products/${product.slug}`}
-                  className="flex-1 inline-flex items-center justify-center gap-2 bg-blue-600/10 hover:bg-blue-600/20 text-teal-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  className="flex-1 inline-flex items-center justify-center gap-2 bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                 >
                   <PencilSquareIcon className="h-4 w-4" />
                   Edit
@@ -195,7 +195,7 @@ export default function ProductsClient({
       </div>
 
       {/* Desktop Table View */}
-      <div className="hidden lg:block admin-surface overflow-hidden">
+      <div className="hidden lg:block rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -242,7 +242,7 @@ export default function ProductsClient({
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                          <ShoppingBagIcon className="h-5 w-5 text-teal-300" />
+                          <ShoppingBagIcon className="h-5 w-5 text-blue-400" />
                         </div>
                         <div>
                           <p className="text-sm font-medium text-white">
@@ -289,7 +289,7 @@ export default function ProductsClient({
                           href={`/admin/products/${product.slug}`}
                           className="p-2 hover:bg-zinc-800 rounded-lg transition-colors group"
                         >
-                          <PencilSquareIcon className="h-4 w-4 text-zinc-400 group-hover:text-teal-300" />
+                          <PencilSquareIcon className="h-4 w-4 text-zinc-400 group-hover:text-blue-400" />
                         </Link>
                         <button
                           onClick={() =>

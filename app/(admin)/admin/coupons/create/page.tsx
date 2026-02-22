@@ -65,9 +65,9 @@ export default function CreateCouponPage() {
 
       <form className="space-y-6">
         {/* Coupon Code Section */}
-        <div className="admin-surface p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-6">
-            <TicketIcon className="h-5 w-5 text-teal-300" />
+            <TicketIcon className="h-5 w-5 text-blue-400" />
             <h3 className="text-lg font-semibold text-white">Coupon Code</h3>
           </div>
 
@@ -81,7 +81,7 @@ export default function CreateCouponPage() {
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                 required
-                className="flex-1 rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white font-mono font-bold focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600 uppercase"
+                className="flex-1 bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white font-mono font-bold focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600 uppercase"
                 placeholder="SUMMER2024"
               />
               <button
@@ -100,9 +100,9 @@ export default function CreateCouponPage() {
         </div>
 
         {/* Discount Settings */}
-        <div className="admin-surface p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-6">
-            <CurrencyDollarIcon className="h-5 w-5 text-teal-300" />
+            <CurrencyDollarIcon className="h-5 w-5 text-blue-400" />
             <h3 className="text-lg font-semibold text-white">
               Discount Settings
             </h3>
@@ -116,7 +116,7 @@ export default function CreateCouponPage() {
               <select
                 value={discountType}
                 onChange={(e) => setDiscountType(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors cursor-pointer"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors cursor-pointer"
               >
                 <option value="Percentage">Percentage (%)</option>
                 <option value="Fixed Amount">Fixed Amount ($)</option>
@@ -136,7 +136,7 @@ export default function CreateCouponPage() {
                   min="0"
                   step={discountType === "Percentage" ? "1" : "0.01"}
                   max={discountType === "Percentage" ? "100" : undefined}
-                  className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 pr-10 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 pr-10 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
                   placeholder={discountType === "Percentage" ? "10" : "50.00"}
                 />
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 font-medium">
@@ -151,7 +151,7 @@ export default function CreateCouponPage() {
               </label>
               <textarea
                 rows={3}
-                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600 resize-none"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600 resize-none"
                 placeholder="Optional description for internal reference..."
               />
             </div>
@@ -159,9 +159,9 @@ export default function CreateCouponPage() {
 
           {/* Example Calculation */}
           {discountValue && (
-            <div className="mt-4 p-4 rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg">
+            <div className="mt-4 p-4 bg-zinc-950 border border-zinc-800 rounded-lg">
               <div className="flex items-start gap-2">
-                <InformationCircleIcon className="h-5 w-5 text-teal-300 shrink-0 mt-0.5" />
+                <InformationCircleIcon className="h-5 w-5 text-blue-400 shrink-0 mt-0.5" />
                 <div className="flex-1">
                   <p className="font-medium text-white text-sm mb-1">
                     Example Calculation:
@@ -174,9 +174,9 @@ export default function CreateCouponPage() {
         </div>
 
         {/* Validity Period */}
-        <div className="admin-surface p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-6">
-            <CalendarIcon className="h-5 w-5 text-teal-300" />
+            <CalendarIcon className="h-5 w-5 text-blue-400" />
             <h3 className="text-lg font-semibold text-white">
               Validity Period
             </h3>
@@ -193,7 +193,7 @@ export default function CreateCouponPage() {
               <input
                 type="date"
                 required
-                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
               />
             </div>
 
@@ -207,16 +207,16 @@ export default function CreateCouponPage() {
               <input
                 type="date"
                 required
-                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
               />
             </div>
           </div>
         </div>
 
         {/* Usage Limits */}
-        <div className="admin-surface p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-6">
-            <ChartBarIcon className="h-5 w-5 text-teal-300" />
+            <ChartBarIcon className="h-5 w-5 text-blue-400" />
             <h3 className="text-lg font-semibold text-white">Usage Limits</h3>
           </div>
 
@@ -233,7 +233,7 @@ export default function CreateCouponPage() {
                 value={usageLimit}
                 onChange={(e) => setUsageLimit(e.target.value)}
                 min="1"
-                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
                 placeholder="e.g., 100 (leave empty for unlimited)"
               />
               <p className="text-xs text-zinc-500 mt-1.5">
@@ -248,7 +248,7 @@ export default function CreateCouponPage() {
               <input
                 type="number"
                 min="1"
-                className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
                 placeholder="e.g., 1 (leave empty for unlimited)"
               />
               <p className="text-xs text-zinc-500 mt-1.5">
@@ -268,7 +268,7 @@ export default function CreateCouponPage() {
                   type="number"
                   min="0"
                   step="0.01"
-                  className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg pl-8 pr-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
                   placeholder="0.00"
                 />
               </div>
@@ -289,7 +289,7 @@ export default function CreateCouponPage() {
                   type="number"
                   min="0"
                   step="0.01"
-                  className="w-full rounded-xl border border-white/10 bg-zinc-950/70 rounded-lg pl-8 pr-4 py-2.5 text-white focus:outline-none focus:border-teal-400/70 focus:ring-1 focus:ring-teal-400/50 transition-colors placeholder:text-zinc-600"
+                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-8 pr-4 py-2.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder:text-zinc-600"
                   placeholder="No limit"
                 />
               </div>
@@ -301,9 +301,9 @@ export default function CreateCouponPage() {
         </div>
 
         {/* Additional Options */}
-        <div className="admin-surface p-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <div className="flex items-center gap-2 mb-6">
-            <TagIcon className="h-5 w-5 text-teal-300" />
+            <TagIcon className="h-5 w-5 text-blue-400" />
             <h3 className="text-lg font-semibold text-white">
               Additional Options
             </h3>
@@ -317,7 +317,7 @@ export default function CreateCouponPage() {
                 className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
               />
               <div className="flex-1">
-                <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
+                <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
                   Active immediately
                 </span>
                 <p className="text-xs text-zinc-500 mt-0.5">
@@ -332,7 +332,7 @@ export default function CreateCouponPage() {
                 className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
               />
               <div className="flex-1">
-                <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
+                <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
                   First-time customers only
                 </span>
                 <p className="text-xs text-zinc-500 mt-0.5">
@@ -348,7 +348,7 @@ export default function CreateCouponPage() {
                 className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
               />
               <div className="flex-1">
-                <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
+                <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
                   Free shipping
                 </span>
                 <p className="text-xs text-zinc-500 mt-0.5">
@@ -363,7 +363,7 @@ export default function CreateCouponPage() {
                 className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
               />
               <div className="flex-1">
-                <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
+                <span className="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
                   Exclude sale items
                 </span>
                 <p className="text-xs text-zinc-500 mt-0.5">
@@ -376,7 +376,7 @@ export default function CreateCouponPage() {
         </div>
 
         {/* Form Actions */}
-        <div className="flex items-center justify-between gap-4 admin-surface p-6">
+        <div className="flex items-center justify-between gap-4 bg-zinc-900 border border-zinc-800 rounded-xl p-6">
           <p className="text-sm text-zinc-400">
             <span className="text-red-400">*</span> Required fields
           </p>
@@ -389,7 +389,7 @@ export default function CreateCouponPage() {
             </Link>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-teal-500/20"
+              className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-blue-600/20"
             >
               Create Coupon
             </button>

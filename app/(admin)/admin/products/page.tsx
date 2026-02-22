@@ -126,7 +126,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
         </div>
         <Link
           href="/admin/products/create"
-          className="inline-flex items-center justify-center gap-2 bg-teal-400 hover:bg-teal-300 text-zinc-950 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
+          className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
         >
           <PlusIcon className="h-4 w-4" />
           Add Product
@@ -138,7 +138,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
         {statsDisplay.map((stat) => (
           <div
             key={stat.name}
-            className="admin-surface p-5"
+            className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-5"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -161,7 +161,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
                 <stat.icon
                   className={`h-5 w-5 ${
                     stat.color === "blue"
-                      ? "text-teal-300"
+                      ? "text-blue-500"
                       : stat.color === "emerald"
                         ? "text-emerald-500"
                         : stat.color === "purple"

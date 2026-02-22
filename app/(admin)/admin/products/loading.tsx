@@ -27,7 +27,7 @@ export default function ProductLoading() {
         ].map((stat, index) => (
           <div
             key={index}
-            className="admin-surface p-5"
+            className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-5"
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
@@ -48,7 +48,7 @@ export default function ProductLoading() {
                 <stat.icon
                   className={`h-5 w-5 ${
                     stat.color === "blue"
-                      ? "text-teal-300/50"
+                      ? "text-blue-500/50"
                       : stat.color === "emerald"
                         ? "text-emerald-500/50"
                         : stat.color === "purple"
@@ -63,7 +63,7 @@ export default function ProductLoading() {
       </div>
 
       {/* Filters Skeleton */}
-      <div className="admin-surface p-4">
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-4">
         <div className="flex flex-col md:flex-row gap-3">
           <div className="flex-1 h-10 bg-zinc-800 rounded-lg"></div>
           <div className="w-full md:w-40 h-10 bg-zinc-800 rounded-lg"></div>
@@ -76,7 +76,7 @@ export default function ProductLoading() {
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="admin-surface p-4 space-y-4"
+            className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-4 space-y-4"
           >
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3 flex-1">
@@ -111,7 +111,7 @@ export default function ProductLoading() {
       </div>
 
       {/* Desktop Table Skeleton */}
-      <div className="hidden lg:block admin-surface overflow-hidden">
+      <div className="hidden lg:block rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
