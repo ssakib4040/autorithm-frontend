@@ -9,13 +9,10 @@ import {
   LayoutGrid,
   ShoppingBag,
   MessageSquare,
-  BookOpen,
-  Zap,
   Heart,
   Activity,
   CreditCard,
   Settings,
-  Key,
   Gift,
   Star,
   HardDrive,
@@ -26,7 +23,9 @@ import {
   User,
   LogOut,
   HelpCircle,
+  Sparkles,
 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -53,11 +52,6 @@ const navItems = [
     label: "My Purchases",
     icon: ShoppingBag,
   },
-  // {
-  //   href: "/dashboard/automations",
-  //   label: "My Automations",
-  //   icon: Zap,
-  // },
   {
     href: "/dashboard/wishlist",
     label: "Wishlist",
@@ -78,11 +72,6 @@ const navItems = [
     label: "Settings",
     icon: Settings,
   },
-  // {
-  //   href: "/dashboard/api-keys",
-  //   label: "API Keys",
-  //   icon: Key,
-  // },
   {
     href: "/dashboard/referral",
     label: "Referral Program",
@@ -103,22 +92,176 @@ const navItems = [
     label: "Support",
     icon: MessageSquare,
   },
-  // {
-  //   href: "/dashboard/docs",
-  //   label: "Documentation",
-  //   icon: BookOpen,
-  // },
 ];
+
+function getPageMeta(pathname: string) {
+  if (pathname.includes("/overview")) {
+    return {
+      title: "Overview",
+      subtitle: "Track your activity, purchases, and account health.",
+    };
+  }
+  if (pathname.includes("/purchases")) {
+    return {
+      title: "My Purchases",
+      subtitle: "Manage purchased workflows and access your assets.",
+    };
+  }
+  if (pathname.includes("/wishlist")) {
+    return {
+      title: "Wishlist",
+      subtitle: "Save automation kits you want to revisit later.",
+    };
+  }
+  if (pathname.includes("/activity")) {
+    return {
+      title: "Activity Log",
+      subtitle: "Review recent actions and account events.",
+    };
+  }
+  if (pathname.includes("/billing")) {
+    return {
+      title: "Billing & Invoices",
+      subtitle: "Monitor payment history and billing details.",
+    };
+  }
+  if (pathname.includes("/settings")) {
+    return {
+      title: "Settings",
+      subtitle: "Update profile details and account preferences.",
+    };
+  }
+  if (pathname.includes("/referral")) {
+    return {
+      title: "Referral Program",
+      subtitle: "Invite others and track referral performance.",
+    };
+  }
+  if (pathname.includes("/reviews")) {
+    return {
+      title: "Reviews & Ratings",
+      subtitle: "Share feedback and manage your submitted reviews.",
+    };
+  }
+  if (pathname.includes("/backup")) {
+    return {
+      title: "Backup & Restore",
+      subtitle: "Securely export and recover your dashboard data.",
+    };
+  }
+  if (pathname.includes("/support")) {
+    return {
+      title: "Support",
+      subtitle: "Get help with product setup and troubleshooting.",
+    };
+  }
+  return {
+    title: "Dashboard",
+    subtitle: "Manage your Autorithm workspace.",
+  };
+}
+
+function getUserInitials(name?: string | null) {
+  if (!name) return "U";
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
+
+function UserMenu({
+  name,
+  email,
+  compact = false,
+}: {
+  name?: string | null;
+  email?: string | null;
+  compact?: boolean;
+}) {
+  const initials = getUserInitials(name);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        {compact ? (
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <Avatar className="h-8 w-8 border border-zinc-200 dark:border-zinc-800">
+              <AvatarFallback className="bg-blue-600 text-white text-xs font-semibold">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            className="h-auto gap-3 rounded-xl px-2.5 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          >
+            <Avatar className="h-8 w-8 border border-zinc-200 dark:border-zinc-800">
+              <AvatarFallback className="bg-blue-600 text-white text-xs font-semibold">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+            <div className="hidden md:block text-left">
+              <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                {name || "User"}
+              </p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate max-w-44">
+                {email || ""}
+              </p>
+            </div>
+          </Button>
+        )}
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel>
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium">{name || "User"}</p>
+            <p className="text-xs text-zinc-500">{email || ""}</p>
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/profile" className="cursor-pointer">
+            <User className="mr-2 h-4 w-4" />
+            Profile
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/dashboard/settings" className="cursor-pointer">
+            <Settings className="mr-2 h-4 w-4" />
+            Settings
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/dashboard/docs" className="cursor-pointer">
+            <HelpCircle className="mr-2 h-4 w-4" />
+            Help & Support
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="cursor-pointer text-red-600 dark:text-red-400"
+          onClick={() => signOut({ callbackUrl: "/" })}
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          Sign Out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   const pathname = usePathname();
 
   return (
     <>
-      {/* Header */}
-      <div className="p-6 border-b border-zinc-200 dark:border-zinc-800">
+      <div className="border-b border-zinc-200 dark:border-zinc-800 p-5">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-lg overflow-hidden flex items-center justify-center">
+          <div className="h-10 w-10 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
             <Image
               src="/brand-2.svg"
               alt="Autorithm"
@@ -128,53 +271,34 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
             />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-zinc-900 dark:text-white">
+            <p className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
               Autorithm
-            </h1>
+            </p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              Premium Automation
+              Workspace
             </p>
           </div>
         </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname.startsWith(item.href.split("?")[0]);
+          const isActive = pathname.startsWith(item.href);
           return (
             <Link key={item.href} href={item.href} onClick={onLinkClick}>
               <Button
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start gap-3 h-auto py-3 px-4",
+                  "h-auto w-full justify-start rounded-xl px-3 py-2.5",
                   isActive
-                    ? "bg-zinc-900 text-white hover:bg-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-100"
-                    : "hover:bg-zinc-100 dark:hover:bg-zinc-800",
+                    ? "border border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-50 dark:border-blue-900/40 dark:bg-blue-950/30 dark:text-blue-300 dark:hover:bg-blue-950/30"
+                    : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800",
                 )}
               >
-                <Icon
-                  className={cn(
-                    "h-5 w-5 shrink-0",
-                    isActive
-                      ? "text-white dark:text-zinc-900"
-                      : "text-zinc-600 dark:text-zinc-400",
-                  )}
-                />
-                <div className="flex-1 text-left">
-                  <div
-                    className={cn(
-                      "text-sm font-medium",
-                      isActive
-                        ? "text-white dark:text-zinc-900"
-                        : "text-zinc-900 dark:text-zinc-100",
-                    )}
-                  >
-                    {item.label}
-                  </div>
-                </div>
-                {isActive && <ChevronRight className="h-4 w-4" />}
+                <Icon className="h-4 w-4 shrink-0" />
+                <span className="ml-2 text-sm font-medium">{item.label}</span>
+                {isActive && <ChevronRight className="ml-auto h-4 w-4" />}
               </Button>
             </Link>
           );
@@ -183,140 +307,20 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
 
       <Separator />
 
-      {/* Footer - Status */}
       <div className="p-4">
-        <div className="px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 dark:border-emerald-900 dark:bg-emerald-950/20">
+          <div className="mb-1 flex items-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
-              All Systems Active
+              Workspace Healthy
             </span>
           </div>
-          <p className="text-xs text-emerald-600 dark:text-emerald-500">
-            Runtime optimal
+          <p className="text-xs text-emerald-700/80 dark:text-emerald-500">
+            All services are responding normally.
           </p>
         </div>
       </div>
     </>
-  );
-}
-
-function DashboardHeader() {
-  const { data: session } = useSession();
-  const pathname = usePathname();
-
-  // Get page title based on route
-  const getPageTitle = () => {
-    if (pathname?.includes("/overview")) return "Overview";
-    if (pathname?.includes("/controls")) return "Controls";
-    if (pathname?.includes("/presets")) return "Presets";
-    if (pathname?.includes("/usage")) return "Usage";
-    if (pathname?.includes("/backup")) return "Backup & Restore";
-    if (pathname?.includes("/docs")) return "Documentation";
-    return "Dashboard";
-  };
-
-  const getUserInitials = () => {
-    if (!session?.user?.name) return "U";
-    return session.user.name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  };
-
-  return (
-    <header className="h-16 bg-white/90 dark:bg-zinc-900/70 backdrop-blur border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6">
-      {/* Page Title */}
-      <div>
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
-          {getPageTitle()}
-        </h2>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          Welcome back, {session?.user?.name || "User"}
-        </p>
-      </div>
-
-      {/* Actions */}
-      <div className="flex items-center gap-3">
-        {/* Search */}
-        <div className="relative hidden md:block">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
-          <Input
-            placeholder="Search workflows"
-            className="w-64 pl-9 bg-white/70 dark:bg-zinc-900"
-          />
-        </div>
-
-        {/* Notifications */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
-        >
-          <Bell className="h-5 w-5" />
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-blue-500"></span>
-        </Button>
-
-        {/* Separator */}
-        <div className="h-8 w-px bg-zinc-200 dark:bg-zinc-800"></div>
-
-        {/* User Menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="flex items-center gap-3 h-auto py-2 px-3 hover:bg-zinc-100 dark:hover:bg-zinc-800"
-            >
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-blue-500 text-white text-sm font-semibold">
-                  {getUserInitials()}
-                </AvatarFallback>
-              </Avatar>
-              <div className="hidden md:block text-left">
-                <div className="text-sm font-medium text-zinc-900 dark:text-white">
-                  {session?.user?.name || "User"}
-                </div>
-                <div className="text-xs text-zinc-500 dark:text-zinc-400">
-                  {session?.user?.email || ""}
-                </div>
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/profile" className="cursor-pointer">
-                <User className="mr-2 h-4 w-4" />
-                Profile
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/dashboard/settings" className="cursor-pointer">
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/dashboard/docs" className="cursor-pointer">
-                <HelpCircle className="mr-2 h-4 w-4" />
-                Help & Support
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="text-red-600 dark:text-red-400 cursor-pointer"
-              onClick={() => signOut({ callbackUrl: "/" })}
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign Out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </header>
   );
 }
 
@@ -325,46 +329,40 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
   const { data: session } = useSession();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const getUserInitials = () => {
-    if (!session?.user?.name) return "U";
-    return session.user.name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  };
+  const pageMeta = getPageMeta(pathname);
+  const todayLabel = new Date().toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
 
   return (
     <div className="flex h-screen overflow-hidden bg-linear-to-br from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-950 dark:to-zinc-900">
-      {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 flex-col overflow-hidden">
+      <aside className="hidden lg:flex w-72 flex-col overflow-hidden border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
         <SidebarContent />
       </aside>
 
-      {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-2">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 border-b border-zinc-200 bg-white/95 backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/95">
+        <div className="flex items-center justify-between px-4 py-3.5">
+          <div className="flex items-center gap-2.5">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="rounded-xl">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-72 p-0">
-                <div className="flex flex-col h-full">
-                  <SidebarContent
-                    onLinkClick={() => setMobileMenuOpen(false)}
-                  />
+                <div className="flex h-full flex-col">
+                  <SidebarContent onLinkClick={() => setMobileMenuOpen(false)} />
                 </div>
               </SheetContent>
             </Sheet>
 
-            <div className="h-8 w-8 rounded-lg overflow-hidden flex items-center justify-center">
+            <div className="h-8 w-8 overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
               <Image
                 src="/brand-2.svg"
                 alt="Autorithm"
@@ -373,87 +371,71 @@ export default function DashboardLayout({
                 className="h-8 w-8"
               />
             </div>
-            <h1 className="text-sm font-bold text-zinc-900 dark:text-white">
-              Autorithm
-            </h1>
+            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              Dashboard
+            </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Notifications */}
+          <div className="flex items-center gap-1.5">
             <Button
               variant="ghost"
               size="icon"
-              className="relative text-zinc-600 dark:text-zinc-400"
+              className="relative rounded-xl text-zinc-600 dark:text-zinc-300"
             >
               <Bell className="h-5 w-5" />
-              <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-blue-500"></span>
+              <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-blue-500" />
             </Button>
-
-            {/* User Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-blue-500 text-white text-xs font-semibold">
-                      {getUserInitials()}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium">
-                      {session?.user?.name || "User"}
-                    </p>
-                    <p className="text-xs text-zinc-500">
-                      {session?.user?.email || ""}
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile" className="cursor-pointer">
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/settings" className="cursor-pointer">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/docs" className="cursor-pointer">
-                    <HelpCircle className="mr-2 h-4 w-4" />
-                    Help & Support
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="text-red-600 dark:text-red-400 cursor-pointer"
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <UserMenu name={session?.user?.name} email={session?.user?.email} compact />
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden bg-transparent pt-16 lg:pt-0">
-        {/* Desktop Header */}
-        <div className="hidden lg:block">
-          <DashboardHeader />
-        </div>
+      <main className="flex min-w-0 flex-1 flex-col overflow-hidden pt-[61px] lg:pt-0">
+        <header className="hidden lg:block sticky top-0 z-20 border-b border-zinc-200/80 bg-white/90 backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/85">
+          <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+            <div>
+              <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+                {pageMeta.title}
+              </p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                {pageMeta.subtitle}
+              </p>
+            </div>
 
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">{children}</div>
+            <div className="flex items-center gap-3">
+              <div className="relative hidden xl:block">
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
+                <Input
+                  placeholder="Search dashboard"
+                  className="w-72 rounded-xl border-zinc-200 bg-white pl-9 dark:border-zinc-800 dark:bg-zinc-900"
+                />
+              </div>
+
+              <div className="hidden md:flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
+                <Sparkles className="h-3.5 w-3.5 text-blue-500" />
+                <span>{todayLabel}</span>
+              </div>
+
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative rounded-xl text-zinc-600 dark:text-zinc-300"
+              >
+                <Bell className="h-5 w-5" />
+                <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-blue-500" />
+              </Button>
+
+              <UserMenu name={session?.user?.name} email={session?.user?.email} />
+            </div>
+          </div>
+        </header>
+
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+            <section className="rounded-2xl border border-zinc-200 bg-white/70 p-3 sm:p-4 lg:p-5 shadow-[0_1px_0_0_rgba(0,0,0,0.02)] dark:border-zinc-800 dark:bg-zinc-900/45">
+              {children}
+            </section>
+          </div>
         </div>
       </main>
     </div>
