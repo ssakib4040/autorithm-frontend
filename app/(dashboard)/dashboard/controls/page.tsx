@@ -1,24 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import {
-  MagnifyingGlassIcon,
-  PlusIcon,
-  CubeIcon,
-  Square3Stack3DIcon,
-  ClockIcon,
-  CheckCircleIcon,
-  AdjustmentsHorizontalIcon,
-  ChevronRightIcon,
-  EllipsisVerticalIcon,
-  PencilIcon,
-  TrashIcon,
-  DocumentDuplicateIcon,
-  ArchiveBoxIcon,
-} from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Clock, Layers3, Plus, Search, SlidersHorizontal, Sparkles } from "lucide-react";
 
 interface Project {
   id: string;
@@ -27,75 +15,26 @@ interface Project {
   status: "active" | "inactive" | "archived";
   blocksCount: number;
   lastModified: string;
-  createdAt: string;
   environment: "development" | "staging" | "production";
 }
 
 export default function ControlsProjectList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [showProjectMenu, setShowProjectMenu] = useState<string | null>(null);
 
-  // Mock data - replace with actual API call
   const projects: Project[] = [
-    {
-      id: "proj_1",
-      name: "Main Application",
-      description: "Primary production application configuration",
-      status: "active",
-      blocksCount: 24,
-      lastModified: "2 hours ago",
-      createdAt: "2024-01-15",
-      environment: "production",
-    },
-    {
-      id: "proj_2",
-      name: "Mobile App Config",
-      description: "Mobile application settings and parameters",
-      status: "active",
-      blocksCount: 18,
-      lastModified: "1 day ago",
-      createdAt: "2024-02-01",
-      environment: "production",
-    },
-    {
-      id: "proj_3",
-      name: "Beta Features",
-      description: "Experimental features configuration",
-      status: "active",
-      blocksCount: 12,
-      lastModified: "3 days ago",
-      createdAt: "2024-02-05",
-      environment: "staging",
-    },
-    {
-      id: "proj_4",
-      name: "Development Testing",
-      description: "Development environment configuration",
-      status: "active",
-      blocksCount: 8,
-      lastModified: "5 days ago",
-      createdAt: "2024-01-20",
-      environment: "development",
-    },
-    {
-      id: "proj_5",
-      name: "Legacy System",
-      description: "Old system configuration (archived)",
-      status: "archived",
-      blocksCount: 32,
-      lastModified: "2 weeks ago",
-      createdAt: "2023-12-01",
-      environment: "production",
-    },
+    { id: "proj_1", name: "Main Application", description: "Primary production app configuration", status: "active", blocksCount: 24, lastModified: "2 hours ago", environment: "production" },
+    { id: "proj_2", name: "Mobile App Config", description: "Mobile settings and runtime variables", status: "active", blocksCount: 18, lastModified: "1 day ago", environment: "production" },
+    { id: "proj_3", name: "Beta Features", description: "Experimental features configuration", status: "active", blocksCount: 12, lastModified: "3 days ago", environment: "staging" },
+    { id: "proj_4", name: "Development Testing", description: "Development environment setup", status: "active", blocksCount: 8, lastModified: "5 days ago", environment: "development" },
+    { id: "proj_5", name: "Legacy System", description: "Archived older configuration", status: "archived", blocksCount: 32, lastModified: "2 weeks ago", environment: "production" },
   ];
 
   const filteredProjects = projects.filter((project) => {
     const matchesSearch =
       project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter =
-      filterStatus === "all" || project.status === filterStatus;
+    const matchesFilter = filterStatus === "all" || project.status === filterStatus;
     return matchesSearch && matchesFilter;
   });
 
@@ -105,271 +44,80 @@ export default function ControlsProjectList() {
     totalBlocks: projects.reduce((sum, p) => sum + p.blocksCount, 0),
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "active":
-        return "bg-green-500/10 text-green-400 border-green-500/20";
-      case "inactive":
-        return "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
-      case "archived":
-        return "bg-amber-500/10 text-amber-400 border-amber-500/20";
-      default:
-        return "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
-    }
-  };
-
-  const getEnvironmentColor = (env: string) => {
-    switch (env) {
-      case "production":
-        return "bg-blue-500/10 text-blue-400 border-blue-500/20";
-      case "staging":
-        return "bg-purple-500/10 text-purple-400 border-purple-500/20";
-      case "development":
-        return "bg-amber-500/10 text-amber-400 border-amber-500/20";
-      default:
-        return "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
-    }
-  };
-
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
-            Project Controls
-          </h1>
-          <p className="text-zinc-600 dark:text-zinc-400 text-sm">
-            Manage configuration structures for your projects
-          </p>
+      <section className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-linear-to-br from-white via-violet-50/50 to-blue-50/60 p-6 sm:p-7 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950">
+        <div className="absolute -right-12 -top-10 h-44 w-44 rounded-full bg-violet-400/15 blur-3xl" />
+        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <Badge className="mb-3 border-zinc-200 bg-white/90 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300">
+              <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+              Config Manager
+            </Badge>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Project Controls</h1>
+            <p className="mt-1 text-sm sm:text-base text-zinc-600 dark:text-zinc-400">Manage structured configuration blocks across projects.</p>
+          </div>
+          <Button asChild className="rounded-xl">
+            <Link href="/dashboard/controls/new">
+              <Plus className="mr-2 h-4 w-4" />
+              New Project
+            </Link>
+          </Button>
         </div>
-        <Button asChild size="lg">
-          <Link href="/dashboard/controls/new">
-            <PlusIcon className="h-5 w-5" />
-            New Project
-          </Link>
-        </Button>
-      </div>
+      </section>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-linear-to-br from-zinc-900 to-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
-              <CubeIcon className="h-6 w-6 text-blue-400" />
+      <section className="grid gap-4 md:grid-cols-3">
+        <Card><CardContent className="p-5"><p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Total Projects</p><p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{stats.total}</p></CardContent></Card>
+        <Card><CardContent className="p-5"><p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Active Projects</p><p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{stats.active}</p></CardContent></Card>
+        <Card><CardContent className="p-5"><p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Total Blocks</p><p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{stats.totalBlocks}</p></CardContent></Card>
+      </section>
+
+      <Card>
+        <CardContent className="p-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+              <Input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search projects..." className="h-10 rounded-xl pl-9" />
+            </div>
+            <div className="flex gap-2">
+              {["all", "active", "inactive", "archived"].map((status) => (
+                <Button key={status} size="sm" variant={filterStatus === status ? "default" : "outline"} onClick={() => setFilterStatus(status)} className="rounded-lg capitalize">
+                  {status}
+                </Button>
+              ))}
             </div>
           </div>
-          <p className="text-zinc-400 text-sm font-medium mb-1">
-            Total Projects
-          </p>
-          <p className="text-3xl font-bold text-white">{stats.total}</p>
-          <p className="text-xs text-zinc-500 mt-2">All configurations</p>
-        </div>
+        </CardContent>
+      </Card>
 
-        <div className="bg-linear-to-br from-zinc-900 to-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 rounded-xl bg-green-500/10 border border-green-500/20">
-              <CheckCircleIcon className="h-6 w-6 text-green-400" />
-            </div>
-          </div>
-          <p className="text-zinc-400 text-sm font-medium mb-1">
-            Active Projects
-          </p>
-          <p className="text-3xl font-bold text-white">{stats.active}</p>
-          <p className="text-xs text-zinc-500 mt-2">Currently in use</p>
-        </div>
-
-        <div className="bg-linear-to-br from-zinc-900 to-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20">
-              <Square3Stack3DIcon className="h-6 w-6 text-purple-400" />
-            </div>
-          </div>
-          <p className="text-zinc-400 text-sm font-medium mb-1">Total Blocks</p>
-          <p className="text-3xl font-bold text-white">{stats.totalBlocks}</p>
-          <p className="text-xs text-zinc-500 mt-2">Across all projects</p>
-        </div>
-
-        <div className="bg-linear-to-br from-zinc-900 to-zinc-900/50 backdrop-blur-xl border border-zinc-800/50 rounded-2xl p-6 shadow-xl">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
-              <ClockIcon className="h-6 w-6 text-amber-400" />
-            </div>
-          </div>
-          <p className="text-zinc-400 text-sm font-medium mb-1">Last Update</p>
-          <p className="text-xl font-bold text-white">2 hours ago</p>
-          <p className="text-xs text-zinc-500 mt-2">Most recent change</p>
-        </div>
-      </div>
-
-      {/* Search and Filters */}
-      <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1 relative">
-            <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
-            <Input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search projects..."
-              className="pl-12"
-            />
-          </div>
-          <div className="flex gap-2">
-            {["all", "active", "inactive", "archived"].map((status) => (
-              <Button
-                key={status}
-                onClick={() => setFilterStatus(status)}
-                variant={filterStatus === status ? "default" : "outline"}
-                size="sm"
-              >
-                {status.charAt(0).toUpperCase() + status.slice(1)}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Projects Grid */}
       {filteredProjects.length === 0 ? (
-        <div className="flex items-center justify-center py-32">
-          <div className="text-center max-w-md">
-            <div className="relative mx-auto mb-8">
-              <div className="h-24 w-24 rounded-3xl bg-linear-to-br from-blue-500/10 to-purple-500/10 border border-zinc-700/50 flex items-center justify-center mx-auto backdrop-blur-xl">
-                <CubeIcon className="h-12 w-12 text-zinc-600" />
-              </div>
-            </div>
-            <h2 className="text-2xl font-bold text-white mb-3">
-              {searchQuery || filterStatus !== "all"
-                ? "No Projects Found"
-                : "No Projects Yet"}
-            </h2>
-            <p className="text-zinc-500 text-sm mb-8 leading-relaxed">
-              {searchQuery || filterStatus !== "all"
-                ? "Try adjusting your search or filters"
-                : "Create your first project to get started with configuration management"}
-            </p>
-            {!searchQuery && filterStatus === "all" && (
-              <Link
-                href="/dashboard/controls/new"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-linear-to-r from-blue-600 to-blue-500 text-white font-semibold hover:from-blue-500 hover:to-blue-400 transition-all shadow-xl shadow-blue-600/25"
-              >
-                <PlusIcon className="h-5 w-5" />
-                Create First Project
-              </Link>
-            )}
-          </div>
-        </div>
+        <Card><CardContent className="p-12 text-center text-sm text-zinc-600 dark:text-zinc-400">No projects found for the current search/filter.</CardContent></Card>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="group bg-linear-to-br from-zinc-900/80 to-zinc-900/40 backdrop-blur-xl border border-zinc-800/50 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:border-zinc-700/50 transition-all"
-            >
-              <div className="p-6">
-                {/* Project Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
-                      <AdjustmentsHorizontalIcon className="h-6 w-6 text-blue-400" />
+            <Link key={project.id} href={`/dashboard/controls/${project.id}`}>
+              <Card className="h-full transition-all hover:-translate-y-0.5 hover:shadow-md">
+                <CardContent className="p-5">
+                  <div className="mb-3 flex items-start justify-between">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-950/20">
+                      <SlidersHorizontal className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
-                        {project.name}
-                      </h3>
-                      <p className="text-xs text-zinc-500 font-mono">
-                        {project.id}
-                      </p>
-                    </div>
+                    <Badge variant="outline" className="capitalize">{project.status}</Badge>
                   </div>
-                  <div className="relative">
-                    <button
-                      onClick={() =>
-                        setShowProjectMenu(
-                          showProjectMenu === project.id ? null : project.id,
-                        )
-                      }
-                      className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-all"
-                    >
-                      <EllipsisVerticalIcon className="h-5 w-5" />
-                    </button>
-                    {showProjectMenu === project.id && (
-                      <div className="absolute right-0 top-full mt-2 w-48 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl z-10 py-2">
-                        <button className="w-full px-4 py-2 text-left text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-2">
-                          <PencilIcon className="h-4 w-4" />
-                          Edit Details
-                        </button>
-                        <button className="w-full px-4 py-2 text-left text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-2">
-                          <DocumentDuplicateIcon className="h-4 w-4" />
-                          Duplicate
-                        </button>
-                        <button className="w-full px-4 py-2 text-left text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors flex items-center gap-2">
-                          <ArchiveBoxIcon className="h-4 w-4" />
-                          Archive
-                        </button>
-                        <div className="my-2 h-px bg-zinc-800"></div>
-                        <button className="w-full px-4 py-2 text-left text-sm text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2">
-                          <TrashIcon className="h-4 w-4" />
-                          Delete
-                        </button>
-                      </div>
-                    )}
+
+                  <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{project.name}</h3>
+                  <p className="mt-1 line-clamp-2 text-xs text-zinc-600 dark:text-zinc-400">{project.description}</p>
+
+                  <div className="mt-4 space-y-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                    <div className="inline-flex items-center gap-1.5"><Layers3 className="h-3.5 w-3.5" />{project.blocksCount} blocks</div>
+                    <div className="inline-flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" />{project.lastModified}</div>
+                    <div className="inline-flex items-center gap-1.5"><Sparkles className="h-3.5 w-3.5" />{project.environment}</div>
                   </div>
-                </div>
-
-                {/* Project Description */}
-                <p className="text-sm text-zinc-400 mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-
-                {/* Project Meta */}
-                <div className="flex items-center gap-2 mb-4">
-                  <span
-                    className={`px-3 py-1 rounded-lg text-xs font-medium border ${getStatusColor(
-                      project.status,
-                    )}`}
-                  >
-                    {project.status}
-                  </span>
-                  <span
-                    className={`px-3 py-1 rounded-lg text-xs font-medium border ${getEnvironmentColor(
-                      project.environment,
-                    )}`}
-                  >
-                    {project.environment}
-                  </span>
-                </div>
-
-                {/* Project Stats */}
-                <div className="flex items-center justify-between py-3 px-4 bg-zinc-950/50 rounded-xl mb-4">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-white">
-                      {project.blocksCount}
-                    </p>
-                    <p className="text-xs text-zinc-500">Blocks</p>
-                  </div>
-                  <div className="h-8 w-px bg-zinc-800"></div>
-                  <div className="text-center">
-                    <p className="text-sm font-semibold text-zinc-300">
-                      {project.lastModified}
-                    </p>
-                    <p className="text-xs text-zinc-500">Last modified</p>
-                  </div>
-                </div>
-
-                {/* Action Button */}
-                <Link
-                  href={`/dashboard/config/${project.id}`}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 hover:border-blue-500/40 rounded-xl text-blue-400 font-medium transition-all group"
-                >
-                  <span className="text-sm">Configure Project</span>
-                  <ChevronRightIcon className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
-        </div>
+        </section>
       )}
     </div>
   );
