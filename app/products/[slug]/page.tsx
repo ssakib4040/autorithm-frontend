@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import {
+  ArrowUpRight,
   CheckCircle2,
   ChevronLeft,
   Sparkles,
@@ -12,6 +13,8 @@ import {
   Shield,
   Headphones,
   FileText,
+  Layers,
+  Workflow,
 } from "lucide-react";
 import { getServerSession } from "next-auth";
 
@@ -25,7 +28,6 @@ import { connectMongoose } from "@/lib/mongoose";
 import { WishlistButton } from "./WishlistButton";
 import { PaymentGatewaySelector } from "./PaymentGatewaySelector";
 
-// Technology logo mapping
 const getTechLogo = (techName: string): string | null => {
   const logos: Record<string, string> = {
     OpenAI: "/brands/openai.svg",
@@ -53,15 +55,12 @@ const getTechLogo = (techName: string): string | null => {
     Mailgun: "/brands/mailgun.svg",
   };
 
-  // Try to match the technology name (case-insensitive)
   const matchedKey = Object.keys(logos).find((key) =>
     techName.toLowerCase().includes(key.toLowerCase()),
   );
 
   return matchedKey ? logos[matchedKey] : null;
 };
-
-type Platform = "n8n" | "make";
 
 type DiscountInfo = {
   type?: "percentage" | "fixed";
@@ -97,29 +96,40 @@ const getDiscountLabel = (discount?: DiscountInfo) => {
     : `${value}% OFF`;
 };
 
+const defaultFaqs = [
+  {
+    question: "How fast can I deploy this workflow?",
+    answer:
+      "Most teams launch in under an hour with the included setup guidance and templates.",
+  },
+  {
+    question: "Can I customize this for my stack?",
+    answer:
+      "Yes. All logic blocks and integration points are designed so you can adapt fields, triggers, and actions safely.",
+  },
+  {
+    question: "What support is included after purchase?",
+    answer:
+      "You get implementation support for setup and troubleshooting so you can move from install to production quickly.",
+  },
+];
+
+interface ProductDetailsPageProps {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ tool?: string }>;
+}
+
 export default async function ProductDetails({
   params,
   searchParams,
-}: // searchParams,
-{
-  params: { slug: string };
-  searchParams: { tool: string };
-}) {
+}: ProductDetailsPageProps) {
   const { slug } = await params;
   const { tool } = await searchParams;
-  const selectedPlatform: Platform = "n8n";
 
   const productDetails = (await productsApi.getBySlug(
-    `${slug}?tool=${tool}`,
-  )) as Product & { message?: string };
+    `${slug}?tool=${tool || ""}`,
+  )) as (Product & { relatedVersions?: Product[] }) | { message?: string };
 
-  const discountedPrice = getDiscountedPrice(
-    productDetails.price,
-    productDetails.discount,
-  );
-  const discountLabel = getDiscountLabel(productDetails.discount);
-
-  // Handle 404 response from API
   if (
     "message" in productDetails &&
     productDetails.message === "Product not found"
@@ -127,7 +137,36 @@ export default async function ProductDetails({
     notFound();
   }
 
-  // Fetch wishlist status server-side
+  const details = productDetails as Product & { relatedVersions?: Product[] };
+  const discountedPrice = getDiscountedPrice(details.price, details.discount);
+  const discountLabel = getDiscountLabel(details.discount);
+  const isN8N = details.tool.toLowerCase() === "n8n";
+  const accentClasses = isN8N
+    ? {
+        subtleBg:
+          "from-blue-50/90 via-cyan-50/70 to-white dark:from-blue-950/20 dark:via-zinc-950 dark:to-zinc-950",
+        border: "border-blue-200/70 dark:border-blue-900/40",
+        badge:
+          "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-900/50",
+        cta: "bg-blue-600 hover:bg-blue-700",
+      }
+    : {
+        subtleBg:
+          "from-fuchsia-50/90 via-purple-50/70 to-white dark:from-purple-950/20 dark:via-zinc-950 dark:to-zinc-950",
+        border: "border-purple-200/70 dark:border-purple-900/40",
+        badge:
+          "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-900/50",
+        cta: "bg-purple-600 hover:bg-purple-700",
+      };
+
+  const keyFeatures = details.keyFeatures ?? [];
+  const howItWorks = details.howItWorks ?? [];
+  const requirements = details.technicalDetails?.requirements ?? [];
+  const apis = details.technicalDetails?.apis ?? [];
+  const whatsIncluded = details.whatsIncluded ?? [];
+  const faqs = details.faqs && details.faqs.length > 0 ? details.faqs : defaultFaqs;
+  const relatedVersions = details.relatedVersions ?? [];
+
   let isInWishlist = false;
   const session = await getServerSession(authOptions);
   if (session?.user?.email) {
@@ -136,39 +175,38 @@ export default async function ProductDetails({
       const user = await User.findOne({ email: session.user.email });
       if (user?.wishlist) {
         isInWishlist = user.wishlist.some(
-          (id: string | number) => String(id) === String(productDetails.id),
+          (id: string | number) => String(id) === String(details.id),
         );
       }
     } catch {
-      // Silently fail - wishlist is not critical
+      // Wishlist is optional for page rendering.
     }
   }
 
   return (
-    <main className="min-h-screen bg-white dark:bg-zinc-900">
-      {/* Mobile Sticky CTA */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-950 border-t-2 border-zinc-200 dark:border-zinc-800 p-4 z-50 shadow-2xl">
+    <main className="min-h-screen bg-white dark:bg-zinc-950">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-zinc-950/95 border-t border-zinc-200 dark:border-zinc-800 p-4 z-50 backdrop-blur">
         <div className="flex items-center justify-between gap-4">
           <div>
-            {productDetails.discount ? (
+            {details.discount ? (
               <>
                 <div className="flex items-center gap-2 mb-1">
                   <div className="text-2xl font-bold text-zinc-900 dark:text-white">
                     ${discountedPrice}
                   </div>
                   <div className="text-sm font-semibold text-zinc-400 dark:text-zinc-600 line-through">
-                    ${productDetails.price}
+                    ${details.price}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                     {discountLabel}
                   </span>
-                  {productDetails.discount.timeLeft && (
+                  {details.discount.timeLeft && (
                     <>
                       <span className="text-xs text-zinc-400">•</span>
                       <span className="text-xs font-semibold text-red-600 dark:text-red-400">
-                        {productDetails.discount.timeLeft} left
+                        {details.discount.timeLeft} left
                       </span>
                     </>
                   )}
@@ -177,198 +215,223 @@ export default async function ProductDetails({
             ) : (
               <>
                 <div className="text-2xl font-bold text-zinc-900 dark:text-white">
-                  ${productDetails.price}
+                  ${details.price}
                 </div>
                 <div className="text-xs text-zinc-600 dark:text-zinc-400">
-                  {productDetails.tool === "n8n" ? "n8n" : "Make.com"} •{" "}
-                  {productDetails.technicalDetails.complexity}
+                  {details.tool} • {details.technicalDetails.complexity}
                 </div>
               </>
             )}
           </div>
           <PaymentGatewaySelector
-            productName={productDetails.name}
+            productName={details.name}
             price={discountedPrice}
-            tool={productDetails.tool}
+            tool={details.tool}
             buttonText="Buy Now"
-            buttonClassName={
-              selectedPlatform === "n8n"
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-purple-600 hover:bg-purple-700"
-            }
+            buttonClassName={accentClasses.cta}
           />
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-8 pb-24 lg:pb-8">
-        {/* Back Button */}
-        <Button asChild variant="ghost" className="mb-8 -ml-4">
+      <div className="max-w-7xl mx-auto px-4 pt-8 pb-24 lg:pb-14">
+        <Button asChild variant="ghost" className="mb-6 -ml-4">
           <Link href="/products">
             <ChevronLeft className="mr-2 h-4 w-4" />
             Back to Products
           </Link>
         </Button>
 
-        {/* 2 COLUMN GRID - ENTIRE PAGE */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-          {/* LEFT GRID - All Product Details */}
-          <div>
-            {/* Hero Section */}
-            <div className="mb-10 p-8 rounded-2xl bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-900 border border-zinc-200 dark:border-zinc-800 relative">
-              {/* Wishlist Button */}
-              <div className="absolute top-4 right-4">
-                <WishlistButton
-                  productId={productDetails.id}
-                  isInWishlist={isInWishlist}
-                />
-              </div>
-
-              {/* Badges Row */}
+        <div
+          className={`relative mb-8 overflow-hidden rounded-3xl border bg-linear-to-br ${accentClasses.subtleBg} ${accentClasses.border}`}
+        >
+          <div className="absolute -top-20 -right-12 h-56 w-56 rounded-full bg-white/50 blur-3xl dark:bg-white/5"></div>
+          <div className="relative grid gap-8 p-6 md:p-8 lg:grid-cols-3">
+            <div className="lg:col-span-2">
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <Badge
-                  variant="secondary"
-                  className="bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white"
-                >
-                  {productDetails.category}
-                </Badge>
-                <Badge
-                  className={`${
-                    productDetails.tool === "n8n"
-                      ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
-                      : "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800"
-                  }`}
-                >
+                <Badge variant="outline" className={accentClasses.badge}>
                   <Zap className="h-3 w-3 mr-1" />
-                  {productDetails.tool === "n8n" ? "n8n" : "Make"}
+                  {details.tool}
                 </Badge>
-                <Badge variant="outline" className="bg-white dark:bg-zinc-900">
-                  {productDetails.technicalDetails.complexity}
-                </Badge>
+                <Badge variant="secondary">{details.category}</Badge>
+                <Badge variant="outline">{details.technicalDetails.complexity}</Badge>
               </div>
 
-              {/* Product Name */}
-              <h1 className="text-3xl lg:text-4xl font-bold text-zinc-900 dark:text-white mb-4">
-                {productDetails.name}
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight mb-4">
+                {details.name}
               </h1>
-
-              {/* Description */}
-              <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                {productDetails.description}
+              <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl">
+                {details.description}
               </p>
+
+              <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="rounded-xl border border-zinc-200/70 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/70 p-3">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">Setup Time</p>
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {details.technicalDetails.setupTime}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-zinc-200/70 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/70 p-3">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">Complexity</p>
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {details.technicalDetails.complexity}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-zinc-200/70 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/70 p-3">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">Integrations</p>
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{apis.length}</p>
+                </div>
+                <div className="rounded-xl border border-zinc-200/70 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/70 p-3">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">Components</p>
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {whatsIncluded.length}
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Workflow Preview */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
-                Workflow Preview
-              </h2>
-              <div className="relative rounded-2xl overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 aspect-video">
-                {/* Placeholder - Replace with actual workflow image */}
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 dark:from-zinc-800 dark:via-zinc-850 dark:to-zinc-900">
-                  <div className="text-center p-8">
-                    <Package className="h-16 w-16 text-zinc-400 dark:text-zinc-600 mx-auto mb-4" />
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      Workflow visualization coming soon
-                    </p>
-                  </div>
-                </div>
-                {/* Uncomment when you have actual images
+            <div className="flex items-start justify-between lg:justify-end">
+              <WishlistButton productId={details.id} isInWishlist={isInWishlist} />
+            </div>
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_360px] gap-8">
+          <div className="space-y-8">
+            <section className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 overflow-hidden">
+              <div className="px-6 pt-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-4">
+                  Workflow Preview
+                </h2>
+              </div>
+              <div className="relative aspect-video bg-zinc-100 dark:bg-zinc-800">
+                {details.previewImage ? (
                   <Image
-                    src={productDetails.previewImage || "/placeholder-workflow.jpg"}
-                    alt={`${productDetails.name} workflow preview`}
+                    src={details.previewImage}
+                    alt={`${details.name} preview`}
                     fill
                     className="object-cover"
                     priority
                   />
-                  */}
-              </div>
-            </div>
-
-            {/* How It Works */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
-                <Zap className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                How It Works
-              </h2>
-              <div className="space-y-3">
-                {productDetails.howItWorks.map(
-                  (
-                    step: { title: string; description: string },
-                    index: number,
-                  ) => (
-                    <div
-                      key={index}
-                      className="flex gap-4 p-6 rounded-xl bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900 dark:to-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:shadow-md transition-shadow"
-                    >
-                      <div className="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold flex items-center justify-center shadow-lg">
-                        {index + 1}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-2">
-                          {step.title}
-                        </h3>
-                        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                          {step.description}
-                        </p>
-                      </div>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
+                    <div className="text-center px-6">
+                      <Workflow className="h-14 w-14 text-zinc-500 dark:text-zinc-400 mx-auto mb-3" />
+                      <p className="text-sm text-zinc-600 dark:text-zinc-300">
+                        Visual architecture preview will appear here.
+                      </p>
                     </div>
-                  ),
+                  </div>
                 )}
               </div>
-            </div>
+            </section>
 
-            {/* Key Features */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
-                <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
-                Key Features
+            <section className="grid md:grid-cols-2 gap-4">
+              <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                  Key Features
+                </h3>
+                <div className="space-y-3">
+                  {keyFeatures.length > 0 ? (
+                    keyFeatures.map((feature: string, index: number) => (
+                      <div key={index} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4.5 h-4.5 text-emerald-500 shrink-0 mt-0.5" />
+                        <p className="text-sm text-zinc-700 dark:text-zinc-300">{feature}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                      Feature details are being prepared for this product.
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+                <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
+                  <Layers className="h-5 w-5 text-blue-500" />
+                  What&apos;s Included
+                </h3>
+                <div className="space-y-3">
+                  {whatsIncluded.length > 0 ? (
+                    whatsIncluded.map((item, index) => (
+                      <div key={index} className="flex items-start gap-2.5">
+                        <Package className="w-4.5 h-4.5 text-zinc-600 dark:text-zinc-300 shrink-0 mt-0.5" />
+                        <p className="text-sm text-zinc-700 dark:text-zinc-300">{item}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                      Included assets will appear here.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            <section className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-5 flex items-center gap-2">
+                <Zap className="h-5 w-5 text-amber-500" />
+                Implementation Roadmap
               </h2>
-              <div className="grid md:grid-cols-2 gap-3">
-                {productDetails.keyFeatures.map(
-                  (feature: string, index: number) => (
-                    <div
-                      key={index}
-                      className="flex items-start gap-3 p-4 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900"
-                    >
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                      <span className="text-sm text-zinc-700 dark:text-zinc-300">
-                        {feature}
-                      </span>
-                    </div>
-                  ),
+              <div className="space-y-4">
+                {howItWorks.length > 0 ? (
+                  howItWorks.map(
+                    (step: { title: string; description: string }, index: number) => (
+                      <div
+                        key={index}
+                        className="flex gap-4 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-950/60"
+                      >
+                        <div className="shrink-0 h-8 w-8 rounded-full bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 text-sm font-bold flex items-center justify-center">
+                          {index + 1}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">
+                            {step.title}
+                          </h3>
+                          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    ),
+                  )
+                ) : (
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                    Step-by-step rollout guidance will be added soon.
+                  </p>
                 )}
               </div>
-            </div>
+            </section>
 
-            {/* Technical Details */}
-            <div className="mb-10 p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800">
-              <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">
+            <section className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-5">
                 Technical Details
               </h2>
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid sm:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1">
-                    COMPLEXITY
-                  </h3>
-                  <p className="text-zinc-900 dark:text-white font-medium">
-                    {productDetails.technicalDetails.complexity}
+                  <p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400 mb-1">
+                    Complexity
+                  </p>
+                  <p className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    {details.technicalDetails.complexity}
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1">
-                    SETUP TIME
-                  </h3>
-                  <p className="text-zinc-900 dark:text-white font-medium">
-                    {productDetails.technicalDetails.setupTime}
+                  <p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400 mb-1">
+                    Setup Time
+                  </p>
+                  <p className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    {details.technicalDetails.setupTime}
                   </p>
                 </div>
                 <div className="col-span-2">
-                  <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-2">
-                    TECHNOLOGIES USED
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {productDetails.technicalDetails.apis.map(
-                      (api: string, index: number) => {
+                  <p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400 mb-2">
+                    Technologies
+                  </p>
+                  {apis.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {apis.map((api: string, index: number) => {
                         const logo = getTechLogo(api);
                         return (
                           <Badge
@@ -392,201 +455,185 @@ export default async function ProductDetails({
                             {api}
                           </Badge>
                         );
-                      },
-                    )}
-                  </div>
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                      Integration stack is not listed for this item yet.
+                    </p>
+                  )}
                 </div>
                 <div className="col-span-2">
-                  <h3 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1">
-                    REQUIREMENTS
-                  </h3>
-                  <ul className="space-y-0.5">
-                    {productDetails.technicalDetails.requirements.map(
-                      (assumption: string, index: number) => (
-                        <li
+                  <p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400 mb-2">
+                    Requirements
+                  </p>
+                  {requirements.length > 0 ? (
+                    <div className="space-y-1.5">
+                      {requirements.map((requirement: string, index: number) => (
+                        <p
                           key={index}
-                          className="text-zinc-700 dark:text-zinc-300 text-xs"
+                          className="text-sm text-zinc-700 dark:text-zinc-300"
                         >
-                          • {assumption}
-                        </li>
-                      ),
-                    )}
-                  </ul>
+                          • {requirement}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                      No strict prerequisites beyond your platform account.
+                    </p>
+                  )}
                 </div>
               </div>
-            </div>
+            </section>
 
-            {/* FAQs */}
-            <div className="mb-10">
-              <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-6 flex items-center gap-2">
-                <FileText className="h-6 w-6 text-zinc-600 dark:text-zinc-400" />
+            {details.downloads && details.downloads.length > 0 && (
+              <section className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-5 flex items-center gap-2">
+                  <Download className="h-5 w-5 text-indigo-500" />
+                  Downloads
+                </h2>
+                <div className="space-y-3">
+                  {details.downloads.map((item, index) => (
+                    <div
+                      key={index}
+                      className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950"
+                    >
+                      <p className="font-semibold text-zinc-900 dark:text-zinc-100">
+                        {item.name}
+                      </p>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
+                        {item.description}
+                      </p>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-2">
+                        {item.fileType} • {item.size}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            <section className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white mb-5 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-zinc-500" />
                 Frequently Asked Questions
               </h2>
               <div className="space-y-3">
-                {[
-                  {
-                    question: "What is the refund policy?",
-                    answer:
-                      "Due to the digital nature of our products, we cannot offer refunds once purchased. We provide 30 days of implementation support to ensure your success.",
-                  },
-                  {
-                    question: "What CRMs does this integrate with?",
-                    answer:
-                      "Out of the box: Salesforce, HubSpot, and Pipedrive. We include setup guides for these three. The workflow can be adapted to any CRM with an API.",
-                  },
-                  {
-                    question: "How accurate is the lead scoring?",
-                    answer:
-                      "The scoring model is configurable based on your ICP. Typical accuracy is 75-85% when properly tuned with your historical data.",
-                  },
-                  {
-                    question: "What AI providers are supported?",
-                    answer:
-                      "The workflow is built for OpenAI GPT-4, but can be adapted for Anthropic Claude, Google Gemini, or any LLM API.",
-                  },
-                ].map((faq, index) => (
+                {faqs.map((faq, index) => (
                   <div
-                    key={index}
-                    className="p-5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800"
+                    key={`${faq.question}-${index}`}
+                    className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800"
                   >
-                    <h3 className="text-base font-semibold text-zinc-900 dark:text-white mb-2">
+                    <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100 mb-2">
                       {faq.question}
                     </h3>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
           </div>
 
-          {/* RIGHT GRID - CTA Card (Sticky) */}
-          <div className="lg:sticky lg:top-4 h-fit space-y-6">
-            {/* CTA CARD */}
-            <div className="p-8 rounded-2xl bg-white dark:bg-zinc-950 border-2 border-zinc-200 dark:border-zinc-800 shadow-xl">
+          <aside className="lg:sticky lg:top-6 h-fit space-y-4">
+            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-sm">
               <div className="mb-6">
-                {productDetails.discount ? (
+                {details.discount ? (
                   <>
-                    {/* Discount Badge */}
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
                       <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                       <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
-                        {discountLabel} • {productDetails.discount.reason}
+                        {discountLabel} • {details.discount.reason}
                       </span>
                     </div>
 
-                    {/* Pricing with Discount */}
                     <div className="flex items-end gap-3 mb-2">
                       <div className="text-5xl font-bold text-zinc-900 dark:text-white">
                         ${discountedPrice}
                       </div>
                       <div className="text-2xl font-semibold text-zinc-400 dark:text-zinc-600 line-through mb-1.5">
-                        ${productDetails.price}
+                        ${details.price}
                       </div>
                     </div>
 
-                    {/* Time Left */}
-                    {productDetails.discount.timeLeft && (
+                    {details.discount.timeLeft && (
                       <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red-100 dark:bg-red-900/30 mb-3">
                         <Clock className="w-3.5 h-3.5 text-red-600 dark:text-red-400" />
                         <span className="text-xs font-semibold text-red-700 dark:text-red-300">
-                          {productDetails.discount.timeLeft} left
+                          {details.discount.timeLeft} left
                         </span>
                       </div>
                     )}
                   </>
                 ) : (
-                  <>
-                    <div className="text-5xl font-bold text-zinc-900 dark:text-white mb-3">
-                      ${productDetails.price}
-                    </div>
-                  </>
+                  <div className="text-5xl font-bold text-zinc-900 dark:text-white mb-3">
+                    ${details.price}
+                  </div>
                 )}
 
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">One-time payment</p>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  One-time payment
-                </p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  {productDetails.technicalDetails.complexity} •{" "}
-                  {productDetails.technicalDetails.setupTime}
+                  {details.technicalDetails.complexity} • {details.technicalDetails.setupTime}
                 </p>
               </div>
 
               <PaymentGatewaySelector
-                productName={productDetails.name}
+                productName={details.name}
                 price={discountedPrice}
-                tool={productDetails.tool}
-                buttonClassName={`w-full text-lg mb-4 text-white ${
-                  productDetails.tool === "n8n"
-                    ? "bg-blue-600 hover:bg-blue-700 shadow-lg"
-                    : "bg-purple-600 hover:bg-purple-700 shadow-lg"
-                }`}
+                tool={details.tool}
+                buttonClassName={`w-full text-lg mb-4 text-white ${accentClasses.cta}`}
               />
 
-              {/* Platform Switcher */}
-              <div className="pt-4 border-t border-zinc-200 dark:border-zinc-700">
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-2">
-                  Also available for{" "}
-                  {productDetails.tool === "n8n" ? "Make.com" : "N8N"}
-                </p>
-                <Link
-                  href={`/products/${productDetails.slug}?tool=${
-                    productDetails.tool === "n8n" ? "make" : "n8n"
-                  }`}
-                  // onClick={() =>
-                  //   setSelectedPlatform(
-                  //     selectedPlatform === "n8n" ? "make" : "n8n"
-                  //   )
-                  // }
-                  className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-                >
-                  Switch to {productDetails.tool === "n8n" ? "Make.com" : "N8N"}{" "}
-                  →
-                </Link>
-              </div>
+              {relatedVersions.length > 0 && (
+                <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-2">Also available on</p>
+                  <div className="space-y-2">
+                    {relatedVersions.map((version: Product) => (
+                      <Link
+                        key={`${version.slug}-${version.tool}`}
+                        href={`/products/${version.slug}?tool=${version.tool}`}
+                        className="flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-2 text-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                      >
+                        <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                          {version.tool}
+                        </span>
+                        <ArrowUpRight className="h-4 w-4 text-zinc-500" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* What's Included */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 dark:from-zinc-900 dark:to-zinc-950 border border-blue-200 dark:border-zinc-800">
-              <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
-                <Package className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                What&apos;s Included
-              </h3>
-              <ul className="space-y-3">
-                {productDetails.whatsIncluded.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-sm">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="text-zinc-700 dark:text-zinc-300">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Trust Badges */}
             <div className="grid grid-cols-3 gap-3">
-              <div className="text-center p-4 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-                <Download className="h-6 w-6 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
-                <p className="text-xs font-semibold text-zinc-900 dark:text-white">
-                  Instant Access
-                </p>
+              <div className="text-center p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                <Download className="h-5 w-5 text-blue-500 mx-auto mb-2" />
+                <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">Instant Access</p>
               </div>
-              <div className="text-center p-4 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-                <Shield className="h-6 w-6 text-emerald-600 dark:text-emerald-400 mx-auto mb-2" />
-                <p className="text-xs font-semibold text-zinc-900 dark:text-white">
-                  Secure Payment
-                </p>
+              <div className="text-center p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                <Shield className="h-5 w-5 text-emerald-500 mx-auto mb-2" />
+                <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">Secure Checkout</p>
               </div>
-              <div className="text-center p-4 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
-                <Headphones className="h-6 w-6 text-purple-600 dark:text-purple-400 mx-auto mb-2" />
-                <p className="text-xs font-semibold text-zinc-900 dark:text-white">
-                  30d Support
-                </p>
+              <div className="text-center p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                <Headphones className="h-5 w-5 text-purple-500 mx-auto mb-2" />
+                <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">Setup Support</p>
               </div>
             </div>
-          </div>
+
+            <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                Need enterprise deployment or custom tailoring?
+              </p>
+              <Link
+                href="/contact"
+                className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:underline"
+              >
+                Talk to us <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </aside>
         </div>
       </div>
     </main>
