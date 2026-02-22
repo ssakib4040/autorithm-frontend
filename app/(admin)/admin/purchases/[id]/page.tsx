@@ -77,7 +77,7 @@ export default function PurchaseDetailsPage() {
             <div className="p-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-4 p-4 rounded-lg bg-zinc-800/50">
-                  <div className="h-16 w-16 rounded-lg bg-teal-500/10 flex items-center justify-center shrink-0">
+                  <div className="h-16 w-16 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
                     <ShoppingBagIcon className="h-8 w-8 text-teal-300" />
                   </div>
                   <div className="flex-1">
@@ -135,7 +135,7 @@ export default function PurchaseDetailsPage() {
                           event.color === "emerald"
                             ? "bg-emerald-500/10"
                             : event.color === "blue"
-                              ? "bg-teal-500/10"
+                              ? "bg-blue-500/10"
                               : "bg-zinc-700/50"
                         }`}
                       >

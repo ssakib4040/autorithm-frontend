@@ -118,7 +118,7 @@ export default function PurchasesPage() {
               <div
                 className={`p-3 rounded-lg ${
                   stat.color === "blue"
-                    ? "bg-teal-500/10"
+                    ? "bg-blue-500/10"
                     : stat.color === "emerald"
                       ? "bg-emerald-500/10"
                       : stat.color === "purple"
@@ -218,7 +218,7 @@ export default function PurchasesPage() {
             <div className="pt-2 border-t border-zinc-800">
               <Link
                 href={`/admin/purchases/${purchase.id}`}
-                className="w-full inline-flex items-center justify-center gap-2 bg-teal-500/10 hover:bg-teal-500/20 text-teal-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 bg-blue-600/10 hover:bg-blue-600/20 text-teal-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 <EyeIcon className="h-4 w-4" />
                 View Details

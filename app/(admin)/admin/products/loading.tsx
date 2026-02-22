@@ -37,7 +37,7 @@ export default function ProductLoading() {
               <div
                 className={`p-3 rounded-lg ${
                   stat.color === "blue"
-                    ? "bg-teal-500/10"
+                    ? "bg-blue-500/10"
                     : stat.color === "emerald"
                       ? "bg-emerald-500/10"
                       : stat.color === "purple"

@@ -118,7 +118,7 @@ export default function DashboardOverview() {
       {/* Main Content Grid */}
       <div className="grid gap-6 lg:grid-cols-7">
         {/* Recent Orders */}
-        <div className="admin-surface lg:col-span-4">
+        <div className="lg:col-span-4 rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
           <div className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -164,7 +164,7 @@ export default function DashboardOverview() {
                         order.status === "Completed"
                           ? "bg-emerald-500/10 text-emerald-500"
                           : order.status === "Processing"
-                            ? "bg-teal-500/10 text-teal-300"
+                            ? "bg-blue-500/10 text-teal-300"
                             : "bg-yellow-500/10 text-yellow-500"
                       }`}
                     >
@@ -183,7 +183,7 @@ export default function DashboardOverview() {
         {/* Quick Stats & Actions */}
         <div className="lg:col-span-3 space-y-6">
           {/* Sales Overview Card */}
-          <div className="admin-surface p-6">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
             <h3 className="text-lg font-semibold text-white mb-4">
               Sales Overview
             </h3>
@@ -194,7 +194,7 @@ export default function DashboardOverview() {
                   <span className="text-sm font-semibold text-white">124</span>
                 </div>
                 <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-linear-to-r from-teal-400 to-blue-500 w-[85%]"></div>
+                  <div className="h-full bg-linear-to-r from-blue-500 to-purple-600 w-[85%]"></div>
                 </div>
               </div>
               <div>
@@ -221,14 +221,14 @@ export default function DashboardOverview() {
           </div>
 
           {/* Quick Actions */}
-          <div className="admin-surface p-6">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
             <h3 className="text-lg font-semibold text-white mb-4">
               Quick Actions
             </h3>
             <div className="grid grid-cols-2 gap-3">
               <Link
                 href="/admin/products/create"
-                className="flex flex-col items-center justify-center p-4 rounded-lg bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/20 hover:border-teal-500/30 transition-all group"
+                className="flex flex-col items-center justify-center p-4 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-500/30 transition-all group"
               >
                 <PlusIcon className="h-6 w-6 text-teal-300 mb-2 group-hover:scale-110 transition-transform" />
                 <span className="text-sm font-medium text-white">
@@ -237,9 +237,9 @@ export default function DashboardOverview() {
               </Link>
               <Link
                 href="/admin/coupons/create"
-                className="flex flex-col items-center justify-center p-4 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/20 hover:border-cyan-500/30 transition-all group"
+                className="flex flex-col items-center justify-center p-4 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 hover:border-purple-500/30 transition-all group"
               >
-                <TagIcon className="h-6 w-6 text-cyan-300 mb-2 group-hover:scale-110 transition-transform" />
+                <TagIcon className="h-6 w-6 text-purple-500 mb-2 group-hover:scale-110 transition-transform" />
                 <span className="text-sm font-medium text-white">
                   New Coupon
                 </span>
