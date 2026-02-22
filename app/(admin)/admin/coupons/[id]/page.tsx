@@ -107,7 +107,7 @@ export default function EditCouponPage() {
         </Link>
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center">
               <TicketIcon className="h-8 w-8 text-teal-300" />
             </div>
             <div>
@@ -141,14 +141,14 @@ export default function EditCouponPage() {
                 of {couponData.maxUses} max
               </p>
             </div>
-            <div className="p-3 rounded-xl bg-blue-500/10">
+            <div className="p-3 rounded-xl bg-teal-500/10">
               <ChartBarIcon className="h-6 w-6 text-teal-300" />
             </div>
           </div>
           <div className="mt-3">
             <div className="w-full bg-zinc-800 rounded-full h-1.5 overflow-hidden">
               <div
-                className="h-full rounded-full bg-blue-500 transition-all"
+                className="h-full rounded-full bg-teal-400 transition-all"
                 style={{ width: `${getUsagePercentage()}%` }}
               ></div>
             </div>
@@ -468,7 +468,7 @@ export default function EditCouponPage() {
                     <input
                       type="checkbox"
                       defaultChecked={couponData.activeStatus}
-                      className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                      className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
                     />
                     <div className="flex-1">
                       <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
@@ -484,7 +484,7 @@ export default function EditCouponPage() {
                     <input
                       type="checkbox"
                       defaultChecked={couponData.firstTimeOnly}
-                      className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                      className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
                     />
                     <div className="flex-1">
                       <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
@@ -501,7 +501,7 @@ export default function EditCouponPage() {
                     <input
                       type="checkbox"
                       defaultChecked={couponData.freeShipping}
-                      className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                      className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
                     />
                     <div className="flex-1">
                       <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
@@ -517,7 +517,7 @@ export default function EditCouponPage() {
                     <input
                       type="checkbox"
                       defaultChecked={couponData.excludeSale}
-                      className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                      className="w-5 h-5 mt-0.5 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
                     />
                     <div className="flex-1">
                       <span className="text-sm font-medium text-white group-hover:text-teal-300 transition-colors">
@@ -546,7 +546,7 @@ export default function EditCouponPage() {
                   </Link>
                   <button
                     type="submit"
-                    className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-teal-500/20"
+                    className="px-6 py-2.5 rounded-lg bg-teal-400 text-zinc-950 hover:bg-teal-300 transition-colors font-medium shadow-lg shadow-teal-500/20"
                   >
                     Save Changes
                   </button>
@@ -562,7 +562,7 @@ export default function EditCouponPage() {
                 <h3 className="text-base font-semibold text-white">
                   Recent Usage
                 </h3>
-                <button className="text-sm text-teal-300 hover:text-blue-300 font-medium transition-colors">
+                <button className="text-sm text-teal-300 hover:text-teal-200 font-medium transition-colors">
                   Download Report
                 </button>
               </div>

@@ -312,7 +312,7 @@ export default function UsersPage() {
                     type="checkbox"
                     checked={selectedUsers.length === users.length}
                     onChange={toggleAllUsers}
-                    className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                    className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
                   />
                 </th>
                 <th className="px-6 py-4 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
@@ -344,7 +344,7 @@ export default function UsersPage() {
                       type="checkbox"
                       checked={selectedUsers.includes(user.id)}
                       onChange={() => toggleUserSelection(user.id)}
-                      className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-blue-600 focus:ring-blue-600 focus:ring-offset-zinc-900 cursor-pointer"
+                      className="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-teal-300 focus:ring-teal-500/60 focus:ring-offset-zinc-950 cursor-pointer"
                     />
                   </td>
                   <td className="px-6 py-4">
@@ -370,7 +370,7 @@ export default function UsersPage() {
                         user.isAdmin
                           ? "bg-purple-500/10 text-purple-400 border border-purple-500/20"
                           : user.role === "Editor"
-                            ? "bg-blue-500/10 text-teal-300 border border-blue-500/20"
+                            ? "bg-teal-500/10 text-teal-300 border border-teal-500/20"
                             : "bg-zinc-700 text-zinc-300 border border-zinc-600"
                       }`}
                     >
@@ -505,7 +505,7 @@ export default function UsersPage() {
                       onClick={() => setPage(pageNum)}
                       className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
                         page === pageNum
-                          ? "bg-blue-600 text-white font-medium"
+                          ? "bg-teal-400 text-zinc-950 font-medium"
                           : "border border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-white"
                       }`}
                     >
