@@ -70,7 +70,7 @@ export default function PurchaseDetailsPage() {
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* Order Items */}
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
+          <div className="admin-surface overflow-hidden">
             <div className="px-6 py-4 border-b border-zinc-800">
               <h2 className="text-lg font-semibold text-white">Order Items</h2>
             </div>
@@ -78,7 +78,7 @@ export default function PurchaseDetailsPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-4 p-4 rounded-lg bg-zinc-800/50">
                   <div className="h-16 w-16 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
-                    <ShoppingBagIcon className="h-8 w-8 text-blue-400" />
+                    <ShoppingBagIcon className="h-8 w-8 text-teal-300" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-base font-semibold text-white">
@@ -119,7 +119,7 @@ export default function PurchaseDetailsPage() {
           </div>
 
           {/* Order Timeline */}
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
+          <div className="admin-surface overflow-hidden">
             <div className="px-6 py-4 border-b border-zinc-800">
               <h2 className="text-lg font-semibold text-white">
                 Order Timeline
@@ -144,7 +144,7 @@ export default function PurchaseDetailsPage() {
                             event.color === "emerald"
                               ? "text-emerald-400"
                               : event.color === "blue"
-                                ? "text-blue-400"
+                                ? "text-teal-300"
                                 : "text-zinc-400"
                           }`}
                         />
@@ -175,13 +175,13 @@ export default function PurchaseDetailsPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Customer Info */}
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
+          <div className="admin-surface overflow-hidden">
             <div className="px-6 py-4 border-b border-zinc-800">
               <h2 className="text-lg font-semibold text-white">Customer</h2>
             </div>
             <div className="p-6">
               <div className="flex items-center gap-3 mb-6">
-                <div className="h-12 w-12 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                <div className="h-12 w-12 rounded-full bg-linear-to-br from-teal-400 to-blue-500 flex items-center justify-center text-white font-semibold">
                   AJ
                 </div>
                 <div>
@@ -212,7 +212,7 @@ export default function PurchaseDetailsPage() {
           </div>
 
           {/* Payment Info */}
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
+          <div className="admin-surface overflow-hidden">
             <div className="px-6 py-4 border-b border-zinc-800">
               <h2 className="text-lg font-semibold text-white">Payment</h2>
             </div>
@@ -236,10 +236,10 @@ export default function PurchaseDetailsPage() {
           </div>
 
           {/* Actions */}
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6">
+          <div className="admin-surface p-6">
             <h2 className="text-lg font-semibold text-white mb-4">Actions</h2>
             <div className="space-y-3">
-              <button className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors">
+              <button className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-lg bg-teal-400 hover:bg-teal-300 text-zinc-950 text-sm font-medium transition-colors">
                 <EnvelopeIcon className="h-4 w-4" />
                 Send Receipt
               </button>
