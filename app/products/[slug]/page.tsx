@@ -23,6 +23,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import User from "@/models/User";
 import { connectMongoose } from "@/lib/mongoose";
 import { WishlistButton } from "./WishlistButton";
+import { PaymentGatewaySelector } from "./PaymentGatewaySelector";
 
 // Technology logo mapping
 const getTechLogo = (techName: string): string | null => {
@@ -185,16 +186,17 @@ export default async function ProductDetails({
               </>
             )}
           </div>
-          <Button
-            size="lg"
-            className={
+          <PaymentGatewaySelector
+            productName={productDetails.name}
+            price={discountedPrice}
+            tool={productDetails.tool}
+            buttonText="Buy Now"
+            buttonClassName={
               selectedPlatform === "n8n"
                 ? "bg-blue-600 hover:bg-blue-700"
                 : "bg-purple-600 hover:bg-purple-700"
             }
-          >
-            Buy Now
-          </Button>
+          />
         </div>
       </div>
 
@@ -511,16 +513,16 @@ export default async function ProductDetails({
                 </p>
               </div>
 
-              <Button
-                size="lg"
-                className={`w-full text-lg mb-4 text-white ${
+              <PaymentGatewaySelector
+                productName={productDetails.name}
+                price={discountedPrice}
+                tool={productDetails.tool}
+                buttonClassName={`w-full text-lg mb-4 text-white ${
                   productDetails.tool === "n8n"
                     ? "bg-blue-600 hover:bg-blue-700 shadow-lg"
                     : "bg-purple-600 hover:bg-purple-700 shadow-lg"
                 }`}
-              >
-                Buy {productDetails.tool === "n8n" ? "n8n" : "Make.com"} Version
-              </Button>
+              />
 
               {/* Platform Switcher */}
               <div className="pt-4 border-t border-zinc-200 dark:border-zinc-700">
