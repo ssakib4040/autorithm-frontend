@@ -1,23 +1,26 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  ShoppingBag,
-  Download,
-  Package,
-  Calendar,
-  DollarSign,
-  Search,
-} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import {
+  Calendar,
+  DollarSign,
+  Download,
+  Package,
+  Search,
+  ShoppingBag,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export default function Purchases() {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Placeholder data - would be fetched from API in production
   const purchases = [
     {
       id: 1,
@@ -57,44 +60,54 @@ export default function Purchases() {
     },
   ];
 
-  const totalSpent = purchases.reduce((sum, p) => sum + p.price, 0);
-  const filteredPurchases = purchases.filter((p) =>
-    p.productName.toLowerCase().includes(searchQuery.toLowerCase()),
+  const totalSpent = purchases.reduce((sum, purchase) => sum + purchase.price, 0);
+
+  const filteredPurchases = purchases.filter((purchase) =>
+    purchase.productName.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  const latestPurchase = purchases.length > 0 ? purchases[0] : null;
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white">
-            My Purchases
-          </h1>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-1">
-            Access and manage your automation templates
-          </p>
-        </div>
-        <Button asChild>
-          <Link href="/products">
-            <ShoppingBag className="mr-2 h-4 w-4" />
-            Browse Store
-          </Link>
-        </Button>
-      </div>
+      <section className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-linear-to-br from-white via-blue-50/70 to-cyan-50/70 p-6 sm:p-7 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950">
+        <div className="absolute -right-12 -top-8 h-40 w-40 rounded-full bg-blue-500/15 blur-3xl" />
 
-      {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card className="border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-950/20">
+        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <Badge className="mb-3 border-zinc-200 bg-white/90 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300">
+              <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+              Purchase Center
+            </Badge>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+              My Purchases
+            </h1>
+            <p className="mt-1 text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
+              Manage purchased templates, revisit details, and access downloads quickly.
+            </p>
+          </div>
+
+          <Button asChild className="rounded-xl">
+            <Link href="/products">
+              <ShoppingBag className="mr-2 h-4 w-4" />
+              Browse Store
+            </Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-3">
+        <Card className="border-blue-200 bg-blue-50/60 dark:border-blue-900/40 dark:bg-blue-950/20">
           <CardContent className="p-5">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-blue-100 dark:bg-blue-900/30">
+              <div className="rounded-lg bg-blue-100 p-2.5 dark:bg-blue-900/40">
                 <Package className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Total Templates
+                <p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  Templates Owned
                 </p>
-                <p className="text-2xl font-bold text-zinc-900 dark:text-white">
+                <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                   {purchases.length}
                 </p>
               </div>
@@ -102,17 +115,17 @@ export default function Purchases() {
           </CardContent>
         </Card>
 
-        <Card className="border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/20">
+        <Card className="border-emerald-200 bg-emerald-50/60 dark:border-emerald-900/40 dark:bg-emerald-950/20">
           <CardContent className="p-5">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
+              <div className="rounded-lg bg-emerald-100 p-2.5 dark:bg-emerald-900/40">
                 <DollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Invested
+                <p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  Total Invested
                 </p>
-                <p className="text-2xl font-bold text-zinc-900 dark:text-white">
+                <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                   ${totalSpent.toFixed(2)}
                 </p>
               </div>
@@ -120,19 +133,19 @@ export default function Purchases() {
           </CardContent>
         </Card>
 
-        <Card className="border-purple-200 dark:border-purple-900 bg-purple-50/50 dark:bg-purple-950/20">
+        <Card className="border-violet-200 bg-violet-50/60 dark:border-violet-900/40 dark:bg-violet-950/20">
           <CardContent className="p-5">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-purple-100 dark:bg-purple-900/30">
-                <Calendar className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <div className="rounded-lg bg-violet-100 p-2.5 dark:bg-violet-900/40">
+                <Calendar className="h-5 w-5 text-violet-600 dark:text-violet-400" />
               </div>
               <div>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                <p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                   Latest Purchase
                 </p>
-                <p className="text-sm font-semibold text-zinc-900 dark:text-white">
-                  {purchases.length > 0
-                    ? new Date(purchases[0].date).toLocaleDateString("en-US", {
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  {latestPurchase
+                    ? new Date(latestPurchase.date).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
                       })
@@ -142,114 +155,118 @@ export default function Purchases() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </section>
 
-      {/* Search */}
       <Card>
         <CardContent className="p-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
-            <input
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+            <Input
               type="text"
-              placeholder="Search templates..."
+              placeholder="Search purchased templates..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 text-sm rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              className="h-11 rounded-xl border-zinc-200 bg-zinc-50 pl-10 dark:border-zinc-800 dark:bg-zinc-900"
             />
           </div>
         </CardContent>
       </Card>
 
-      {/* Purchases List */}
-      <div>
-        {filteredPurchases.length === 0 ? (
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center p-12">
-              <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800 mb-4">
-                <ShoppingBag className="h-8 w-8 text-zinc-400 dark:text-zinc-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-2">
-                No purchases found
-              </h3>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 text-center mb-6">
-                {searchQuery
-                  ? "Try adjusting your search"
-                  : "Start building your automation library"}
-              </p>
-              <Button asChild>
-                <Link href="/products">Explore Templates</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-4 md:grid-cols-2">
-            {filteredPurchases.map((purchase) => (
-              <Link
-                key={purchase.id}
-                href={`/dashboard/purchases/${purchase.id}`}
-                className="block"
-              >
-                <Card className="hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all cursor-pointer h-full">
-                  <CardContent className="p-5">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shrink-0">
-                          <Package className="h-6 w-6 text-white" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-semibold text-zinc-900 dark:text-white truncate">
-                            {purchase.productName}
-                          </h3>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Badge variant="outline" className="text-xs">
-                              {purchase.tool}
-                            </Badge>
-                            <Badge variant="secondary" className="text-xs">
-                              {purchase.category}
-                            </Badge>
-                          </div>
+      {filteredPurchases.length === 0 ? (
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center p-12 text-center">
+            <div className="mb-4 rounded-full bg-zinc-100 p-4 dark:bg-zinc-800">
+              <ShoppingBag className="h-8 w-8 text-zinc-400 dark:text-zinc-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+              No purchases found
+            </h3>
+            <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+              {searchQuery
+                ? "Try adjusting your search terms."
+                : "Start building your automation library."}
+            </p>
+            <Button asChild className="mt-5 rounded-xl">
+              <Link href="/products">Explore Templates</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      ) : (
+        <section className="grid gap-4 md:grid-cols-2">
+          {filteredPurchases.map((purchase) => (
+            <Link
+              key={purchase.id}
+              href={`/dashboard/purchases/${purchase.id}`}
+              className="block"
+            >
+              <Card className="h-full transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md dark:hover:border-blue-800">
+                <CardContent className="p-5">
+                  <div className="mb-4 flex items-start justify-between gap-3">
+                    <div className="flex min-w-0 flex-1 items-start gap-3">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-violet-600 text-white">
+                        <Package className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                          {purchase.productName}
+                        </h3>
+                        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                          <Badge variant="outline" className="text-[11px]">
+                            {purchase.tool}
+                          </Badge>
+                          <Badge variant="secondary" className="text-[11px]">
+                            {purchase.category}
+                          </Badge>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-zinc-200 dark:border-zinc-800">
-                      <div className="space-y-1">
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                          Purchased on
-                        </p>
-                        <p className="text-sm font-medium text-zinc-900 dark:text-white">
-                          {new Date(purchase.date).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </p>
-                      </div>
-                      <div className="text-right space-y-1">
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                          Price
-                        </p>
-                        <p className="text-sm font-semibold text-zinc-900 dark:text-white">
-                          ${purchase.price.toFixed(2)}
-                        </p>
-                      </div>
+                  <div className="grid grid-cols-2 gap-2 border-t border-zinc-200 pt-3 dark:border-zinc-800">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                        Purchased
+                      </p>
+                      <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                        {new Date(purchase.date).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </p>
                     </div>
+                    <div className="text-right">
+                      <p className="text-[11px] uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                        Price
+                      </p>
+                      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                        ${purchase.price.toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
 
-                    <div className="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
-                      <div className="flex items-center justify-between text-sm text-blue-600 dark:text-blue-400">
-                        <span className="font-medium">
-                          View downloads & details
-                        </span>
-                        <Download className="h-4 w-4" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+                  <div className="mt-4 flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-blue-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-blue-400">
+                    <span className="font-medium">View downloads & details</span>
+                    <Download className="h-4 w-4" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </section>
+      )}
+
+      <Card className="border-zinc-200 dark:border-zinc-800">
+        <CardContent className="flex items-center justify-between gap-3 p-4">
+          <div className="flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+            <TrendingUp className="h-4 w-4 text-emerald-500" />
+            Keep your library fresh with new releases each week.
           </div>
-        )}
-      </div>
+          <Button asChild variant="outline" size="sm" className="rounded-lg">
+            <Link href="/products">Discover New Templates</Link>
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }
