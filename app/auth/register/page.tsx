@@ -28,7 +28,6 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import { authApi } from "@/features/api";
-import AuthShell from "@/components/auth/AuthShell";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -72,24 +71,29 @@ export default function Register() {
   };
 
   return (
-    <AuthShell
-      title="Create account"
-      description="Set up your Autorithm account and start running ready-to-use workflows."
-    >
-      <Card className="border-zinc-800/90 bg-zinc-900/85 shadow-2xl shadow-black/30 backdrop-blur">
+    <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8">
+        {/* Logo/Brand */}
+        <div className="flex flex-col items-center space-y-2 text-center">
+          <h1 className="text-3xl font-bold tracking-tight">Create Account</h1>
+          <p className="text-muted-foreground">
+            Start automating with premium workflows
+          </p>
+        </div>
+
+        {/* Register Card */}
+        <Card className="border-2">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold text-zinc-100">
-              Sign up
-            </CardTitle>
-            <CardDescription className="text-zinc-400">
+            <CardTitle className="text-2xl font-bold">Sign up</CardTitle>
+            <CardDescription>
               Enter your details to create your account
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               {success && (
-                <Alert className="border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
-                  <AlertDescription>
+                <Alert className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
+                  <AlertDescription className="text-green-800 dark:text-green-200">
                     {success}
                   </AlertDescription>
                 </Alert>
@@ -102,11 +106,9 @@ export default function Register() {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-zinc-200">
-                  Full Name
-                </Label>
+                <Label htmlFor="name">Full Name</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
+                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="name"
                     type="text"
@@ -114,18 +116,16 @@ export default function Register() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
-                    className="border-zinc-700 bg-zinc-950/80 pl-10 text-zinc-100 placeholder:text-zinc-500"
+                    className="pl-10"
                     disabled={isLoading}
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-zinc-200">
-                  Email
-                </Label>
+                <Label htmlFor="email">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     type="email"
@@ -133,18 +133,16 @@ export default function Register() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="border-zinc-700 bg-zinc-950/80 pl-10 text-zinc-100 placeholder:text-zinc-500"
+                    className="pl-10"
                     disabled={isLoading}
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-zinc-200">
-                  Password
-                </Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-zinc-500" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
@@ -153,13 +151,13 @@ export default function Register() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     minLength={6}
-                    className="border-zinc-700 bg-zinc-950/80 pl-10 pr-10 text-zinc-100 placeholder:text-zinc-500"
+                    className="pl-10 pr-10"
                     disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-2 top-2.5 rounded p-1 text-zinc-400 hover:text-zinc-100"
+                    className="absolute right-2 top-2.5 rounded p-1 text-muted-foreground hover:text-foreground"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
@@ -172,7 +170,7 @@ export default function Register() {
                     )}
                   </button>
                 </div>
-                <p className="text-xs text-zinc-500">
+                <p className="text-xs text-muted-foreground">
                   Must be at least 6 characters
                 </p>
               </div>
@@ -198,7 +196,7 @@ export default function Register() {
 
               <Button
                 type="submit"
-                className="w-full bg-teal-500 font-semibold text-zinc-950 hover:bg-teal-400"
+                className="w-full"
                 size="lg"
                 disabled={isLoading || !turnstileToken}
               >
@@ -217,17 +215,25 @@ export default function Register() {
             </form>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <div className="text-center text-sm text-zinc-400">
+            <div className="text-sm text-muted-foreground text-center">
               Already have an account?{" "}
               <Link
                 href="/auth/login"
-                className="font-semibold text-teal-300 hover:text-teal-200"
+                className="font-semibold text-primary hover:underline"
               >
                 Log in
               </Link>
             </div>
           </CardFooter>
         </Card>
-    </AuthShell>
+
+        {/* Additional Links */}
+        <div className="text-center text-sm text-muted-foreground">
+          <Link href="/" className="hover:text-primary transition-colors">
+            ← Back to home
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

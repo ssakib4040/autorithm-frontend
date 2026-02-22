@@ -15,7 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import AuthShell from "@/components/auth/AuthShell";
 
 function VerifyEmailContent() {
   const router = useRouter();
@@ -104,22 +103,29 @@ function VerifyEmailContent() {
   };
 
   return (
-    <AuthShell
-      title="Email verification"
-      description={
-        status === "loading"
-          ? "Verifying your email and activating your account."
-          : "Check your verification result and continue."
-      }
-    >
-      <Card className="border-zinc-800/90 bg-zinc-900/85 shadow-2xl shadow-black/30 backdrop-blur">
+    <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8">
+        {/* Logo/Brand */}
+        <div className="flex flex-col items-center space-y-2 text-center">
+          <h1 className="text-3xl font-bold tracking-tight">
+            Email Verification
+          </h1>
+          <p className="text-muted-foreground">
+            {status === "loading"
+              ? "Verifying your email..."
+              : "Verification Status"}
+          </p>
+        </div>
+
+        {/* Verification Card */}
+        <Card className="border-2">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-center text-2xl font-bold text-zinc-100">
+            <CardTitle className="text-2xl font-bold text-center">
               {status === "loading" && "Verifying..."}
               {status === "success" && "Verified!"}
               {status === "error" && "Verification Failed"}
             </CardTitle>
-            <CardDescription className="text-center text-zinc-400">
+            <CardDescription className="text-center">
               {status === "loading" && "Please wait while we verify your email"}
               {status === "success" &&
                 "Your email has been successfully verified"}
@@ -128,25 +134,25 @@ function VerifyEmailContent() {
           </CardHeader>
           <CardContent className="space-y-4">
             {status === "loading" && (
-                <div className="flex justify-center py-8">
-                <Loader2 className="h-12 w-12 animate-spin text-teal-300" />
-                </div>
-              )}
+              <div className="flex justify-center py-8">
+                <Loader2 className="h-12 w-12 animate-spin text-primary" />
+              </div>
+            )}
 
             {status === "success" && (
               <>
-                <Alert className="border-emerald-500/30 bg-emerald-500/10 text-emerald-200">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-                  <AlertDescription>
+                <Alert className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
+                  <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  <AlertDescription className="text-green-800 dark:text-green-200">
                     {message}
                   </AlertDescription>
                 </Alert>
 
                 <div className="flex justify-center">
-                  <CheckCircle2 className="h-16 w-16 text-emerald-300" />
+                  <CheckCircle2 className="h-16 w-16 text-green-500" />
                 </div>
 
-                <p className="text-center text-sm text-zinc-400">
+                <p className="text-center text-sm text-muted-foreground">
                   Redirecting you to login...
                 </p>
               </>
@@ -189,11 +195,7 @@ function VerifyEmailContent() {
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
             {status === "success" && (
-              <Button
-                asChild
-                className="w-full bg-teal-500 font-semibold text-zinc-950 hover:bg-teal-400"
-                size="lg"
-              >
+              <Button asChild className="w-full" size="lg">
                 <Link href="/auth/login">Continue to Login</Link>
               </Button>
             )}
@@ -205,7 +207,15 @@ function VerifyEmailContent() {
             )}
           </CardFooter>
         </Card>
-    </AuthShell>
+
+        {/* Additional Links */}
+        <div className="text-center text-sm text-muted-foreground">
+          <Link href="/" className="hover:text-primary transition-colors">
+            ← Back to home
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
 
