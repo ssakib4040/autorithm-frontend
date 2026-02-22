@@ -92,9 +92,9 @@ export function PaymentGatewaySelector({
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetContent
           side="right"
-          className="w-full sm:max-w-[500px] overflow-y-auto p-6 sm:p-8"
+          className="w-full sm:max-w-125 overflow-y-auto p-6 sm:p-8"
         >
-          <SheetHeader className="mb-8">
+          <SheetHeader className="mb-8 px-0 pb-0">
             <SheetTitle className="text-2xl">Choose Payment Method</SheetTitle>
             <SheetDescription className="mt-2">
               Select your preferred payment gateway to complete your purchase
