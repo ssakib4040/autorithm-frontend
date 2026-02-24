@@ -24,7 +24,6 @@ import User from "@/models/User";
 import { connectMongoose } from "@/lib/mongoose";
 import { WishlistButton } from "./WishlistButton";
 import { PaymentGatewaySelector } from "./PaymentGatewaySelector";
-import packageJson from "../../../package.json";
 
 // Technology logo mapping
 const getTechLogo = (techName: string): string | null => {
@@ -97,8 +96,6 @@ const getDiscountLabel = (discount?: DiscountInfo) => {
     ? `$${value} OFF`
     : `${value}% OFF`;
 };
-
-const currentVersion = packageJson.version;
 
 export default async function ProductDetails({
   params,
@@ -259,7 +256,7 @@ export default async function ProductDetails({
                 {productDetails.description}
               </p>
               <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
-                Current version: v{currentVersion}
+                Current version: v1.0.0
               </p>
             </div>
 
