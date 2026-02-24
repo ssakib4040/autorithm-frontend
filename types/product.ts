@@ -46,6 +46,10 @@ export interface Product {
     size: string;
     url: string;
   }[]; // Available download files
+  versions?: {
+    name: string;
+    creation_date: Date;
+  }[]; // Product version history
   stats?: {
     totalSales?: number;
     totalRevenue?: number;

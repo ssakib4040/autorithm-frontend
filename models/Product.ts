@@ -53,6 +53,14 @@ const DownloadSchema = new Schema(
   { _id: false },
 );
 
+const VersionSchema = new Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    creation_date: { type: Date, required: true },
+  },
+  { _id: false },
+);
+
 const StatsSchema = new Schema(
   {
     totalSales: { type: Number, default: 0, min: 0 },
@@ -89,6 +97,7 @@ const ProductSchema = new Schema(
     whatsIncluded: { type: [String], default: [] },
     faqs: { type: [FAQSchema], default: [] },
     downloads: { type: [DownloadSchema], default: [] },
+    versions: { type: [VersionSchema], default: [] },
     stats: {
       type: StatsSchema,
       default: () => ({
