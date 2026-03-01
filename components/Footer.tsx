@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Twitter, Linkedin } from "lucide-react";
+import { Github, Twitter, Linkedin, Facebook } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export default function Footer() {
@@ -25,9 +25,13 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { href: "#", label: "Twitter", icon: Twitter },
-    { href: "#", label: "GitHub", icon: Github },
-    { href: "#", label: "LinkedIn", icon: Linkedin },
+    { href: "https://x.com/theautorithm", label: "Twitter", icon: Twitter },
+    {
+      href: "https://www.facebook.com/autorithm",
+      label: "Facebook",
+      icon: Facebook,
+    },
+    { href: "https://www.linkedin.com/company/autorithm", label: "LinkedIn", icon: Linkedin },
   ];
 
   return (
@@ -61,6 +65,7 @@ export default function Footer() {
                   <Link
                     key={social.label}
                     href={social.href}
+                    target="_blank"
                     className="flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
                     aria-label={social.label}
                   >
