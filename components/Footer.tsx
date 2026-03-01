@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Twitter, Linkedin, Facebook } from "lucide-react";
+import { Github, Twitter, Linkedin, Facebook, Youtube } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export default function Footer() {
@@ -31,7 +31,17 @@ export default function Footer() {
       label: "Facebook",
       icon: Facebook,
     },
-    { href: "https://www.linkedin.com/company/autorithm", label: "LinkedIn", icon: Linkedin },
+    {
+      href: "https://www.linkedin.com/company/autorithm",
+      label: "LinkedIn",
+      icon: Linkedin,
+    },
+    // youtube
+    {
+      href: "https://www.youtube.com/@autorithm",
+      label: "YouTube",
+      icon: Youtube,
+    },
   ];
 
   return (
