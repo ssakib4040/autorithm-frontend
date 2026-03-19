@@ -1,8 +1,19 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+import { getCanonicalRedirectUrl } from "@/lib/canonical-url";
+
+const CANONICAL_HOST = "autorithm.net";
 
 export default withAuth(
-  function middleware(req) {
+  function middleware(req: NextRequest) {
+    const canonicalRedirectUrl = getCanonicalRedirectUrl(req, CANONICAL_HOST);
+
+    if (canonicalRedirectUrl) {
+      return NextResponse.redirect(canonicalRedirectUrl, 308);
+    }
+
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 

@@ -35,7 +35,7 @@ export async function POST(request: Request) {
         productName,
         price,
         category || "Automation",
-        downloadLink || "https://autorithm.com/dashboard/purchases",
+        downloadLink || "https://autorithm.net/dashboard/purchases",
         orderId,
       ),
     });
@@ -61,3 +61,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

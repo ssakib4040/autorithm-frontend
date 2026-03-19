@@ -9,7 +9,7 @@ import { useState } from "react";
 export default function Referral() {
   const [copied, setCopied] = useState(false);
 
-  const referralLink = "https://autorithm.com/ref/user_12345";
+  const referralLink = "https://autorithm.net/ref/user_12345";
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(referralLink);
@@ -164,3 +164,4 @@ export default function Referral() {
     </div>
   );
 }
+
