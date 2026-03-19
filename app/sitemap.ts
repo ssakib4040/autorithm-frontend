@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 
-import { allProducts } from "@/scripts/data/products";
-
 const SITE_URL = "https://autorithm.net";
+
+const allProducts: Array<{ slug: string; tool: string }> = [];
 
 const staticRoutes: Array<{
   path: string;
@@ -43,3 +43,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [...staticEntries, ...productEntries];
 }
+
