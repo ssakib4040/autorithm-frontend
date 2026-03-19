@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
-import { GoogleTagManager } from "@next/third-parties/google";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "../styles/globals.css";
@@ -14,12 +14,13 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://autorithm.net"),
@@ -86,18 +87,13 @@ export default function RootLayout({
         >
           <AuthProvider>
             <LayoutWrapper>{children}</LayoutWrapper>
-          <Toaster />
+            <Toaster />
           </AuthProvider>
         </ThemeProvider>
         <Analytics />
         {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
+        {gaId ? <GoogleAnalytics gaId={gaId} /> : null}
       </body>
     </html>
   );
 }
-
-
-
-
-
-
