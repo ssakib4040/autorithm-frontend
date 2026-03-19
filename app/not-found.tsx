@@ -6,7 +6,12 @@ import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Page Not Found",
-  description: "The page you requested could not be found. Browse Autorithm's automation workflows, templates, and resources from the main site.",
+  description:
+    "The page you requested could not be found. Browse Autorithm's automation workflows, templates, and resources from the main site.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function NotFound() {
@@ -55,5 +60,6 @@ export default function NotFound() {
     </>
   );
 }
+
 
 
