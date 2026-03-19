@@ -37,7 +37,7 @@ interface ProductsPageProps {
 }
 
 export const metadata: Metadata = {
-  title: "Products - Autorithm",
+  title: "Products",
   description: "Explore our premium automation workflows for n8n and Make.com",
 };
 
@@ -407,3 +407,4 @@ function ProductGridSkeleton() {
     </section>
   );
 }
+

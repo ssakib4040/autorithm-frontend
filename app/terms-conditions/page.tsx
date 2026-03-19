@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { FileText } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Terms and Conditions - Autorithm",
+  title: "Terms and Conditions",
   description:
     "Terms and conditions for using Autorithm services and products.",
 };
@@ -156,3 +156,4 @@ export default function TermsConditions() {
     </>
   );
 }
+

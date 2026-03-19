@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { RefreshCcw } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Refund Policy - Autorithm",
+  title: "Refund Policy",
   description: "Refund policy regarding our digital products and services.",
 };
 
@@ -130,3 +130,4 @@ export default function RefundPolicy() {
     </>
   );
 }
+

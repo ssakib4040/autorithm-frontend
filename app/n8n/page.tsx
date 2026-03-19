@@ -25,7 +25,7 @@ import {
 import { getProductsByTool } from "@/scripts/data/products";
 
 export const metadata: Metadata = {
-  title: "n8n Automation Workflows - Autorithm",
+  title: "n8n Automation Workflows",
   description:
     "Premium n8n workflows for your business. Self-hosted automation solutions built by experts.",
 };
@@ -559,3 +559,4 @@ export default function N8nPage() {
     </div>
   );
 }
+

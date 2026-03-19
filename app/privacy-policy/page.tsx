@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Shield } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Autorithm",
+  title: "Privacy Policy",
   description:
     "Privacy Policy outlining how we collect, use, and protect your data.",
 };
@@ -133,3 +133,4 @@ export default function PrivacyPolicy() {
     </>
   );
 }
+
