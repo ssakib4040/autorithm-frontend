@@ -2,17 +2,8 @@ import { withAuth } from "next-auth/middleware";
 import type { NextRequestWithAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-import { getCanonicalRedirectUrl } from "@/lib/canonical-url";
-
-const CANONICAL_HOST = "autorithm.net";
-
-export default withAuth(function middleware(req: NextRequestWithAuth) {
-    const canonicalRedirectUrl = getCanonicalRedirectUrl(req, CANONICAL_HOST);
-
-    if (canonicalRedirectUrl) {
-      return NextResponse.redirect(canonicalRedirectUrl, 308);
-    }
-
+export default withAuth(
+  function middleware(req: NextRequestWithAuth) {
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
@@ -58,19 +49,8 @@ export default withAuth(function middleware(req: NextRequestWithAuth) {
   },
 );
 
-// Specify which routes this middleware should run on
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public files (images, etc)
-     */
     "/((?!_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$).*)",
   ],
 };
-
-
-
