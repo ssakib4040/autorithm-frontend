@@ -1,13 +1,12 @@
 import { withAuth } from "next-auth/middleware";
+import type { NextRequestWithAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
 import { getCanonicalRedirectUrl } from "@/lib/canonical-url";
 
 const CANONICAL_HOST = "autorithm.net";
 
-export default withAuth(
-  function middleware(req: NextRequest) {
+export default withAuth(function middleware(req: NextRequestWithAuth) {
     const canonicalRedirectUrl = getCanonicalRedirectUrl(req, CANONICAL_HOST);
 
     if (canonicalRedirectUrl) {
@@ -72,3 +71,6 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$).*)",
   ],
 };
+
+
+
