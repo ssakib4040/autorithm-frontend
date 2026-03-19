@@ -3,8 +3,8 @@ import { Metadata } from "next";
 import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact Us - Autorithm",
-  description: "Get in touch with the Autorithm team for support or inquiries.",
+  title: "Contact Us",
+  description: "Contact Autorithm for product support, custom automation inquiries, workflow questions, or help choosing the right n8n or Make.com solution.",
 };
 
 export default function Contact() {
@@ -44,3 +44,5 @@ export default function Contact() {
     </>
   );
 }
+
+

@@ -28,7 +28,7 @@ import {
 import { getProductsByTool } from "@/scripts/data/products";
 
 export const metadata: Metadata = {
-  title: "Make.com Automation Scenarios - Autorithm",
+  title: "Make.com Automation Scenarios",
   description:
     "Premium Make.com scenarios for your business. Cloud-based automation solutions built by experts.",
 };
@@ -542,3 +542,4 @@ export default function MakePage() {
     </div>
   );
 }
+

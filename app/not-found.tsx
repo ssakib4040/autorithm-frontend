@@ -5,8 +5,8 @@ import { Home, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Page Not Found - Autorithm",
-  description: "The page you are looking for does not exist.",
+  title: "Page Not Found",
+  description: "The page you requested could not be found. Browse Autorithm's automation workflows, templates, and resources from the main site.",
 };
 
 export default function NotFound() {
@@ -55,3 +55,5 @@ export default function NotFound() {
     </>
   );
 }
+
+

@@ -12,7 +12,10 @@ export async function toggleWishlist(productId: string | number) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return { success: false, error: "Unauthorized" };
+      return {
+        success: false,
+        error: "Please sign in to manage your wishlist",
+      };
     }
 
     await connectMongoose();
@@ -44,7 +47,7 @@ export async function toggleWishlist(productId: string | number) {
     await user.save();
 
     // Revalidate the current path to refresh the UI
-    revalidatePath(`/products/[slug]`); 
+    revalidatePath(`/products/[slug]`);
 
     return {
       success: true,

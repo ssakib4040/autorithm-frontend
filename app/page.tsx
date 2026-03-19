@@ -44,9 +44,34 @@ const useCases = [
 ];
 
 export const metadata: Metadata = {
-  title: "Autorithm - Premium Automation Marketplace",
+  title: "Premium Automation Marketplace",
   description:
-    "Pre-built automation workflows for n8n and Make.com. Save hours of development time with our premium automation kits.",
+    "Shop production-ready n8n workflows, Make.com templates, and AI automation systems. Autorithm helps teams launch reliable automations faster without starting from scratch.",
+  keywords: [
+    "premium automation marketplace",
+    "n8n workflow templates",
+    "Make.com scenarios",
+    "AI automation systems",
+    "business process automation",
+    "workflow templates",
+    "automation kits",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Premium Automation Marketplace | Autorithm",
+    description:
+      "Shop production-ready n8n workflows, Make.com templates, and AI automation systems. Autorithm helps teams launch reliable automations faster without starting from scratch.",
+    url: "https://autorithm.net",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Premium Automation Marketplace | Autorithm",
+    description:
+      "Shop production-ready n8n workflows, Make.com templates, and AI automation systems. Autorithm helps teams launch reliable automations faster without starting from scratch.",
+  },
 };
 
 export default function Home() {
@@ -767,3 +792,5 @@ export default function Home() {
     </div>
   );
 }
+
+
