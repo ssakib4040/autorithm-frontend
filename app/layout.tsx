@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "../styles/globals.css";
@@ -12,6 +13,8 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -87,10 +90,12 @@ export default function RootLayout({
           </AuthProvider>
         </ThemeProvider>
         <Analytics />
+        {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
       </body>
     </html>
   );
 }
+
 
 
 
