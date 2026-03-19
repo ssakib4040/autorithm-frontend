@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: "Premium Automation Marketplace | Autorithm",
     description:
       "Shop production-ready n8n workflows, Make.com templates, and AI automation systems. Autorithm helps teams launch reliable automations faster without starting from scratch.",
-    url: "https://autorithm.com",
+    url: "https://autorithm.net",
     type: "website",
   },
   twitter: {
@@ -792,4 +792,5 @@ export default function Home() {
     </div>
   );
 }
+
 

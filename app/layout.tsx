@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://autorithm.com"),
+  metadataBase: new URL("https://autorithm.net"),
   title: {
     default: "Autorithm | Production-Ready n8n & Make.com Automation Workflows",
     template: "%s | Autorithm",
@@ -91,6 +91,7 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 
 

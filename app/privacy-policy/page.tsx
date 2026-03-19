@@ -8,7 +8,7 @@ import { Shield } from "lucide-react";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy Policy outlining how we collect, use, and protect your data.",
+    "Learn how Autorithm collects, uses, stores, and protects your personal information when you browse, purchase, or use our automation products.",
 };
 
 export default function PrivacyPolicy() {
@@ -133,4 +133,5 @@ export default function PrivacyPolicy() {
     </>
   );
 }
+
 

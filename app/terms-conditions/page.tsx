@@ -7,7 +7,7 @@ import { FileText } from "lucide-react";
 export const metadata: Metadata = {
   title: "Terms and Conditions",
   description:
-    "Terms and conditions for using Autorithm services and products.",
+    "Read Autorithm's terms and conditions for using our automation workflows, digital products, marketplace features, and related services.",
 };
 
 export default function TermsConditions() {
@@ -156,4 +156,6 @@ export default function TermsConditions() {
     </>
   );
 }
+
+
 

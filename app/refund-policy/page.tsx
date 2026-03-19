@@ -6,7 +6,7 @@ import { RefreshCcw } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Refund Policy",
-  description: "Refund policy regarding our digital products and services.",
+  description: "Review Autorithm's refund policy for digital automation workflows, downloadable products, custom services, eligibility, and support cases.",
 };
 
 export default function RefundPolicy() {
@@ -130,4 +130,5 @@ export default function RefundPolicy() {
     </>
   );
 }
+
 
