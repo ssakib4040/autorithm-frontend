@@ -79,158 +79,235 @@ function LoginForm() {
     }
   };
 
+  const isProduction = process.env.NODE_ENV === "production";
+
   return (
-    <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo/Brand */}
-        <div className="flex flex-col items-center space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
-          <p className="text-muted-foreground">
-            Enter your credentials to access your account
-          </p>
-        </div>
+    <>
+      <div className="min-h-screen w-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md space-y-8">
+          {/* Logo/Brand */}
+          <div className="flex flex-col items-center space-y-2 text-center">
+            <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
+            <p className="text-muted-foreground">
+              Enter your credentials to access your account
+            </p>
+          </div>
 
-        {/* Login Card */}
-        <Card className="border-2">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
-            <CardDescription>
-              Enter your email and password to continue
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+          {/* Login Card */}
+          <Card className="border-2">
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
+              <CardDescription>
+                Enter your email and password to continue
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              {successMessage && (
-                <Alert className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
-                  <AlertDescription className="text-green-800 dark:text-green-200">
-                    {successMessage}
-                  </AlertDescription>
-                </Alert>
-              )}
-
-              {error && (
-                <Alert variant="destructive">
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="pl-10"
-                    disabled={isLoading}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/auth/forgot-password"
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="pl-10 pr-10"
-                    disabled={isLoading}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-2 top-2.5 rounded p-1 text-muted-foreground hover:text-foreground"
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                    disabled={isLoading}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              {/* Turnstile */}
-              <div className="w-full">
-                <Turnstile
-                  siteKey={
-                    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
-                    "1x00000000000000000000AA"
-                  }
-                  onSuccess={(token) => setTurnstileToken(token)}
-                  onError={() =>
-                    setError("Verification failed. Please try again.")
-                  }
-                  onExpire={() => setTurnstileToken("")}
-                  options={{
-                    theme: "auto",
-                    size: "flexible",
-                  }}
-                />
-              </div>
-
-              <Button
-                type="submit"
-                className="w-full"
-                size="lg"
-                disabled={isLoading || !turnstileToken}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Signing in...
-                  </>
-                ) : (
-                  <>
-                    Sign in
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </>
+                {successMessage && (
+                  <Alert className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
+                    <AlertDescription className="text-green-800 dark:text-green-200">
+                      {successMessage}
+                    </AlertDescription>
+                  </Alert>
                 )}
-              </Button>
-            </form>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <div className="text-sm text-muted-foreground text-center">
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/auth/register"
-                className="font-semibold text-primary hover:underline"
-              >
-                Sign up
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
 
-        {/* Additional Links */}
-        <div className="text-center text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-primary transition-colors">
-            ← Back to home
-          </Link>
+                {error && (
+                  <Alert variant="destructive">
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="name@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="pl-10"
+                      disabled={isLoading}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password">Password</Label>
+                    <Link
+                      href="/auth/forgot-password"
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="pl-10 pr-10"
+                      disabled={isLoading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      className="absolute right-2 top-2.5 rounded p-1 text-muted-foreground hover:text-foreground"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                      disabled={isLoading}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Turnstile */}
+                <div className="w-full">
+                  <Turnstile
+                    siteKey={
+                      process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+                      "1x00000000000000000000AA"
+                    }
+                    onSuccess={(token) => setTurnstileToken(token)}
+                    onError={() =>
+                      setError("Verification failed. Please try again.")
+                    }
+                    onExpire={() => setTurnstileToken("")}
+                    options={{
+                      theme: "auto",
+                      size: "flexible",
+                    }}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full"
+                  size="lg"
+                  disabled={isLoading || !turnstileToken}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    <>
+                      Sign in
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </form>
+            </CardContent>
+            <CardFooter className="flex flex-col space-y-4">
+              <div className="text-sm text-muted-foreground text-center">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/auth/register"
+                  className="font-semibold text-primary hover:underline"
+                >
+                  Sign up
+                </Link>
+              </div>
+            </CardFooter>
+          </Card>
+
+          {/* Additional Links */}
+          <div className="text-center text-sm text-muted-foreground">
+            <Link href="/" className="hover:text-primary transition-colors">
+              ← Back to home
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* FIXED Demo Credentials Toast/Modal */}
+      {process.env.NODE_ENV === "development" && (
+        <div className="fixed bottom-4 right-4 z-[9999] w-[300px]">
+          <Card className="border-2 shadow-2xl bg-card">
+            <CardHeader className=" px-4 !pt-0 !pb-2 border-b">
+              <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                <Lock className="h-4 w-4 text-primary" />
+                Demo Credentials
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 space-y-4">
+              {/* Admin */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Admin</span>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-6 text-[10px] px-2 shadow-sm"
+                    onClick={() => {
+                      setEmail("admin@autorithm.com");
+                      setPassword("admin123");
+                    }}
+                  >
+                    Auto-fill
+                  </Button>
+                </div>
+                <div className="bg-muted p-2 rounded-md text-xs font-mono space-y-1 border border-border/50">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">E:</span>
+                    <span>admin@autorithm.com</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">P:</span>
+                    <span>admin123</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* User */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">User</span>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-6 text-[10px] px-2 shadow-sm"
+                    onClick={() => {
+                      setEmail("user@autorithm.com");
+                      setPassword("user123");
+                    }}
+                  >
+                    Auto-fill
+                  </Button>
+                </div>
+                <div className="bg-muted p-2 rounded-md text-xs font-mono space-y-1 border border-border/50">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">E:</span>
+                    <span>user@autorithm.com</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">P:</span>
+                    <span>user123</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </>
   );
 }
 
