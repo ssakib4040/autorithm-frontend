@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Twitter, Linkedin, Facebook, Youtube } from "lucide-react";
+import { Twitter, Linkedin, Facebook, Youtube } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export default function Footer() {
@@ -13,9 +13,9 @@ export default function Footer() {
   ];
 
   const companyLinks = [
-    { href: "/#about", label: "About" },
+    { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
-    { href: "/#services", label: "Services" },
+    { href: "/products", label: "Services" },
   ];
 
   const legalLinks = [
@@ -35,12 +35,6 @@ export default function Footer() {
       href: "https://www.linkedin.com/company/autorithm",
       label: "LinkedIn",
       icon: Linkedin,
-    },
-    // youtube
-    {
-      href: "https://www.youtube.com/@autorithm",
-      label: "YouTube",
-      icon: Youtube,
     },
   ];
 

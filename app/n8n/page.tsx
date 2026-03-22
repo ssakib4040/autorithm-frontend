@@ -23,11 +23,24 @@ import {
   Shield,
 } from "lucide-react";
 import { getProductsByTool } from "@/scripts/data/products";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+
+const siteUrl = "https://autorithm.net";
 
 export const metadata: Metadata = {
   title: "n8n Automation Workflows",
   description:
     "Premium n8n workflows for your business. Self-hosted automation solutions built by experts.",
+  alternates: {
+    canonical: "/n8n",
+  },
+  openGraph: {
+    title: "n8n Automation Workflows | Autorithm",
+    description:
+      "Premium n8n workflows for your business. Self-hosted automation solutions built by experts.",
+    url: `${siteUrl}/n8n`,
+    type: "website",
+  },
 };
 
 // Get n8n products from centralized data
@@ -36,6 +49,13 @@ const n8nProducts = getProductsByTool("n8n").slice(0, 6);
 export default function N8nPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-900">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", item: siteUrl },
+          { name: "n8n", item: `${siteUrl}/n8n` },
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
@@ -559,4 +579,3 @@ export default function N8nPage() {
     </div>
   );
 }
-
