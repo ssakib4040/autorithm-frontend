@@ -26,11 +26,24 @@ import {
   Clock,
 } from "lucide-react";
 import { getProductsByTool } from "@/scripts/data/products";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+
+const siteUrl = "https://autorithm.net";
 
 export const metadata: Metadata = {
   title: "Make.com Automation Scenarios",
   description:
     "Premium Make.com scenarios for your business. Cloud-based automation solutions built by experts.",
+  alternates: {
+    canonical: "/make",
+  },
+  openGraph: {
+    title: "Make.com Automation Scenarios | Autorithm",
+    description:
+      "Premium Make.com scenarios for your business. Cloud-based automation solutions built by experts.",
+    url: `${siteUrl}/make`,
+    type: "website",
+  },
 };
 
 // Get Make.com products from centralized data
@@ -39,6 +52,13 @@ const makeProducts = getProductsByTool("Make").slice(0, 6);
 export default function MakePage() {
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-900">
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", item: siteUrl },
+          { name: "Make.com", item: `${siteUrl}/make` },
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
@@ -542,4 +562,3 @@ export default function MakePage() {
     </div>
   );
 }
-

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 
 import "../styles/globals.css";
 import AuthProvider from "../components/AuthProvider";
@@ -21,6 +22,27 @@ const geistMono = Geist_Mono({
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
+const siteUrl = "https://autorithm.net";
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Autorithm",
+  url: siteUrl,
+  logo: `${siteUrl}/brand-2.svg`,
+  sameAs: [
+    "https://x.com/theautorithm",
+    "https://www.facebook.com/autorithm",
+    "https://www.linkedin.com/company/autorithm",
+  ],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Autorithm",
+  url: siteUrl,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://autorithm.net"),
@@ -90,6 +112,20 @@ export default function RootLayout({
             <Toaster />
           </AuthProvider>
         </ThemeProvider>
+        <Script
+          id="organization-jsonld"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <Script
+          id="website-jsonld"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         <Analytics />
         {gtmId ? <GoogleTagManager gtmId={gtmId} /> : null}
         {gaId ? <GoogleAnalytics gaId={gaId} /> : null}

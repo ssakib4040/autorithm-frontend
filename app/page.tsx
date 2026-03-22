@@ -113,7 +113,7 @@ export default function Home() {
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="text-lg">
-                  <Link href="#contact">Get Custom Automation</Link>
+                  <Link href="/contact">Get Custom Automation</Link>
                 </Button>
               </div>
             </div>
@@ -769,12 +769,7 @@ export default function Home() {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button
-              size="lg"
-              asChild
-              variant="outline"
-              className="text-lg"
-            >
+            <Button size="lg" asChild variant="outline" className="text-lg">
               <Link href="/contact">Get Custom Automation</Link>
             </Button>
           </div>
@@ -792,5 +787,3 @@ export default function Home() {
     </div>
   );
 }
-
-

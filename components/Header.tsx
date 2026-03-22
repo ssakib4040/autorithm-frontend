@@ -46,6 +46,7 @@ export default function Header({
 
   const navLinks = [
     { href: "/products", label: "Products", icon: ShoppingBag },
+    { href: "/about", label: "About", icon: User },
     { href: "/n8n", label: "N8N Integrations", icon: Workflow },
     { href: "/make", label: "Make.com Integrations", icon: Plug },
     { href: "/contact", label: "Contact", icon: Mail },

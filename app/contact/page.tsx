@@ -1,15 +1,35 @@
 import { Metadata } from "next";
 
 import ContactForm from "./ContactForm";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+
+const siteUrl = "https://autorithm.net";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: "Contact Autorithm for product support, custom automation inquiries, workflow questions, or help choosing the right n8n or Make.com solution.",
+  description:
+    "Contact Autorithm for product support, custom automation inquiries, workflow questions, or help choosing the right n8n or Make.com solution.",
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Us | Autorithm",
+    description:
+      "Contact Autorithm for product support, custom automation inquiries, workflow questions, or help choosing the right n8n or Make.com solution.",
+    url: `${siteUrl}/contact`,
+    type: "website",
+  },
 };
 
 export default function Contact() {
   return (
     <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", item: siteUrl },
+          { name: "Contact", item: `${siteUrl}/contact` },
+        ]}
+      />
       <div className="relative min-h-screen overflow-hidden bg-linear-to-b from-zinc-50 via-white to-zinc-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#0f172a12_1px,transparent_1px),linear-gradient(to_bottom,#0f172a12_1px,transparent_1px)] bg-size-[28px_28px] opacity-40 dark:opacity-25" />
         <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-20">
@@ -44,5 +64,3 @@ export default function Contact() {
     </>
   );
 }
-
-

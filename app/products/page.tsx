@@ -24,8 +24,10 @@ import { productsApi } from "@/features/api";
 import { Product } from "@/types/product";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 
 const tools = ["All", "n8n", "Make"];
+const siteUrl = "https://autorithm.net";
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -38,7 +40,18 @@ interface ProductsPageProps {
 
 export const metadata: Metadata = {
   title: "Products",
-  description: "Explore premium n8n workflows, Make.com templates, and production-ready automation systems built to help teams launch faster and scale reliably.",
+  description:
+    "Explore premium n8n workflows, Make.com templates, and production-ready automation systems built to help teams launch faster and scale reliably.",
+  alternates: {
+    canonical: "/products",
+  },
+  openGraph: {
+    title: "Products | Autorithm",
+    description:
+      "Explore premium n8n workflows, Make.com templates, and production-ready automation systems built to help teams launch faster and scale reliably.",
+    url: `${siteUrl}/products`,
+    type: "website",
+  },
 };
 
 export default async function Products({ searchParams }: ProductsPageProps) {
@@ -98,6 +111,12 @@ export default async function Products({ searchParams }: ProductsPageProps) {
 
   return (
     <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", item: siteUrl },
+          { name: "Products", item: `${siteUrl}/products` },
+        ]}
+      />
       {/* Page Hero */}
       <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 py-24">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
@@ -407,5 +426,3 @@ function ProductGridSkeleton() {
     </section>
   );
 }
-
-
