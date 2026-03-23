@@ -18,12 +18,35 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           background:
-            "radial-gradient(circle at top left, #34d399 0%, #0f172a 45%, #020617 100%)",
+            "radial-gradient(circle at top left, rgba(56, 189, 248, 0.16) 0%, rgba(15, 23, 42, 0.94) 34%, #020617 72%)",
           color: "#f8fafc",
           padding: "64px",
           fontFamily: "Arial, sans-serif",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 34%)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            right: -120,
+            top: -120,
+            width: 360,
+            height: 360,
+            borderRadius: 9999,
+            background: "rgba(59, 130, 246, 0.10)",
+            filter: "blur(12px)",
+          }}
+        />
+
         <div
           style={{
             display: "flex",
@@ -33,7 +56,7 @@ export default function OpenGraphImage() {
             fontWeight: 700,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
-            color: "#a7f3d0",
+            color: "#e2e8f0",
           }}
         >
           <div
@@ -41,7 +64,8 @@ export default function OpenGraphImage() {
               width: 18,
               height: 18,
               borderRadius: 9999,
-              backgroundColor: "#34d399",
+              background: "linear-gradient(135deg, #38bdf8 0%, #818cf8 100%)",
+              boxShadow: "0 0 24px rgba(56, 189, 248, 0.35)",
             }}
           />
           Autorithm
@@ -63,7 +87,7 @@ export default function OpenGraphImage() {
               maxWidth: 920,
               fontSize: 30,
               lineHeight: 1.35,
-              color: "#cbd5e1",
+              color: "#94a3b8",
             }}
           >
             Premium templates, AI automations, and proven systems built to help teams ship faster.
@@ -80,30 +104,30 @@ export default function OpenGraphImage() {
         >
           <div
             style={{
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: "1px solid rgba(148,163,184,0.28)",
               borderRadius: 9999,
               padding: "12px 20px",
-              backgroundColor: "rgba(15, 23, 42, 0.35)",
+              backgroundColor: "rgba(15, 23, 42, 0.72)",
             }}
           >
             n8n Workflows
           </div>
           <div
             style={{
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: "1px solid rgba(148,163,184,0.28)",
               borderRadius: 9999,
               padding: "12px 20px",
-              backgroundColor: "rgba(15, 23, 42, 0.35)",
+              backgroundColor: "rgba(15, 23, 42, 0.72)",
             }}
           >
             Make.com Templates
           </div>
           <div
             style={{
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: "1px solid rgba(148,163,184,0.28)",
               borderRadius: 9999,
               padding: "12px 20px",
-              backgroundColor: "rgba(15, 23, 42, 0.35)",
+              backgroundColor: "rgba(15, 23, 42, 0.72)",
             }}
           >
             AI Automation
