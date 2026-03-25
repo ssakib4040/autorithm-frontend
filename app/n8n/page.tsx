@@ -27,19 +27,68 @@ import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 
 const siteUrl = "https://autorithm.net";
 
+const n8nFaqs = [
+  {
+    question: "What are premium n8n automation templates?",
+    answer:
+      "Premium n8n automation templates are production-ready workflows designed with modular architecture, error handling, logging, and clear setup documentation so teams can deploy faster with less risk.",
+  },
+  {
+    question: "Who should use premium n8n templates?",
+    answer:
+      "They are ideal for SaaS teams, agencies, and operators who need reliable automations for lead routing, customer lifecycle workflows, reporting, and internal operations.",
+  },
+  {
+    question: "How are these templates different from free workflows?",
+    answer:
+      "Free workflows are often proof-of-concept level. Premium templates include stronger architecture patterns, validation, observability, and support assets that make them easier to run in real production environments.",
+  },
+  {
+    question: "Can I customize premium n8n templates for my stack?",
+    answer:
+      "Yes. Templates are designed to be extended with your APIs, custom nodes, and environment-specific logic while keeping clean workflow structure and maintainability.",
+  },
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: n8nFaqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
 export const metadata: Metadata = {
-  title: "n8n Automation Workflows",
+  title: "Premium n8n Automation Templates",
   description:
-    "Premium n8n workflows for your business. Self-hosted automation solutions built by experts.",
+    "Browse premium n8n automation templates built for production. Deploy self-hosted workflows with robust architecture, error handling, and scalability.",
+  keywords: [
+    "premium n8n automation templates",
+    "n8n automation templates",
+    "n8n workflow templates",
+    "self-hosted automation templates",
+    "production n8n workflows",
+  ],
   alternates: {
     canonical: "/n8n",
   },
   openGraph: {
-    title: "n8n Automation Workflows | Autorithm",
+    title: "Premium n8n Automation Templates | Autorithm",
     description:
-      "Premium n8n workflows for your business. Self-hosted automation solutions built by experts.",
+      "Browse premium n8n automation templates built for production. Deploy self-hosted workflows with robust architecture, error handling, and scalability.",
     url: `${siteUrl}/n8n`,
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Premium n8n Automation Templates | Autorithm",
+    description:
+      "Browse premium n8n automation templates built for production. Deploy self-hosted workflows with robust architecture, error handling, and scalability.",
   },
 };
 
@@ -55,6 +104,10 @@ export default function N8nPage() {
           { name: "n8n", item: `${siteUrl}/n8n` },
         ]}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-linear-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-zinc-900">
@@ -68,20 +121,21 @@ export default function N8nPage() {
             </Badge>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-zinc-900 dark:text-white mb-6">
-              n8n Automation,
+              Premium n8n
               <br />
-              Built for Production
+              Automation Templates
             </h1>
 
             <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
-              Self-hosted, flexible, developer-grade workflows that give you
-              complete control over your automation logic and data
+              Production-ready, self-hosted templates designed for teams that
+              need reliable workflows, clean architecture, and full control
+              over data and automation logic
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button asChild size="lg" className="text-lg">
                 <Link href="/products?tool=n8n">
-                  Browse n8n Automation Kits
+                  Browse Premium n8n Templates
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg">
@@ -435,10 +489,11 @@ export default function N8nPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white mb-4">
-              Featured n8n Automation Kits
+              Featured Premium n8n Automation Templates
             </h2>
             <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto">
-              Ready-to-deploy n8n workflows built with production best practices
+              Ready-to-deploy templates built with production-grade n8n best
+              practices
             </p>
           </div>
 
@@ -464,6 +519,92 @@ export default function N8nPage() {
                   <Button asChild variant="outline" className="w-full">
                     <Link href={`/products/${product.slug}`}>View Details</Link>
                   </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Premium Template Difference */}
+      <section className="py-20 bg-white dark:bg-zinc-900">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white mb-4">
+              Why Premium n8n Automation Templates Perform Better
+            </h2>
+            <p className="text-xl text-zinc-600 dark:text-zinc-400">
+              Production teams need more than node connections. They need
+              resilient systems that are easy to operate and scale.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Architecture You Can Maintain</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-zinc-600 dark:text-zinc-400">
+                  Workflows are modular and documented, making handoffs and
+                  iterative improvements significantly easier.
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Failure Modes Considered Upfront</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-zinc-600 dark:text-zinc-400">
+                  Error routing, retries, and alerting patterns are baked into
+                  the template design instead of patched later.
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Faster Time to First Result</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-zinc-600 dark:text-zinc-400">
+                  Teams launch in hours instead of weeks by starting from proven
+                  automation foundations.
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Built for Self-Hosted n8n Environments</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-zinc-600 dark:text-zinc-400">
+                  Templates are structured for secure, self-hosted deployments
+                  where control and compliance matter.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-20 bg-zinc-50 dark:bg-zinc-950">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white mb-4">
+              Premium n8n Automation Template FAQs
+            </h2>
+          </div>
+
+          <div className="space-y-4">
+            {n8nFaqs.map((faq) => (
+              <Card key={faq.question}>
+                <CardHeader>
+                  <CardTitle className="text-xl">{faq.question}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-zinc-600 dark:text-zinc-400">{faq.answer}</p>
                 </CardContent>
               </Card>
             ))}
@@ -554,8 +695,8 @@ export default function N8nPage() {
             Ready to Build Production-Grade n8n Workflows?
           </h2>
           <p className="text-xl text-zinc-400 mb-10">
-            Browse our n8n automation kits or get a custom solution built for
-            your needs
+            Browse our premium n8n automation templates or get a custom
+            solution built for your team
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button
