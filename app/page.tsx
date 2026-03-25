@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle2, XCircle } from "lucide-react";
 
 // Get featured products
@@ -555,6 +554,23 @@ export default function Home() {
             <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
               Production-ready workflows that solve real business problems
             </p>
+              <p className="text-base text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto mt-4">
+                Browse by platform: {" "}
+                <Link
+                  href="/n8n"
+                  className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  premium n8n automation templates
+                </Link>{" "}
+                or{" "}
+                <Link
+                  href="/make"
+                  className="font-semibold text-purple-600 dark:text-purple-400 hover:underline"
+                >
+                  professional Make.com templates
+                </Link>
+                .
+              </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (

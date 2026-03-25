@@ -39,18 +39,33 @@ interface ProductsPageProps {
 }
 
 export const metadata: Metadata = {
-  title: "Products",
+  title: "Automation Templates | Premium n8n & Make.com Workflows",
   description:
-    "Explore premium n8n workflows, Make.com templates, and production-ready automation systems built to help teams launch faster and scale reliably.",
+    "Explore premium and professional automation templates for n8n and Make.com. Deploy production-ready workflows faster with proven architecture and documentation.",
+  keywords: [
+    "automation templates",
+    "premium n8n automation templates",
+    "professional automation templates",
+    "n8n template marketplace",
+    "Make.com templates",
+    "workflow automation templates",
+  ],
   alternates: {
     canonical: "/products",
   },
   openGraph: {
-    title: "Products | Autorithm",
+    title: "Automation Templates | Premium n8n & Make.com Workflows | Autorithm",
     description:
-      "Explore premium n8n workflows, Make.com templates, and production-ready automation systems built to help teams launch faster and scale reliably.",
+      "Explore premium and professional automation templates for n8n and Make.com. Deploy production-ready workflows faster with proven architecture and documentation.",
     url: `${siteUrl}/products`,
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Automation Templates | Premium n8n & Make.com Workflows | Autorithm",
+    description:
+      "Explore premium and professional automation templates for n8n and Make.com. Deploy production-ready workflows faster with proven architecture and documentation.",
   },
 };
 
@@ -140,6 +155,23 @@ export default async function Products({ searchParams }: ProductsPageProps) {
             <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mb-8">
               Production-ready automation templates for n8n & Make.com. Skip the
               setup, deploy professional workflows in minutes.
+            </p>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 max-w-3xl mb-8">
+              Looking for platform-specific collections? Start with{" "}
+              <Link
+                href="/n8n"
+                className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                premium n8n automation templates
+              </Link>{" "}
+              or{" "}
+              <Link
+                href="/make"
+                className="font-semibold text-purple-600 dark:text-purple-400 hover:underline"
+              >
+                professional Make.com automation templates
+              </Link>
+              .
             </p>
             <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-zinc-600 dark:text-zinc-400">
               <div className="flex items-center gap-2">

@@ -31,18 +31,31 @@ import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 const siteUrl = "https://autorithm.net";
 
 export const metadata: Metadata = {
-  title: "Make.com Automation Scenarios",
+  title: "Professional Make.com Automation Templates",
   description:
-    "Premium Make.com scenarios for your business. Cloud-based automation solutions built by experts.",
+    "Browse professional Make.com automation templates built for production. Launch cloud-based workflows faster with expert architecture and support.",
+  keywords: [
+    "professional Make.com templates",
+    "Make automation templates",
+    "workflow automation templates",
+    "premium automation templates",
+    "Make.com workflow scenarios",
+  ],
   alternates: {
     canonical: "/make",
   },
   openGraph: {
-    title: "Make.com Automation Scenarios | Autorithm",
+    title: "Professional Make.com Automation Templates | Autorithm",
     description:
-      "Premium Make.com scenarios for your business. Cloud-based automation solutions built by experts.",
+      "Browse professional Make.com automation templates built for production. Launch cloud-based workflows faster with expert architecture and support.",
     url: `${siteUrl}/make`,
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Professional Make.com Automation Templates | Autorithm",
+    description:
+      "Browse professional Make.com automation templates built for production. Launch cloud-based workflows faster with expert architecture and support.",
   },
 };
 
@@ -79,6 +92,23 @@ export default function MakePage() {
             <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
               Fast, visual, cloud-based automation with thousands of
               integrations—built with the clarity and structure your team needs
+            </p>
+            <p className="text-base text-zinc-600 dark:text-zinc-400 mb-8">
+              Need self-hosted workflows too? Explore our{" "}
+              <Link
+                href="/n8n"
+                className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                premium n8n automation templates
+              </Link>{" "}
+              or browse all templates in the{" "}
+              <Link
+                href="/products"
+                className="font-semibold text-purple-600 dark:text-purple-400 hover:underline"
+              >
+                automation template marketplace
+              </Link>
+              .
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
