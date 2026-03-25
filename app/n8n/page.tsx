@@ -128,8 +128,8 @@ export default function N8nPage() {
 
             <p className="text-xl md:text-2xl text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
               Production-ready, self-hosted templates designed for teams that
-              need reliable workflows, clean architecture, and full control
-              over data and automation logic
+              need reliable workflows, clean architecture, and full control over
+              data and automation logic
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -604,7 +604,9 @@ export default function N8nPage() {
                   <CardTitle className="text-xl">{faq.question}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-zinc-600 dark:text-zinc-400">{faq.answer}</p>
+                  <p className="text-zinc-600 dark:text-zinc-400">
+                    {faq.answer}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -695,8 +697,8 @@ export default function N8nPage() {
             Ready to Build Production-Grade n8n Workflows?
           </h2>
           <p className="text-xl text-zinc-400 mb-10">
-            Browse our premium n8n automation templates or get a custom
-            solution built for your team
+            Browse our premium n8n automation templates or get a custom solution
+            built for your team
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button

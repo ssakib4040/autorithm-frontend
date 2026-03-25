@@ -44,12 +44,14 @@ const useCases = [
 ];
 
 export const metadata: Metadata = {
-  title: "Premium Automation Marketplace",
+  title: "Premium n8n Automation Templates & Automation Marketplace",
   description:
-    "Shop production-ready n8n workflows, Make.com templates, and AI automation systems. Autorithm helps teams launch reliable automations faster without starting from scratch.",
+    "Shop premium n8n automation templates, Make.com workflows, and AI automation systems. Autorithm helps teams launch reliable production-ready automations faster.",
   keywords: [
+    "premium n8n automation templates",
     "premium automation marketplace",
     "n8n workflow templates",
+    "n8n automation templates",
     "Make.com scenarios",
     "AI automation systems",
     "business process automation",
@@ -60,17 +62,17 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Premium Automation Marketplace | Autorithm",
+    title: "Premium n8n Automation Templates & Marketplace | Autorithm",
     description:
-      "Shop production-ready n8n workflows, Make.com templates, and AI automation systems. Autorithm helps teams launch reliable automations faster without starting from scratch.",
+      "Shop premium n8n automation templates, Make.com workflows, and AI automation systems. Autorithm helps teams launch reliable production-ready automations faster.",
     url: "https://autorithm.net",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Premium Automation Marketplace | Autorithm",
+    title: "Premium n8n Automation Templates & Marketplace | Autorithm",
     description:
-      "Shop production-ready n8n workflows, Make.com templates, and AI automation systems. Autorithm helps teams launch reliable automations faster without starting from scratch.",
+      "Shop premium n8n automation templates, Make.com workflows, and AI automation systems. Autorithm helps teams launch reliable production-ready automations faster.",
   },
 };
 
@@ -104,6 +106,16 @@ export default function Home() {
                 Pre-built workflows, AI automations, and custom systems
                 engineered for reliability. Skip the trial-and-error and deploy
                 production-ready automation from day one.
+              </p>
+              <p className="text-base text-zinc-600 dark:text-zinc-400 mb-8">
+                Looking specifically for{" "}
+                <Link
+                  href="/n8n"
+                  className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  premium n8n automation templates
+                </Link>
+                ? Explore our dedicated n8n collection.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" asChild className="text-lg">
